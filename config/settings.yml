@@ -1,0 +1,10 @@
+plugins:
+  kolide_enabled:
+    default: false
+    client: true
+  kolide_api_key:
+    default: ''
+    secret: true
+  kolide_webhook_secret:
+    default: ''
+    secret: true

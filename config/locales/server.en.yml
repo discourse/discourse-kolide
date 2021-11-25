@@ -1,0 +1,12 @@
+en:
+  site_settings:
+    kolide_enabled: 'Enable the discourse-kolide plugin'
+    kolide_api_key: "API key generated from the Kolide's admin panel."
+    kolide_webhook_secret: "The string to verify incoming Kolide webhooks."
+  kolide:
+    alert:
+      title: "Found %{count} problems in your devices"
+      body: |
+
+    error:
+      invalid_response: "Invalid response received from Kolide API"

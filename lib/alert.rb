@@ -3,8 +3,26 @@
 module ::Kolide
 
   class Alert
+    attr_accessor :post
 
-    def remind(user)
+    def initialize(user)
+      custom_field = UserCustomField.find_or_initialize_by(name: "kolide_alert_post_id", user_id: user.id)
+      
+      if custom_field.blank?
+        @post = create_post!
+        custom_field.value = @post.id
+        custom_field.save!
+      else
+        @post = Post.find_by(id: custom_field.value)
+      end
+    end
+
+    def remind!
+    end
+
+    private
+
+    def create_post!
       title = I18n.t('kolide.alert.title', count: 0)
 
       PostCreator.create!(
@@ -16,8 +34,6 @@ module ::Kolide
         validate: false
       )
     end
-
-    private
 
     def reminder_body(user, assigned_topics_count, first_three_topics, last_three_topics)
       newest_list = build_list_for(:newest, first_three_topics)
@@ -41,23 +57,7 @@ module ::Kolide
         memo
       end
 
-      I18n.t("pending_assigns_reminder.#{key}", items.symbolize_keys!)
-    end
-
-    def time_in_words_for(topic)
-      FreedomPatches::Rails4.distance_of_time_in_words(
-        Time.zone.now, topic.assigned_at.to_time, false, scope: 'datetime.distance_in_words_verbose'
-      )
-    end
-
-    def frequency_in_words(user)
-      frequency = if user.custom_fields&.has_key?(REMINDERS_FREQUENCY)
-        user.custom_fields[REMINDERS_FREQUENCY]
-      else
-        SiteSetting.remind_assigns_frequency
-      end
-
-      ::RemindAssignsFrequencySiteSettings.frequency_for(frequency)
+      I18n.t("kolide.alert.#{key}", items.symbolize_keys!)
     end
   end
 end

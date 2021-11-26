@@ -1,5 +1,5 @@
 # Kolide Plugin
 
-For integration between Kolide and Discourse
+For integration between [Kolide](https://www.kolide.com) and Discourse
 
-For more information, please see: [**url to meta topic**]()
+For more information, please see: [**meta topic**]()

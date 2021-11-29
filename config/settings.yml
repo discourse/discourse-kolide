@@ -8,3 +8,5 @@ plugins:
   kolide_webhook_secret:
     default: ''
     secret: true
+  kolide_verbose_log:
+    default: false

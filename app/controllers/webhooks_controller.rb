@@ -14,6 +14,7 @@ module ::Kolide
       raise Discourse::InvalidAccess.new unless is_valid_signature?(body)
 
       data = JSON.parse(body)
+      Rails.logger.warn("Kolide verbose log for Webhook:\n  Data = #{data.inspect}") if SiteSetting.kolide_verbose_log
 
       render body: nil, status: 200
     end

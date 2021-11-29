@@ -7,6 +7,18 @@ en:
     alert:
       title: "Found %{count} problems in your devices"
       body: |
+        %{open_issues}
 
+        %{resolved_issues}
+      open_issues: |
+        ## Open Issues
+        | Device | Primary Username | Hardware | Issue | Reported At |
+        | - | - | - | - | - |
+        %{rows}
+      resolved_issues: |
+        ### Resolved Issues
+        | Device | Primary Username | Hardware | Issue | Resolved At |
+        | - | - | - | - | - |
+        %{rows}
     error:
       invalid_response: "Invalid response received from Kolide API"

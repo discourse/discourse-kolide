@@ -41,7 +41,7 @@ module ::Kolide
         }
       )
 
-      last_reminded_at = remind_at
+      set_last_reminded_at(remind_at)
     end
 
     def topic_title
@@ -76,7 +76,7 @@ module ::Kolide
         validate: false
       )
 
-      self.last_reminded_at = post.created_at
+      set_last_reminded_at(post.created_at)
       post
     end
 
@@ -115,7 +115,7 @@ module ::Kolide
       issues.where(resolved: false, ignored: false)
     end
 
-    def last_reminded_at=(value)
+    def set_last_reminded_at(value)
       last_reminded_at_field.value = value
       last_reminded_at_field.save!
     end

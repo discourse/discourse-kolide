@@ -3,67 +3,84 @@
 module ::Kolide
 
   class Alert
-    attr_accessor :post, :issues, :user
+    attr_accessor :post, :issues, :user, :last_reminded_at_field
 
     REMINDER_NAME = "Kolide Device Issues"
+    REMINDER_INTERVAL = 1.days
 
     def initialize(user)
       @user = user
-      custom_field = UserCustomField.find_or_initialize_by(name: "kolide_alert_post_id", user_id: user.id)
+      post_id_field = UserCustomField.find_or_initialize_by(name: "kolide_alert_post_id", user_id: user.id)
+      @last_reminded_at_field = UserCustomField.find_or_initialize_by(name: "kolide_alert_last_reminded_at", user_id: user.id)
 
       @issues = Issue.joins(:device).where("kolide_devices.user_id = ?", user.id)
-      @post = Post.find_by(id: custom_field.value) if custom_field.present?
+      @post = Post.find_by(id: post_id_field.value) if post_id_field.present?
       
-      if custom_field.blank? || @post.blank?
+      if post_id_field.blank? || @post.blank?
         @post = create_post!
-        custom_field.value = @post.id
-        custom_field.save!
+        post_id_field.value = @post.id
+        post_id_field.save!
       end
     end
 
     def remind!
-      update_reminder_body
+      update_post_body
+      return if last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago
+
       bookmark_manager = BookmarkManager.new(user)
       bookmark_id = Bookmark.where(user_id: user.id, post_id: post.id, name: REMINDER_NAME).pluck(:id).first
       return if bookmark_id.present?
 
+      remind_at = 5.minutes.from_now
       bookmark_manager.create(
         post_id: post.id,
         name: REMINDER_NAME,
-        reminder_at: 5.minutes.from_now,
+        reminder_at: remind_at,
         options: {
           auto_delete_preference: Bookmark.auto_delete_preferences[:when_reminder_sent]
         }
       )
+
+      last_reminded_at = remind_at
+    end
+
+    def topic_title
+      I18n.t('kolide.alert.title', count: open_issues.count)
+    end
+
+    def last_reminded_at
+      DateTime.parse(last_reminded_at_field.value.presence || "")
     end
 
     private
 
-    def update_reminder_body
-      post.raw = reminder_body
+    def update_post_body
+      post.raw = post_body
       post.save!
       post.rebake!
 
       topic = post.topic
-      topic.title = I18n.t('kolide.alert.title', count: open_issues.count)
+      topic.title = topic_title
       topic.save!
     end
 
     def create_post!
       return unless issues.exists?
-      title = I18n.t('kolide.alert.title', count: open_issues.count)
 
-      PostCreator.create!(
+      post = PostCreator.create!(
         Discourse.system_user,
-        title: title,
-        raw: reminder_body,
+        title: topic_title,
+        raw: post_body,
         archetype: Archetype.private_message,
         target_usernames: user.username,
         validate: false
       )
+
+      self.last_reminded_at = post.created_at
+      post
     end
 
-    def reminder_body
+    def post_body
       return unless issues.exists?
 
       open_issues = build_list_for(:open)
@@ -96,6 +113,11 @@ module ::Kolide
 
     def open_issues
       issues.where(resolved: false, ignored: false)
+    end
+
+    def last_reminded_at=(value)
+      last_reminded_at_field.value = value
+      last_reminded_at_field.save!
     end
   end
 end

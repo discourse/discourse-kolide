@@ -15,7 +15,7 @@ module ::Kolide
 
       @issues = Issue.joins(:device).where("kolide_devices.user_id = ?", user.id)
       @post = Post.find_by(id: post_id_field.value) if post_id_field.present?
-      
+
       if post_id_field.blank? || @post.blank?
         @post = create_post!
         post_id_field.value = @post.id
@@ -49,7 +49,7 @@ module ::Kolide
     end
 
     def last_reminded_at
-      DateTime.parse(last_reminded_at_field.value.presence || "")
+      (last_reminded_at_field.value.presence || "").to_datetime
     end
 
     private

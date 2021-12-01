@@ -18,9 +18,9 @@ module ::Kolide
 
       render body: nil, status: 200
     end
-  
+
     private
-  
+
     def is_valid_signature?(body)
       signature = request.headers['HTTP_AUTHORIZATION']
       signature == OpenSSL::HMAC.hexdigest('sha256', SiteSetting.kolide_webhook_secret, body)

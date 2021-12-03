@@ -105,7 +105,10 @@ module ::Kolide
       rows = []
       list.includes(:device).each do |issue|
         device = issue.device
-        rows << "| #{device.name} | #{device.primary_user_name} | #{device.hardware_model} | #{issue.title} | #{issue.reported_at} |"
+        at = (key == :open) ? issue.reported_at : issue.resolved_at
+        at = "[#{at.strftime("date=%Y-%m-%d time=%H:%M:%S")} timezone='UTC' format='L LT']" if at.present?
+        url = "https://k2.kolide.com/my/inventory/devices/#{device.uid}/issues/open"
+        rows << "| #{device.name} | #{device.primary_user_name} | #{device.hardware_model} | [#{issue.title}](#{url}) | #{at} |"
       end
 
       I18n.t("kolide.alert.#{key}_issues", rows: rows.join("\n"))

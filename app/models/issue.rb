@@ -23,5 +23,25 @@ module ::Kolide
         resolved_at: data["resolved_at"]
       )
     end
+
+    def self.sync!
+      response = Kolide.api.get("issues/open")
+
+      return if response[:error].present?
+
+      open_issue_ids = []
+      device_ids = []
+      response["data"].each do |data|
+        issue = find_or_create_by_json(data)
+        next if issue.blank?
+
+        issue.update(updated_at: Time.zone.now)
+        open_issue_ids << issue.id
+        device_ids << issue.device_id if device_ids.exclude?(issue.device_id)
+      end
+
+      where(resolved: false).where.not(id: open_issue_ids).update_all(resolved: true)
+      device_ids
+    end
   end
 end

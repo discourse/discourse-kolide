@@ -2,4 +2,4 @@ en:
   js:
     discourse_kolide:
       non_onboarded_device:
-        notice: Current IP address is not matching with IP addresses of your devices in Kolide. If you didn't onboarded this device yet then please follow <a href="%{link}">this guide</a>.
+        notice: Current IP address is not matching with IP addresses of your devices in Kolide. If you didn't onboard this device yet then please follow <a href="%{link}">this guide</a>.

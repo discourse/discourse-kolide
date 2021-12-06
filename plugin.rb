@@ -10,28 +10,24 @@
 
 enabled_site_setting :kolide_enabled
 
+register_asset 'stylesheets/kolide.scss'
+
 after_initialize do
   module ::Kolide
     PLUGIN_NAME = 'discourse-kolide'
 
+    class Engine < ::Rails::Engine
+      engine_name PLUGIN_NAME
+      isolate_namespace Kolide
+    end
+
+    def self.api
+      @api ||= ::Kolide::Api.new
+    end
+
     def self.sync!
-      api = ::Kolide::Api.new
-      response = api.get("issues/open")
-
-      return if response[:error].present?
-
-      open_issue_ids = []
-      device_ids = []
-      response["data"].each do |issue_data|
-        issue = ::Kolide::Issue.find_or_create_by_json(issue_data)
-        next if issue.blank?
-
-        issue.update(updated_at: Time.zone.now)
-        open_issue_ids << issue.id
-        device_ids << issue.device_id if device_ids.exclude?(issue.device_id)
-      end
-
-      ::Kolide::Issue.where(resolved: false).where.not(id: open_issue_ids).update_all(resolved: true)
+      Device.sync!
+      device_ids = Issue.sync!
       user_ids = ::Kolide::Device.where(id: device_ids).where.not(user_id: nil).pluck(:user_id).uniq
 
       User.where(id: user_ids).each do |user|
@@ -49,6 +45,14 @@ after_initialize do
     '../lib/alert.rb',
     '../lib/api.rb'
   ].each { |path| load File.expand_path(path, __FILE__) }
+
+  Kolide::Engine.routes.draw do
+    post '/webhooks' => 'webhooks#index'
+  end
+
+  Discourse::Application.routes.prepend do
+    mount ::Kolide::Engine, at: '/kolide'
+  end
 
   reloadable_patch do |plugin|
     require_dependency 'user'
@@ -70,6 +74,14 @@ after_initialize do
 
         user
       end
+    end
+
+    add_to_serializer(:site, :non_onboarded_device, false) do
+      !::Kolide::Device.where(user_id: scope.user.id, ip_address: scope.request.ip).exists?
+    end
+
+    add_to_serializer(:site, :include_non_onboarded_device?) do
+      scope.user.present? && !MobileDetection.mobile_device?(scope.request.user_agent)
     end
   end
 end

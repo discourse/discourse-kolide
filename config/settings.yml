@@ -10,3 +10,6 @@ plugins:
     secret: true
   kolide_verbose_log:
     default: false
+  kolide_onboarding_topic_id:
+    default: -1
+    client: true

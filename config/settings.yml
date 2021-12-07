@@ -10,3 +10,6 @@ plugins:
     secret: true
   kolide_verbose_log:
     default: false
+  kolide_admin_group_name:
+    default: ""
+    type: group

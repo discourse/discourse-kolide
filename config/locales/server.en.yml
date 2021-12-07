@@ -20,5 +20,13 @@ en:
         | Device | Primary Username | Hardware | Issue | Resolved At |
         | - | - | - | - | - |
         %{rows}
+    group_alert:
+      title: "%{count} Kolide devices has problems"
+      body: |
+        ### Unassigned Devices
+
+        | ID | Device | Primary Username | Hardware | Last IP |
+        | - | - | - | - | - |
+        %{rows}
     error:
       invalid_response: "Invalid response received from Kolide API"

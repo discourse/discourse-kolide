@@ -31,7 +31,7 @@ RSpec.describe ::Kolide::Alert do
     freeze_time
 
     alert = nil
-    expect { alert = ::Kolide::Alert.new(user) }.to change { Topic.private_messages_for_user(user).count }.by(1)
+    expect { alert = ::Kolide::UserAlert.new(user) }.to change { Topic.private_messages_for_user(user).count }.by(1)
 
     pm = Topic.private_messages_for_user(user).last
     expect(pm.title).to eq(alert.topic_title)

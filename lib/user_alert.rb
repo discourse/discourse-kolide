@@ -2,7 +2,7 @@
 
 module ::Kolide
 
-  class Alert
+  class UserAlert
     attr_accessor :post, :issues, :user, :last_reminded_at_field
 
     REMINDER_NAME = "Kolide Device Issues"
@@ -50,6 +50,18 @@ module ::Kolide
 
     def last_reminded_at
       (last_reminded_at_field.value.presence || "").to_datetime
+    end
+
+    def self.remind_admins!
+      target_group_names = Group.exists?(name: SiteSetting.kolide_admin_group_name) ? SiteSetting.kolide_admin_group_name : nil
+
+      creator = PostCreator.new(Discourse.system_user,
+                        title: title,
+                        raw: raw,
+                        archetype: Archetype.private_message,
+                        target_group_names: target_group_names,
+                        subtype: TopicSubtype.system_message,
+                        skip_validations: true)
     end
 
     private

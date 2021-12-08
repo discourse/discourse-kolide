@@ -13,8 +13,17 @@ module ::Kolide
       body = request.body.read
       raise Discourse::InvalidAccess.new unless is_valid_signature?(body)
 
-      data = JSON.parse(body)
-      Rails.logger.warn("Kolide verbose log for Webhook:\n  Data = #{data.inspect}") if SiteSetting.kolide_verbose_log
+      payload = JSON.parse(body)
+      Rails.logger.warn("Kolide verbose log for Webhook:\n  Payload = #{payload.inspect}") if SiteSetting.kolide_verbose_log
+
+      event = payload["event"]
+      data = payload["data"]
+
+      if ["issues.new", "issues.resolved"].include?(event)
+        Issue.sync!(data["issue_id"], event)
+      elsif ["devices.created", "devices.reassigned"].include?(event)
+        Device.sync!(data["device_id"], event, data)
+      end
 
       render body: nil, status: 200
     end

@@ -24,9 +24,8 @@ module ::Kolide
       )
     end
 
-    def self.sync!
+    def self.sync_open!
       response = Kolide.api.get("issues/open")
-
       return if response[:error].present?
 
       open_issue_ids = []
@@ -42,6 +41,22 @@ module ::Kolide
 
       where(resolved: false).where.not(id: open_issue_ids).update_all(resolved: true)
       device_ids
+    end
+
+    def self.sync!(id, event)
+      issue = find_by(uid: id)
+
+      if issue.blank?
+        data = Kolide.api.get("issues/#{id}")
+        return if data[:error].present?
+
+        issue = find_or_create_by_json(data)
+        return if issue.blank?
+      end
+
+      issue.update(resolved: true) if event == "issues.resolved"
+      user = issue.device.user_id
+      Alert.new(user).remind!
     end
   end
 end

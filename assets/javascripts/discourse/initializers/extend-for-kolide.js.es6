@@ -11,12 +11,14 @@ function initializeWithApi(api) {
 
     if (site.non_onboarded_device && onboarding_topic_id > -1) {
       api.addGlobalNotice(
-        I18n.t("discourse_kolide.non_onboarded_device.notice", { link: `/t/${onboarding_topic_id}` }),
+        I18n.t("discourse_kolide.non_onboarded_device.notice", {
+          link: `/t/${onboarding_topic_id}`,
+        }),
         "non-onboarded-device",
         {
           dismissable: true,
           persistentDismiss: true,
-          dismissDuration: moment.duration(1, "day")
+          dismissDuration: moment.duration(1, "day"),
         }
       );
     }

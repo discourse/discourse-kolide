@@ -31,19 +31,21 @@ after_initialize do
       user_ids = ::Kolide::Device.where(id: device_ids).where.not(user_id: nil).pluck(:user_id).uniq
 
       User.where(id: user_ids).each do |user|
-        Alert.new(user).remind!
+        UserAlert.new(user).remind!
       end
+
+      GroupAlert.new.remind! if SiteSetting.kolide_admin_group_name.present?
     end
   end
 
   [
     '../app/controllers/webhooks_controller.rb',
-    '../app/jobs/regular/alert_user.rb',
     '../app/jobs/scheduled/sync_kolide.rb',
     '../app/models/device.rb',
     '../app/models/issue.rb',
-    '../lib/alert.rb',
-    '../lib/api.rb'
+    '../lib/api.rb',
+    '../lib/user_alert.rb',
+    '../lib/group_alert.rb'
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   Kolide::Engine.routes.draw do

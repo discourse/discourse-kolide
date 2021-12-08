@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ::Kolide::Alert do
+RSpec.describe ::Kolide::UserAlert do
 
   before do
     SiteSetting.kolide_enabled = true

@@ -9,7 +9,7 @@ function initializeWithApi(api) {
     const siteSettings = api.container.lookup("site-settings:main");
     const onboarding_topic_id = siteSettings.kolide_onboarding_topic_id;
 
-    if (site.non_onboarded_device && onboarding_topic_id > -1) {
+    if (site.non_onboarded_device && onboarding_topic_id > 0) {
       api.addGlobalNotice(
         I18n.t("discourse_kolide.non_onboarded_device.notice", {
           link: `/t/${onboarding_topic_id}`,

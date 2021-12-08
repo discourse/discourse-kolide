@@ -28,13 +28,29 @@ module ::Kolide
       )
     end
 
-    def self.sync!
+    def self.sync_all!
       response = Kolide.api.get("devices")
-
       return if response[:error].present?
 
       response["data"].each do |data|
         find_or_create_by_json(data)
+      end
+    end
+
+    def self.sync!(uid, event, data)
+      device = find_by(uid: uid)
+
+      if device.blank?
+        payload = Kolide.api.get("devices/#{uid}")
+        return if payload[:error].present?
+
+        device = find_or_create_by_json(payload)
+        return if device.blank?
+      end
+
+      if event == "devices.reassigned"
+        user = User.find_by_kolide_json(data["new_owner"])
+        device.update(user_id: user&.id) if data.user_id != user&.id
       end
     end
   end

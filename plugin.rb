@@ -26,8 +26,8 @@ after_initialize do
     end
 
     def self.sync!
-      Device.sync!
-      device_ids = Issue.sync!
+      Device.sync_all!
+      device_ids = Issue.sync_open!
       user_ids = ::Kolide::Device.where(id: device_ids).where.not(user_id: nil).pluck(:user_id).uniq
 
       User.where(id: user_ids).each do |user|
@@ -60,6 +60,8 @@ after_initialize do
     require_dependency 'user'
     class ::User
       def self.find_by_kolide_json(data)
+        return if data.blank?
+
         custom_field = UserCustomField.find_or_initialize_by(name: "kolide_person_id", value: data["id"])
         return custom_field.user unless custom_field.new_record?
 

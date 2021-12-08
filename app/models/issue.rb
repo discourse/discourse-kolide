@@ -51,7 +51,7 @@ module ::Kolide
         return if data[:error].present?
 
         issue = find_or_create_by_json(data)
-        next if issue.blank?
+        return if issue.blank?
       end
 
       issue.update(resolved: true) if event == "issues.resolved"

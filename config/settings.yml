@@ -10,6 +10,9 @@ plugins:
     secret: true
   kolide_verbose_log:
     default: false
+  kolide_onboarding_topic_id:
+    default: 0
+    client: true
   kolide_admin_group_name:
     default: ""
     type: group

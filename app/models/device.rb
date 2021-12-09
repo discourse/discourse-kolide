@@ -12,15 +12,16 @@ module ::Kolide
       ip_address = data["remote_ip"]
 
       if device.present?
-        device.update(ip_address: ip_address) if device.ip_address != ip_address
+        device.ip_address = ip_address if device.ip_address != ip_address
+        device.user_id = find_user(data)&.id if device.user_id.blank?
+        device.save! if device.changed?
+
         return device
       end
 
-      user = ::User.find_by_kolide_json(data["assigned_owner"])
-
       create!(
         uid: data["id"],
-        user_id: user&.id,
+        user_id: find_user(data)&.id,
         name: data["name"],
         primary_user_name: data["primary_user_name"],
         hardware_model: data["hardware_model"],
@@ -52,6 +53,10 @@ module ::Kolide
         user = User.find_by_kolide_json(data["new_owner"])
         device.update(user_id: user&.id) if data.user_id != user&.id
       end
+    end
+
+    def self.find_user(data)
+      ::User.find_by_kolide_json(data["assigned_owner"])
     end
   end
 end

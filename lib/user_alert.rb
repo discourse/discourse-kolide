@@ -18,7 +18,7 @@ module ::Kolide
 
       if post_id_field.blank? || @post.blank?
         create_post!
-        post_id_field.update(value: @post.id) if @post.present?
+        post_id_field.update!(value: @post.id) if @post.present?
       end
     end
 

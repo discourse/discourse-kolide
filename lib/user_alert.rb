@@ -17,9 +17,8 @@ module ::Kolide
       @post = Post.find_by(id: post_id_field.value) if post_id_field.present?
 
       if post_id_field.blank? || @post.blank?
-        @post = create_post!
-        post_id_field.value = @post.id
-        post_id_field.save!
+        create_post!
+        post_id_field.update(value: @post.id) if @post.present?
       end
     end
 
@@ -79,7 +78,7 @@ module ::Kolide
     def create_post!
       return unless issues.exists?
 
-      post = PostCreator.create!(
+      @post = PostCreator.create!(
         Discourse.system_user,
         title: topic_title,
         raw: post_body,
@@ -89,7 +88,7 @@ module ::Kolide
       )
 
       set_last_reminded_at(post.created_at)
-      post
+      @post
     end
 
     def post_body

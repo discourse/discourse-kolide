@@ -69,7 +69,7 @@ after_initialize do
         user = User.find_by_email(email)
 
         if user.blank?
-          Discourse.warn("Unable find the Discourse user for email address '#{email}'")
+          Rails.logger.warn("Unable find the Discourse user for email address '#{email}'")
           return
         end
 

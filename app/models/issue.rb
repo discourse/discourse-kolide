@@ -39,8 +39,11 @@ module ::Kolide
         device_ids << issue.device_id if device_ids.exclude?(issue.device_id)
       end
 
-      where(resolved: false).where.not(id: open_issue_ids).update_all(resolved: true)
-      device_ids
+      resolved_issues = where(resolved: false).where.not(id: open_issue_ids)
+      resolved_issues.update_all(resolved: true)
+
+      device_ids += resolved_issues.pluck(:device_id)
+      device_ids.uniq
     end
 
     def self.sync!(id, event)

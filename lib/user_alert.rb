@@ -94,7 +94,7 @@ module ::Kolide
     end
 
     def post_body
-      return unless issues.exists?
+      return I18n.t("kolide.alert.no_issues") unless issues.exists?
 
       open_issues = build_list_for(:open)
       resolved_issues = build_list_for(:resolved)

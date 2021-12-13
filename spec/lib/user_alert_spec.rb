@@ -45,6 +45,9 @@ RSpec.describe ::Kolide::UserAlert do
     user.bookmarks.last.destroy!
     freeze_time 1.hour.from_now
     expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+
+    ::Kolide::Issue.update_all(resolved: true)
+    expect(pm.first_post.raw).to eq(I18n.t("kolide.alert.no_issues"))
   end
 
 end

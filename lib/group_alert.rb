@@ -81,7 +81,7 @@ module ::Kolide
     end
 
     def post_body
-      return unless devices.exists?
+      return I18n.t("kolide.group_alert.no_issues") unless devices.exists?
 
       rows = []
       devices.each do |device|

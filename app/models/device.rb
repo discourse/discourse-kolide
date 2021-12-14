@@ -8,25 +8,17 @@ module ::Kolide
     has_many :issues
 
     def self.find_or_create_by_json(data)
-      device = find_by(uid: data["id"])
-      ip_address = data["remote_ip"]
-
-      if device.present?
-        device.ip_address = ip_address if device.ip_address != ip_address
-        device.user_id = find_user(data)&.id if device.user_id.blank?
-        device.save! if device.changed?
-
-        return device
-      end
-
-      create!(
-        uid: data["id"],
-        user_id: find_user(data)&.id,
-        name: data["name"],
-        primary_user_name: data["primary_user_name"],
+      device = where(uid: data["id"]).first_or_initialize(
         hardware_model: data["hardware_model"],
-        ip_address: ip_address
       )
+
+      device.ip_address = data["remote_ip"]
+      device.name = data["name"]
+      device.primary_user_name = data["primary_user_name"]
+      device.user_id = find_user(data)&.id
+      device.save! if device.changed?
+
+      device
     end
 
     def self.sync_all!

@@ -12,7 +12,7 @@ module ::Kolide
       response = Faraday.new(
         url: Api::BASE_URL,
         headers: { 'Authorization' => "Bearer #{SiteSetting.kolide_api_key}" }
-      ).get(uri)
+      ).get(uri + "?per_page=500")
 
       case response.status
       when 200

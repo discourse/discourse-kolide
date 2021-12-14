@@ -8,20 +8,23 @@ module ::Kolide
     belongs_to :device
 
     def self.find_or_create_by_json(data)
-      issue = find_by(uid: data["id"])
-      return issue if issue.present?
-
-      device = Device.find_or_create_by_json(data["device"])
-      return if device.blank?
-
-      create!(
-        uid: data["id"],
-        device_id: device.id,
+      issue = where(uid: data["id"]).first_or_initialize(
         title: data["title"],
-        ignored: data["ignored"],
-        reported_at: data["timestamp"],
-        resolved_at: data["resolved_at"]
+        reported_at: data["timestamp"]
       )
+
+      if issue.device_id.blank?
+        device = Device.find_or_create_by_json(data["device"])
+        return if device.blank?
+        issue.device_id = device.id
+      end
+
+      issue.ignored = data["ignored"],
+      issue.resolved_at = data["resolved_at"]
+      issue.resolved = issue.resolved_at.present?
+      issue.save! if issue.changed?
+
+      issue
     end
 
     def self.sync_open!
@@ -40,7 +43,7 @@ module ::Kolide
       end
 
       resolved_issues = where(resolved: false).where.not(id: open_issue_ids)
-      resolved_issues.update_all(resolved: true)
+      resolved_issues.update_all(resolved: true, resolved_at: Time.zone.now)
 
       device_ids += resolved_issues.pluck(:device_id)
       device_ids.uniq

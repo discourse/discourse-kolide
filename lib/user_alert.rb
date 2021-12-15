@@ -26,7 +26,7 @@ module ::Kolide
       return if post.blank?
 
       update_post_body
-      return if last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago
+      return if open_issues.count > 0 && last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago
 
       bookmark_manager = BookmarkManager.new(user)
       bookmark_id = Bookmark.where(user_id: user.id, post_id: post.id, name: REMINDER_NAME).pluck(:id).first

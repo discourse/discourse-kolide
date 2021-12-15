@@ -24,7 +24,8 @@ module ::Kolide
 
     def remind!
       update_post_body
-      return if devices.count > 0 && last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago
+      return if devices.count == 0 
+      return if last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago
 
       remind_at = 5.minutes.from_now
       group.users.each do |user|

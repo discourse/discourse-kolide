@@ -55,13 +55,22 @@ module ::Kolide
     private
 
     def update_post_body
-      post.raw = post_body
-      post.save!
-      post.rebake!
+      body = post_body
+      if post.raw != body
+        revisor = PostRevisor.new(post)
+        revisor.revise!(
+          Discourse.system_user,
+          { raw:  body },
+          skip_validations: true
+        )
+      end
 
-      topic = post.topic
-      topic.title = topic_title
-      topic.save!
+      title = topic_title
+      if title != topic.title
+        topic = post.topic
+        topic.title = title
+        topic.save!
+      end
     end
 
     def create_post!

@@ -19,7 +19,7 @@ module ::Kolide
         issue.device_id = device.id
       end
 
-      issue.ignored = data["ignored"],
+      issue.ignored = data["ignored"]
       issue.resolved_at = data["resolved_at"]
       issue.resolved = issue.resolved_at.present?
       issue.save! if issue.changed?

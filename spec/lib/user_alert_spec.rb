@@ -47,6 +47,7 @@ RSpec.describe ::Kolide::UserAlert do
     expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
 
     ::Kolide::Issue.update_all(resolved: true)
+    ::Kolide::UserAlert.new(user).remind!
     expect(pm.first_post.raw).to eq(I18n.t("kolide.alert.no_issues"))
   end
 

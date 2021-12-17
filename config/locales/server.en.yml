@@ -17,6 +17,8 @@ en:
         | Device | Primary Username | Hardware | Issue | Reported At |
         | - | - | - | - | - |
         %{rows}
+
+        %{footnotes}
       resolved_issues: |
         ### Resolved Issues
         | Device | Primary Username | Hardware | Issue | Resolved At |

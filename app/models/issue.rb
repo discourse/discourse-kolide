@@ -22,6 +22,9 @@ module ::Kolide
       issue.ignored = data["ignored"]
       issue.resolved_at = data["resolved_at"]
       issue.resolved = issue.resolved_at.present?
+      issue.key = data["issue_key"]
+      issue.value = data["issue_value"]
+      issue.data = data["value"].to_json
       issue.save! if issue.changed?
 
       issue

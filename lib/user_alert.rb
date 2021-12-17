@@ -123,14 +123,30 @@ module ::Kolide
       return "" unless list.exists?
 
       rows = []
+      footnotes = []
       list.includes(:device).each do |issue|
         device = issue.device
         at = (key == :open) ? issue.reported_at : issue.resolved_at
         at = "[#{at.strftime("date=%Y-%m-%d time=%H:%M:%S")} timezone='UTC' format='L LT']" if at.present?
-        rows << "| #{device.name} | #{device.primary_user_name} | #{device.hardware_model} | #{issue.title} | #{at} |"
+        title = issue.title
+
+        if key == :open
+          identifier = "[^#{issue.id}]"
+          title = "#{title} #{identifier}"
+
+          description = ""
+          JSON.parse(issue.data).each do |key, value|
+            description += "#{key}: #{value}\n"
+          end
+
+          description = "#{issue.key}: #{issue.value}\n#{description}" if issue.key.present? && issue.value.present?
+          footnotes << "#{identifier}: #{description}"
+        end
+
+        rows << "| #{device.name} | #{device.primary_user_name} | #{device.hardware_model} | #{title} | #{at} |"
       end
 
-      I18n.t("kolide.alert.#{key}_issues", rows: rows.join("\n"))
+      I18n.t("kolide.alert.#{key}_issues", rows: rows.join("\n"), footnotes: footnotes.join("\n"))
     end
 
     def open_issues

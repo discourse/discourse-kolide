@@ -12,7 +12,7 @@ RSpec.describe ::Kolide::GroupAlert do
     SiteSetting.kolide_admin_group_name = group.name
   end
 
-  it "" do
+  it "creates a group PM if unassigned devices are present" do
     device = ::Kolide::Device.create!(
       uid: "12345",
       name: "My Mac",

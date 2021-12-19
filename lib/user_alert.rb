@@ -135,8 +135,8 @@ module ::Kolide
           title = "#{title} #{identifier}"
 
           description = ""
-          JSON.parse(issue.data).each do |key, value|
-            description += "#{key}: #{value}\n"
+          JSON.parse(issue.data).each do |name, value|
+            description += "#{name}: #{value}\n"
           end
 
           description = "#{issue.key}: #{issue.value}\n#{description}" if issue.key.present? && issue.value.present?

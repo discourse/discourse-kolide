@@ -24,6 +24,7 @@ RSpec.describe ::Kolide::UserAlert do
       uid: "23456",
       device_id: device.id,
       title: "Screen Lock Disabled",
+      data: '{ "user": "deviceuser" }',
       reported_at: 1.days.ago,
       resolved_at: nil
     )

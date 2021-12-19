@@ -67,8 +67,8 @@ module ::Kolide
       end
 
       title = topic_title
+      topic = post.topic
       if title != topic.title
-        topic = post.topic
         topic.title = title
         topic.save!
       end

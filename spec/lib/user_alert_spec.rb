@@ -24,6 +24,7 @@ RSpec.describe ::Kolide::UserAlert do
       uid: "23456",
       device_id: device.id,
       title: "Screen Lock Disabled",
+      data: '{ "user": "deviceuser" }',
       reported_at: 1.days.ago,
       resolved_at: nil
     )
@@ -34,7 +35,9 @@ RSpec.describe ::Kolide::UserAlert do
     expect { alert = ::Kolide::UserAlert.new(user) }.to change { Topic.private_messages_for_user(user).count }.by(1)
 
     pm = Topic.private_messages_for_user(user).last
+    post = pm.first_post
     expect(pm.title).to eq(alert.topic_title)
+    expect(post.raw).to include("[^#{issue.id}]: user: deviceuser")
 
     freeze_time 1.hour.from_now
     expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
@@ -48,7 +51,8 @@ RSpec.describe ::Kolide::UserAlert do
 
     ::Kolide::Issue.update_all(resolved: true)
     ::Kolide::UserAlert.new(user).remind!
-    expect(pm.first_post.raw).to eq(I18n.t("kolide.alert.no_issues"))
+    post.reload
+    expect(post.raw).to eq(I18n.t("kolide.alert.no_issues"))
   end
 
 end

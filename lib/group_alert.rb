@@ -16,7 +16,7 @@ module ::Kolide
       @devices = Device.where(user_id: nil)
       @post = Post.find_by(id: post_id_field.value) if post_id_field.present?
 
-      if post_id_field.blank? || @post.blank?
+      if post_id_field.blank? || @post&.topic.blank?
         create_post!
         post_id_field.update!(value: @post.id) if @post.present?
       end

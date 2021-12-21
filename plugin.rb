@@ -27,6 +27,7 @@ after_initialize do
 
     def self.sync!
       Device.sync_all!
+      Check.sync_all!
       device_ids = Issue.sync_open!
       user_ids = ::Kolide::Device.where(id: device_ids).where.not(user_id: nil).pluck(:user_id).uniq
 
@@ -41,6 +42,7 @@ after_initialize do
   [
     '../app/controllers/webhooks_controller.rb',
     '../app/jobs/scheduled/sync_kolide.rb',
+    '../app/models/check.rb',
     '../app/models/device.rb',
     '../app/models/issue.rb',
     '../lib/api.rb',

@@ -6,6 +6,7 @@ module ::Kolide
     self.table_name = "kolide_issues"
 
     belongs_to :device
+    belongs_to :check
 
     def self.find_or_create_by_json(data)
       issue = where(uid: data["id"]).first_or_initialize(
@@ -17,6 +18,12 @@ module ::Kolide
         device = Device.find_or_create_by_json(data["device"])
         return if device.blank?
         issue.device_id = device.id
+      end
+
+      if issue.check_id.blank?
+        check = Check.find_by(uid: data["check_id"])
+        return if check.blank?
+        issue.check_id = check.id
       end
 
       issue.ignored = data["ignored"]

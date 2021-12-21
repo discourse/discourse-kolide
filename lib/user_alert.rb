@@ -26,8 +26,8 @@ module ::Kolide
       return if post.blank?
 
       update_post_body
-      return if open_issues.count == 0
       return if last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago
+      return unless open_issues.joins(:check).where("(#{Time.now.to_i} - EXTRACT(EPOCH FROM kolide_issues.reported_at))/3600 > kolide_checks.delay").exists?
 
       bookmark_manager = BookmarkManager.new(user)
       bookmark_id = Bookmark.where(user_id: user.id, post_id: post.id, name: REMINDER_NAME).pluck(:id).first

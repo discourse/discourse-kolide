@@ -4,33 +4,20 @@ require 'rails_helper'
 
 RSpec.describe ::Kolide::UserAlert do
 
+  let(:user) { Fabricate(:user) }
+  let(:device) { Fabricate(:kolide_device, user: user) }
+  let(:check) { Fabricate(:kolide_check) }
+  let(:issue) { Fabricate(:kolide_issue, device: device, check: check) }
+
   before do
     SiteSetting.kolide_enabled = true
     SiteSetting.kolide_api_key = "KOLIDE_API_KEY"
   end
 
-  let(:user) { Fabricate(:user) }
-
   it "creates a PM with issues and a bookmark" do
-    device = ::Kolide::Device.create!(
-      uid: "12345",
-      user_id: user.id,
-      name: "My Mac",
-      primary_user_name: "deviceadmin",
-      hardware_model: "Macbook"
-    )
-
-    issue = ::Kolide::Issue.create!(
-      uid: "23456",
-      device_id: device.id,
-      title: "Screen Lock Disabled",
-      data: '{ "user": "deviceuser" }',
-      reported_at: 1.days.ago,
-      resolved_at: nil
-    )
-
     freeze_time
 
+    issue
     alert = nil
     expect { alert = ::Kolide::UserAlert.new(user) }.to change { Topic.private_messages_for_user(user).count }.by(1)
 
@@ -53,6 +40,20 @@ RSpec.describe ::Kolide::UserAlert do
     ::Kolide::UserAlert.new(user).remind!
     post.reload
     expect(post.raw).to eq(I18n.t("kolide.alert.no_issues"))
+  end
+
+  it "skips bookmark reminder based on check delay" do
+    freeze_time
+
+    issue
+    check.update(delay: 3 * 24)
+    alert = ::Kolide::UserAlert.new(user)
+
+    freeze_time 1.day.from_now
+    expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+
+    freeze_time 2.days.from_now
+    expect { alert.remind! }.to change { user.bookmarks.count }.by(1)
   end
 
 end

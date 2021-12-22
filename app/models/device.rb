@@ -6,6 +6,7 @@ module ::Kolide
     self.table_name = "kolide_devices"
 
     has_many :issues
+    belongs_to :user
 
     def self.find_or_create_by_json(data)
       device = where(uid: data["id"]).first_or_initialize(

@@ -18,7 +18,7 @@ describe ::Kolide::Check do
   end
 
   it "syncs Kolide checks from API endpoint" do
-    expect{ ::Kolide::Check.sync_all! }.to change { ::Kolide::Check.count }.by(25)
+    expect { ::Kolide::Check.sync_all! }.to change { ::Kolide::Check.count }.by(25)
     expect(::Kolide::Check.pluck(:delay).uniq).to contain_exactly(0, 48, 24)
   end
 

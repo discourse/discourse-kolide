@@ -16,3 +16,6 @@ plugins:
   kolide_admin_group_name:
     default: ""
     type: group
+  kolide_helpers_group_name:
+    default: ""
+    type: group

@@ -56,4 +56,15 @@ RSpec.describe ::Kolide::UserAlert do
     expect { alert.remind! }.to change { user.bookmarks.count }.by(1)
   end
 
+  it "adds Kolide helpers group to PM" do
+    issue
+    group = Fabricate(:group)
+    SiteSetting.kolide_helpers_group_name = group.name
+
+    ::Kolide::UserAlert.new(user)
+
+    pm = Topic.private_messages_for_user(user).last
+    expect(pm.topic_allowed_groups.pluck(:group_id)).to include(group.id)
+  end
+
 end

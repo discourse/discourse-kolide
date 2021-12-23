@@ -3,13 +3,14 @@
 module ::Kolide
 
   class UserAlert
-    attr_accessor :post, :issues, :user, :last_reminded_at_field
+    attr_accessor :post, :issues, :user, :last_reminded_at_field, :group
 
     REMINDER_NAME = "Kolide Device Issues"
     REMINDER_INTERVAL = 1.days
 
     def initialize(user)
       @user = user
+      @group = Group.find_by(name: SiteSetting.kolide_helpers_group_name)
       post_id_field = UserCustomField.find_or_initialize_by(name: "kolide_alert_post_id", user_id: user.id)
       @last_reminded_at_field = UserCustomField.find_or_initialize_by(name: "kolide_alert_last_reminded_at", user_id: user.id)
 
@@ -54,18 +55,6 @@ module ::Kolide
       (last_reminded_at_field.value.presence || "").to_datetime
     end
 
-    def self.remind_admins!
-      target_group_names = Group.exists?(name: SiteSetting.kolide_admin_group_name) ? SiteSetting.kolide_admin_group_name : nil
-
-      creator = PostCreator.new(Discourse.system_user,
-                        title: title,
-                        raw: raw,
-                        archetype: Archetype.private_message,
-                        target_group_names: target_group_names,
-                        subtype: TopicSubtype.system_message,
-                        skip_validations: true)
-    end
-
     private
 
     def update_post_body
@@ -87,15 +76,16 @@ module ::Kolide
     def create_post!
       return unless issues.exists?
 
-      @post = PostCreator.create!(
-        Discourse.system_user,
+      options = {
         title: topic_title,
         raw: post_body,
         archetype: Archetype.private_message,
         target_usernames: user.username,
         validate: false
-      )
+      }
+      options[:target_group_names] = group.name if group.present?
 
+      @post = PostCreator.create!(Discourse.system_user, options)
       set_last_reminded_at(post.created_at)
       @post
     end

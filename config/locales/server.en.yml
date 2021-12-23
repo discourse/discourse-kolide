@@ -6,6 +6,7 @@ en:
     kolide_verbose_log: 'Enable verbose logging for Kolide plugin'
     kolide_onboarding_topic_id: 'Topic with Kolide onboarding instructions for users'
     kolide_admin_group_name: 'The Kolide admins group name where user device problems will be reported'
+    kolide_helpers_group_name: 'The group name of Kolide helpers who will help users to resolve their open issues'
   kolide:
     alert:
       title: "Found %{count} problems in your devices"

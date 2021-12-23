@@ -15,6 +15,7 @@ module ::Kolide
       )
 
       check.failing_device_count = data["failing_device_count"]
+      check.delay = (data["notification_grace_period"].presence || 0) * 24
       check.save! if check.changed?
 
       check

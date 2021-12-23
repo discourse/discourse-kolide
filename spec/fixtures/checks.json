@@ -1,0 +1,448 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "failing_device_count": 0,
+      "display_name": "macOS Sharing - Require Bluetooth Sharing Be Off",
+      "name": "Require Bluetooth Sharing Be Off",
+      "description": "Bluetooth Sharing lets your computer send and receive files to other Bluetooth enabled computers and devices. If shared folders are configured and you leave Bluetooth Sharing turned on it is not as secure as other protocols and could allow unwanted people to access your Mac when you are in a public place. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "sharing-preferences"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 2,
+      "failing_device_count": 0,
+      "display_name": "macOS Sharing - Require Disc Sharing Be Off",
+      "name": "Require Disc Sharing Be Off",
+      "description": "Disc Sharing allows users of other computers to use this computer’s DVD or CD drive remotely. Information sent between the computers is not encrypted. If you have a connected CD or DVD drive and leave sharing enabled, other persons could access the data on your optical media.",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "sharing-preferences"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 2
+    },
+    {
+      "id": 3,
+      "failing_device_count": 2,
+      "display_name": "SSH Keys - Require SSH Keys Be Encrypted",
+      "name": "Require SSH Keys Be Encrypted",
+      "description": "SSH keys are used to allow trusted, encrypted connections to restricted systems.  If an unauthorized party obtains an SSH key, they can also gain access to those  systems. This is why it is important to protect your SSH keys by encrypting  them, therefore making the keys by themselves useless to attackers. ",
+      "compatibility": [
+        "macOS",
+        "Windows",
+        "Linux"
+      ],
+      "topics": [
+        "unencrypted-credentials"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 4,
+      "failing_device_count": 0,
+      "display_name": "Evil Browser Extensions - TouchVPN",
+      "name": "TouchVPN",
+      "description": "According to TouchVPN's privacy policy, the extension collects your personal data and browsing history.  > Anonymous information, including hardware specifications, approximate geolocation, date of software installation, browser type/version, operating system (version/language), registry entries, the dates of your visits, URL requests, and timestamps.  > Personal information, including name, email address, IP address, payment info, and screen name. If you connect to TouchVPN through a third-party service like Facebook, it will gain access to the information you have on your profile as well.  The operators that originally ran the service are shrouded in mystery. According to an [article posted on TheVPN lab](https://www.thevpnlab.com/is-touchvpn-safe),  > Our research of TouchVPN yielded the following names: Skutin Alexey, Igor Glotov, and Stanislav Ovsyannikov, which were introduced as creators of TouchVPN. Apart from all being Russian, these three individuals have one company in common, Jelastic, which is, apparently, still in business in Russia, even though they all reported working for AnchorFree in the San Francisco Bay Area. ",
+      "compatibility": [
+        "macOS",
+        "Windows",
+        "Linux"
+      ],
+      "topics": [
+        "evil-browser-extensions"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 1
+    },
+    {
+      "id": 5,
+      "failing_device_count": 0,
+      "display_name": "Evil Browser Extensions - StartNewSearch",
+      "name": "StartNewSearch",
+      "description": "**StartNewSearch** is an extension that generates search referral revenue for malware authors by hijacking the default search provider.  While the extension itself is not sufficiently \"evil\" enough for Google to ban it from its Chrome Store, the presence of the extension usually indicates a device associated with the Google Chrome account is infected with one of many variants of adware.  For example on macOS, the adware **[MacOS:InstallCore-A](http://www.thesafemac.com/installcore-adware-proliferates)** installs this extension as part of its payload. This adware will display advertisement to users (often which redirect them towards more malicious downloads) and hijack the settings of their installed browsers. On Windows this same variant with similar functionality is know as **[PUA:Win32/InstallCore](https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=PUA:Win32/InstallCore/)**. ",
+      "compatibility": [
+        "macOS",
+        "Windows",
+        "Linux"
+      ],
+      "topics": [
+        "evil-browser-extensions"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 6,
+      "failing_device_count": 0,
+      "display_name": "Evil Browser Extensions - Searchmanager",
+      "name": "Searchmanager",
+      "description": "While the search features of **Searchmanager** appear innocuous, this extension is commonly installed by adware or unwanted programs. It will change the address bar search behavior to use the Yahoo search engine by default, replacing the search engine that you had previously configured. This allows the distributer of the extension to generate revenue from the ads displayed in the Yahoo search results.  You should uninstall this extension immediately. ",
+      "compatibility": [
+        "macOS",
+        "Windows",
+        "Linux"
+      ],
+      "topics": [
+        "evil-browser-extensions"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 9,
+      "failing_device_count": 1,
+      "display_name": "Windows Explorer - Require File Extensions Be Visible",
+      "name": "Require File Extensions Be Visible",
+      "description": "Malicious downloads will often be named in a way that appears innocuous to disguise its intent. For instance a file could be named `Quarterly-Report.pdf.exe` the file is technically an executable but because file extensions are hidden it will appear to be a simple pdf file. By forcing the operating system to show all file extensions you are less likely to run a piece of malicious software unintentionally.",
+      "compatibility": [
+        "Windows"
+      ],
+      "topics": [
+        "file-managers",
+        "os-security"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 10,
+      "failing_device_count": 0,
+      "display_name": "macOS Sharing - Require File Sharing Be Off",
+      "name": "Require File Sharing Be Off",
+      "description": "File Sharing allows other users to access shared folders on this computer and allows administrators to access all volumes. It is recommended to share files instead on a per file basis with system utilities like AirDrop.",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "file-managers",
+        "os-security"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 11,
+      "failing_device_count": 2,
+      "display_name": "macOS Firewall - Require macOS Firewall is Enabled",
+      "name": "Require macOS Firewall is Enabled",
+      "description": "The macOS firewall sometimes comes disabled by default. It is important to have it enabled to block outsiders from making incoming connections to your device which can undermine its security. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "firewalls"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 12,
+      "failing_device_count": 0,
+      "display_name": "Windows Firewall - Require Windows Firewall is Enabled",
+      "name": "Require Windows Firewall is Enabled",
+      "description": "Check that the Windows Defender Firewall (or an approved alternate) is enabled.  Note that this check is excludes Windows Server, which excludes the underlying API used in detection.",
+      "compatibility": [
+        "Windows"
+      ],
+      "topics": [
+        "firewalls"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 13,
+      "failing_device_count": 0,
+      "display_name": "Gatekeeper - Require macOS Gatekeeper is Enabled",
+      "name": "Require macOS Gatekeeper is Enabled",
+      "description": "Gatekeeper is a security feature of the macOS operating system by Apple. It enforces code signing and verifies downloaded applications before allowing them to run, thereby reducing the likelihood of inadvertently executing malware. Gatekeeper can be configured to allow installations of apps using the following 3 choices: App Store Only, App Store and identified developers, Anywhere (only configurable from command line). Allowing unidentified developers exposes your device to additional risk.  For more information, refer to the official [Apple Support Documentation: Gatekeeper](https://support.apple.com/en-us/HT202491)",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "os-security"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 14,
+      "failing_device_count": 0,
+      "display_name": "macOS Sharing - Require Internet Sharing Be Off",
+      "name": "Require Internet Sharing Be Off",
+      "description": "Internet Sharing allows other computers to share your connection to the Internet. Computers connected to AC power won’t sleep while Internet Sharing is turned on. Internet sharing is often turned on temporarily when trying to use your device as an internet router for other devices (eg. when you have an ethernet connection and want to share internet access with a mobile device)",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "sharing-preferences"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 15,
+      "failing_device_count": 0,
+      "display_name": "Malware - Adware Doctor (Files)",
+      "name": "Adware Doctor (Files)",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware.",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 16,
+      "failing_device_count": 0,
+      "display_name": "Malware - Adware Doctor (App)",
+      "name": "Adware Doctor (App)",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 17,
+      "failing_device_count": 0,
+      "display_name": "Malware - Dr. Unarchiver",
+      "name": "Dr. Unarchiver",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 18,
+      "failing_device_count": 0,
+      "display_name": "Malware - Dr. Antivirus",
+      "name": "Dr. Antivirus",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 19,
+      "failing_device_count": 0,
+      "display_name": "Malware - Dr. No Sleep",
+      "name": "Dr. No Sleep",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 20,
+      "failing_device_count": 0,
+      "display_name": "Malware - Dr. Cleaner",
+      "name": "Dr. Cleaner",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 21,
+      "failing_device_count": 0,
+      "display_name": "Malware - WireLurker",
+      "name": "WireLurker",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 22,
+      "failing_device_count": 0,
+      "display_name": "Malware - OSX/Leverage.A (launchd)",
+      "name": "OSX/Leverage.A (launchd)",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 23,
+      "failing_device_count": 0,
+      "display_name": "Malware - OSX/Leverage.A (files)",
+      "name": "OSX/Leverage.A (files)",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware.",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 24,
+      "failing_device_count": 0,
+      "display_name": "Malware - Tibet.D",
+      "name": "Tibet.D",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 25,
+      "failing_device_count": 0,
+      "display_name": "Malware - DevilRobber",
+      "name": "DevilRobber",
+      "description": "This item is identified to be associated with a known malware variant. The presence of malware artifacts are an indicator of compromise and should be investigated by a security or IT administrator to determine cause of infection, extent of compromise, and remediation steps to comprehensively remove the malware. ",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "malware"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 26,
+      "failing_device_count": 0,
+      "display_name": "Sudoers Configuration - Disallow Passwordless Sudo",
+      "name": "Disallow Passwordless Sudo",
+      "description": "Devices are sometimes configured by developers to allow running commands with elevated privileges (`sudo`) without requiring the input of a password. This configuration can expose your device to increased risk if an unauthorized user gains access to your device as they will have root privileges.",
+      "compatibility": [
+        "macOS",
+        "Linux"
+      ],
+      "topics": [
+        "os-security",
+        "terminal-security"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    },
+    {
+      "id": 27,
+      "failing_device_count": 1,
+      "display_name": "GitHub - Ensure No Github 2FA Codes Stored in Plain-Text",
+      "name": "Ensure No Github 2FA Codes Stored in Plain-Text",
+      "description": "These 2FA Backup codes could be used by an attacker to subvert 2 Factor authentication for your GitHub account resulting in potential data exfiltration of proprietary data available in your corporate code repositories.",
+      "compatibility": [
+        "macOS"
+      ],
+      "topics": [
+        "unencrypted-credentials",
+        "multi-step-backup-codes"
+      ],
+      "tags": [],
+      "check_tags": [],
+      "notification_strategy": "Notifies the device owner",
+      "notification_grace_period": 0
+    }
+  ],
+  "pagination": {
+    "next": "https://k2.kolide.com/api/v0/checks?cursor=MjcsMjc=",
+    "next_cursor": "MjcsMjc=",
+    "current_cursor": "",
+    "count": 25
+  }
+}

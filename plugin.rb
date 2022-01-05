@@ -58,9 +58,29 @@ after_initialize do
     mount ::Kolide::Engine, at: '/kolide'
   end
 
+  User.register_custom_field_type "kolide_ip_addresses", [:string]
+
   reloadable_patch do |plugin|
     require_dependency 'user'
     class ::User
+      after_commit :update_kolide_ip_addresses, on: [:create, :update]
+
+      IP_ADDRESSES_FIELD = 'kolide_ip_addresses'
+
+      def update_kolide_ip_addresses
+        current_ip = ip_address&.to_s
+        return if current_ip.blank?
+
+        ip_addresses = custom_fields[IP_ADDRESSES_FIELD] || []
+
+        # moving current IP to the last position
+        ip_addresses -= [current_ip]
+        ip_addresses += [current_ip]
+
+        custom_fields[IP_ADDRESSES_FIELD] = ip_addresses.last(10)
+        save_custom_fields
+      end
+
       def self.find_by_kolide_json(data)
         return if data.blank?
 

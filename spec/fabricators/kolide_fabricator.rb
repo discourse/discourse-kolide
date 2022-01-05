@@ -6,6 +6,7 @@ Fabricator(:kolide_device, from: "::Kolide::Device") do
   name "My Mac"
   primary_user_name "deviceadmin"
   hardware_model "Macbook"
+  ip_address "127.0.0.1"
 end
 
 Fabricator(:kolide_check, from: "::Kolide::Check") do

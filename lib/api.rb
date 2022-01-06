@@ -5,15 +5,18 @@ module ::Kolide
   class InvalidApiResponse < ::StandardError; end
 
   class Api
+    attr_reader :client
+
+    def initialize
+      @client = Faraday.new(
+        url: Api::BASE_URL,
+        headers: { 'Authorization' => "Bearer #{SiteSetting.kolide_api_key}" }
+      )
+    end
 
     BASE_URL = "https://k2.kolide.com/api/v0/"
 
-    def get(uri)
-      response = Faraday.new(
-        url: Api::BASE_URL,
-        headers: { 'Authorization' => "Bearer #{SiteSetting.kolide_api_key}" }
-      ).get(uri + "?per_page=500")
-
+    def parse(response)
       case response.status
       when 200
         return JSON.parse response.body
@@ -26,5 +29,12 @@ module ::Kolide
       { error: I18n.t("kolide.error.invalid_response") }
     end
 
+    def get(uri)
+      parse(client.get(uri + "?per_page=500"))
+    end
+
+    def put(uri)
+      parse(client.put(uri))
+    end
   end
 end

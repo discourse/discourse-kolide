@@ -41,6 +41,7 @@ after_initialize do
 
   [
     '../app/controllers/webhooks_controller.rb',
+    '../app/controllers/devices_controller.rb',
     '../app/jobs/scheduled/sync_kolide.rb',
     '../app/models/check.rb',
     '../app/models/device.rb',
@@ -52,6 +53,7 @@ after_initialize do
 
   Kolide::Engine.routes.draw do
     post '/webhooks' => 'webhooks#index'
+    post '/devices/:device_id/assign' => 'devices#assign'
   end
 
   Discourse::Application.routes.prepend do

@@ -44,7 +44,7 @@ module ::Kolide
 
       if event == "devices.reassigned"
         user = User.find_by_kolide_json(data["new_owner"])
-        device.update(user_id: user&.id) if data.user_id != user&.id
+        device.update(user_id: user&.id) if data["user_id"] != user&.id
       end
     end
 

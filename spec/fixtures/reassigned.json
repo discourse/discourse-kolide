@@ -1,0 +1,16 @@
+{
+  "event": "devices.reassigned",
+  "id": "01FHFHAJ4S2ZJGPRE7EFAQFKRP",
+  "timestamp": "2022-01-06T01:53:59Z",
+  "data": {
+    "device_id": 89701,
+    "device_name": "pc.abc",
+    "previous_owner": null,
+    "new_owner": {
+      "id": 264902,
+      "type": "Person",
+      "name": "John Bob",
+      "email": "john.bob@example.com"
+    }
+  }
+}

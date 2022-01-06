@@ -18,8 +18,8 @@ Fabricator(:kolide_check, from: "::Kolide::Check") do
 end
 
 Fabricator(:kolide_issue, from: "::Kolide::Issue") do
-  device
-  check
+  device { Fabricate(:kolide_device) }
+  check { Fabricate(:kolide_check) }
   uid { sequence(:uid) }
   title "Screen Lock Disabled"
   data '{ "user": "deviceuser" }'

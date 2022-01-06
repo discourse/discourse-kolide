@@ -33,5 +33,20 @@ RSpec.describe ::Kolide::WebhooksController do
       expect(response.status).to eq(200)
       expect(Kolide::Device.find_by_uid(device_id).user_id).to eq(user.id)
     end
+
+    it 'updates the user alert PM post when issue is resolved' do
+      body = get_kolide_response('resolved.json')
+      data = JSON.parse(body)["data"]
+      user = Fabricate(:user)
+      device = Fabricate(:kolide_device, uid: data["device_id"], user: user)
+      issue = Fabricate(:kolide_issue, uid: data["issue_id"], device: device)
+
+      post_request(body)
+
+      expect(response.status).to eq(200)
+      expect(issue.reload.resolved).to be_truthy
+      pm = Topic.private_messages_for_user(user).last
+      expect(pm.first_post.raw).to eq(I18n.t("kolide.alert.no_issues"))
+    end
   end
 end

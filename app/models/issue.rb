@@ -71,8 +71,8 @@ module ::Kolide
       end
 
       issue.update(resolved: true) if event == "issues.resolved"
-      user = issue.device.user_id
-      Alert.new(user).remind!
+      user = issue.device.user
+      UserAlert.new(user).remind! if user.present?
     end
   end
 end

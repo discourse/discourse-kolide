@@ -1,0 +1,11 @@
+{
+  "event": "issues.resolved",
+  "id": "0LFRN5Q6AEYYE3GQ1QSMF4WYQ1",
+  "timestamp": "2022-01-05T18:58:44Z",
+  "data": {
+    "issue_id": 234861001,
+    "title": "Firewall Disabled",
+    "device_id": 810001,
+    "check_id": 11
+  }
+}

@@ -70,6 +70,7 @@ after_initialize do
       def update_kolide_ip_addresses
         current_ip = ip_address&.to_s
         return if current_ip.blank?
+        return unless saved_change_to_ip_address?
 
         ip_addresses = custom_fields[IP_ADDRESSES_FIELD] || []
 

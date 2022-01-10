@@ -17,8 +17,10 @@ describe ::Kolide::Device do
 
   it "syncs Kolide devices from API endpoint" do
     device = Fabricate(:kolide_device)
+    issue = Fabricate(:kolide_issue, device: device)
     expect { ::Kolide::Device.sync_all! }.to change { ::Kolide::Device.count }.by(1)
     expect { device.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    expect { issue.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
 end

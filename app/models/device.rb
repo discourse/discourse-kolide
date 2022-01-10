@@ -5,7 +5,7 @@ module ::Kolide
   class Device < ::ActiveRecord::Base
     self.table_name = "kolide_devices"
 
-    has_many :issues
+    has_many :issues, :dependent => :destroy
     belongs_to :user
 
     def self.find_or_create_by_json(data)

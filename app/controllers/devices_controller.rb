@@ -14,7 +14,7 @@ module ::Kolide
       kolide_person_id = user.custom_fields["kolide_person_id"]
       kolide_device_id = device.uid
 
-      response = Kolide.api.put("devices/#{kolide_device_id}/owner")
+      response = Kolide.api.put("devices/#{kolide_device_id}/owner", owner_id: kolide_person_id, owner_type: "Person")
       return if response[:error].present?
 
       render body: nil, status: 200

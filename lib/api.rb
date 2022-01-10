@@ -29,12 +29,13 @@ module ::Kolide
       { error: I18n.t("kolide.error.invalid_response") }
     end
 
-    def get(uri)
-      parse(client.get(uri + "?per_page=500"))
+    def get(uri, params = {})
+      params[:per_page] ||= 500
+      parse(client.get(uri, params))
     end
 
-    def put(uri)
-      parse(client.put(uri))
+    def put(uri, params)
+      parse(client.put(uri, params.to_json))
     end
   end
 end

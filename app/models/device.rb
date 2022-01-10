@@ -26,9 +26,13 @@ module ::Kolide
       response = Kolide.api.get("devices")
       return if response[:error].present?
 
+      device_ids = []
       response["data"].each do |data|
+        device_ids << data["id"]
         find_or_create_by_json(data)
       end
+      # delete the devices not available on Kolide
+      where.not(uid: device_ids).destroy_all
     end
 
     def self.sync!(uid, event, data)

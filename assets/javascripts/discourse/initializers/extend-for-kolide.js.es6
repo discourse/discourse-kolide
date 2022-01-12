@@ -19,7 +19,7 @@ function initializeWithApi(api) {
     const deviceId = this.dataset.device;
 
     ajax(`/kolide/devices/${deviceId}/assign`, {
-      type: "POST",
+      type: "PUT",
       data: { user_id: userId },
     })
       .then((_) => {

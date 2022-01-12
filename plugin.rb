@@ -53,7 +53,7 @@ after_initialize do
 
   Kolide::Engine.routes.draw do
     post '/webhooks' => 'webhooks#index'
-    post '/devices/:device_id/assign' => 'devices#assign'
+    put '/devices/:device_id/assign' => 'devices#assign'
   end
 
   Discourse::Application.routes.prepend do

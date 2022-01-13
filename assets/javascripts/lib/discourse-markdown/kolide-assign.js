@@ -7,7 +7,7 @@ function addAssignButton(buffer, matches, state) {
     return;
   }
 
-  var token = new state.Token("a_open", "a", 0);
+  let token = new state.Token("a_open", "a", 0);
   token.attrs = [
     ["class", "kolide-assign"],
     ["href", "#"],

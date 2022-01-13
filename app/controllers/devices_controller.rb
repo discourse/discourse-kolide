@@ -10,7 +10,7 @@ module ::Kolide
       params.require(:device_id)
 
       admin_group = SiteSetting.kolide_admin_group_name
-      raise Discourse::NotFound unless admin_group.present? && current_user.groups.where(name: admin_group).exists?
+      raise Discourse::NotFound unless current_user.admin? || (admin_group.present? && current_user.groups.where(name: admin_group).exists?)
 
       user = User.find(params[:user_id])
       device = Device.find(params[:device_id])
@@ -18,7 +18,7 @@ module ::Kolide
       kolide_device_id = device.uid
 
       response = Kolide.api.put("devices/#{kolide_device_id}/owner", owner_id: kolide_person_id, owner_type: "Person")
-      render json: failed_json, status: 422 if response[:error].present?
+      return render json: failed_json, status: 422 if response[:error].present?
 
       device.update(user_id: user.id)
       render json: success_json, status: 200

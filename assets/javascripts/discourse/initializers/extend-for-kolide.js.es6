@@ -6,7 +6,7 @@ import { popupAjaxError } from "discourse/lib/ajax-error";
 function initializeWithApi(api) {
   const currentUser = api.getCurrentUser();
 
-  function attachAssignButton(cooked, helper) {
+  function attachAssignButton(cooked) {
     const buttons = cooked.querySelectorAll("a.kolide-assign") || [];
 
     buttons.forEach((button) => {
@@ -18,11 +18,11 @@ function initializeWithApi(api) {
     const userId = this.dataset.user;
     const deviceId = this.dataset.device;
 
-    ajax(`/kolide/devices/${deviceId}/assign`, {
+    ajax(`/kolide/devices/${deviceId}/assign.json`, {
       type: "PUT",
       data: { user_id: userId },
     })
-      .then((_) => {
+      .then(() => {
         bootbox.alert("Success");
       })
       .catch(popupAjaxError);

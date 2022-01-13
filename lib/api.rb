@@ -23,7 +23,7 @@ module ::Kolide
       else
         e = ::Kolide::InvalidApiResponse.new(response.body.presence || '')
         e.set_backtrace(caller)
-        Discourse.warn_exception(e, message: I18n.t("kolide.error.invalid_response"), env: { api_uri: uri })
+        Discourse.warn_exception(e, message: I18n.t("kolide.error.invalid_response"), env: { api_uri: response.env.url.to_s })
       end
 
       { error: I18n.t("kolide.error.invalid_response") }

@@ -23,7 +23,7 @@ RSpec.describe ::Kolide::GroupAlert do
 
     pm = group_pms.first
     expect(pm.title).to eq(I18n.t('kolide.group_alert.title', count: 1))
-    expected_row = "| [#{device.uid}](https://k2.kolide.com/my/inventory/devices/#{device.uid}) | #{device.name} | #{device.primary_user_name} | #{device.hardware_model} | #{device.ip_address} |"
+    expected_row = "| [#{device.uid}](https://k2.kolide.com/my/inventory/devices/#{device.uid}) | #{device.name} | #{device.hardware_model} | #{device.ip_address} |"
     expect(pm.first_post.raw).to eq(I18n.t('kolide.group_alert.body', rows: expected_row).strip)
   end
 
@@ -36,7 +36,7 @@ RSpec.describe ::Kolide::GroupAlert do
     described_class.new
 
     pm = group_pms.first
-    expected_row = "| [#{device.uid}](https://k2.kolide.com/my/inventory/devices/#{device.uid}) | #{device.name} | #{device.primary_user_name} | #{device.hardware_model} | #{user.ip_address} (#{user.username}) |"
+    expected_row = "| [#{device.uid}](https://k2.kolide.com/my/inventory/devices/#{device.uid}) | #{device.name} | #{device.hardware_model} | #{user.ip_address} (#{user.username}) |"
     expect(pm.first_post.raw).to eq(I18n.t('kolide.group_alert.body', rows: expected_row).strip)
   end
 

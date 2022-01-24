@@ -16,14 +16,14 @@ en:
         %{resolved_issues}
       open_issues: |
         ## Open Issues
-        | Device | Primary Username | Hardware | Issue | Reported At |
+        | Device | Hardware | Issue | Reported At |
         | - | - | - | - | - |
         %{rows}
 
         %{footnotes}
       resolved_issues: |
         ### Resolved Issues
-        | Device | Primary Username | Hardware | Issue | Resolved At |
+        | Device | Hardware | Issue | Resolved At |
         | - | - | - | - | - |
         %{rows}
       no_issues: "Issues not found."
@@ -34,7 +34,7 @@ en:
       body: |
         ### Unassigned Devices
 
-        | ID | Device | Primary Username | Hardware | Last IP |
+        | ID | Device | Hardware | Last IP |
         | - | - | - | - | - |
         %{rows}
       no_issues: "Issues not found."

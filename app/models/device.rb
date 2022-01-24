@@ -4,6 +4,7 @@ module ::Kolide
 
   class Device < ::ActiveRecord::Base
     self.table_name = "kolide_devices"
+    self.ignored_columns = ['primary_user_name']
 
     has_many :issues, dependent: :destroy
     belongs_to :user
@@ -15,7 +16,6 @@ module ::Kolide
 
       device.ip_address = data["remote_ip"]
       device.name = data["name"]
-      device.primary_user_name = data["primary_user_name"]
       device.user_id = find_user(data)&.id
       device.save! if device.changed?
 

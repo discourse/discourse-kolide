@@ -98,7 +98,7 @@ module ::Kolide
         url = "https://k2.kolide.com/my/inventory/devices/#{device.uid}"
         user = UserCustomField.find_by(name: User::IP_ADDRESSES_FIELD, value: device.ip_address.to_s)&.user
         user_info = user.present? ? " (#{user.username})" : ""
-        rows << "| [#{device.uid}](#{url}) | #{device.name} | #{device.primary_user_name} | #{device.hardware_model} | #{device.ip_address}#{user_info} |"
+        rows << "| [#{device.uid}](#{url}) | #{device.name} | #{device.hardware_model} | #{device.ip_address}#{user_info} |"
       end
 
       I18n.t("kolide.group_alert.body", rows: rows.join("\n"))

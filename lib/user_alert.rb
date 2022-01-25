@@ -133,7 +133,7 @@ module ::Kolide
           footnotes << "#{identifier}: #{description}"
         end
 
-        rows << "| #{device.name} | #{device.primary_user_name} | #{device.hardware_model} | #{title} | #{at} |"
+        rows << "| #{device.name} | #{device.hardware_model} | #{title} | #{at} |"
       end
 
       I18n.t("kolide.alert.#{key}_issues", rows: rows.join("\n"), footnotes: footnotes.join("\n"))

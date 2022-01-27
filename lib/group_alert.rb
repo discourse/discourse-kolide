@@ -95,7 +95,7 @@ module ::Kolide
 
       rows = []
       devices.each do |device|
-        url = "https://k2.kolide.com/my/inventory/devices/#{device.uid}"
+        url = "https://k2.kolide.com/x/inventory/devices/#{device.uid}"
         user = UserCustomField.find_by(name: User::IP_ADDRESSES_FIELD, value: device.ip_address.to_s)&.user
         user_info = user.present? ? " (#{user.username})" : ""
         rows << "| [#{device.uid}](#{url}) | #{device.name} | #{device.hardware_model} | #{device.ip_address}#{user_info} |"

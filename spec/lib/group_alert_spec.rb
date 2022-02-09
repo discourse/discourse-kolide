@@ -28,7 +28,9 @@ RSpec.describe ::Kolide::GroupAlert do
   end
 
   it "will match the corresponding user by IP address" do
-    user = Fabricate(:user, ip_address: device.ip_address)
+    SiteSetting.keep_old_ip_address_count = 10
+    user = Fabricate(:user)
+    user.update_ip_address!(device.ip_address.to_s)
 
     freeze_time
 

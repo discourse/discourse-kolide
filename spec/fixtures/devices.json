@@ -1,0 +1,92 @@
+{
+  "data": [
+    {
+      "id": 12345,
+      "name": "Joe's Laptop",
+      "owned_by": "user",
+      "privacy": "details_visible",
+      "platform": "windows",
+      "enrolled_at": "2020-11-08T16:18:31.381Z",
+      "last_seen_at": "2021-01-08T07:46:02.000Z",
+      "operating_system": "Microsoft Windows 11 Pro Version: 10.0.22000 | UBR: 376",
+      "issue_count": 0,
+      "resolved_issue_count": 5,
+      "failure_count": 0,
+      "resolved_failure_count": 5,
+      "hardware_model": "XPS 15 7590",
+      "hardware_vendor": "Dell",
+      "launcher_version": "0.11.23",
+      "osquery_version": "5.0.1",
+      "serial": "86ZAQ23",
+      "assigned_owner": {
+        "id": 23456,
+        "owner_type": "Person",
+        "name": "Joe Ben",
+        "email": "joe@example.com"
+      },
+      "kolide_mdm": "unsupported",
+      "note": null,
+      "note_html": null,
+      "operating_system_details": {
+        "device_id": 34567,
+        "platform": "windows",
+        "name": "Microsoft Windows 11 Pro",
+        "codename": "Microsoft Windows 11 Pro",
+        "version": "10.0.22000",
+        "build": "22000",
+        "major_version": 10,
+        "minor_version": 0,
+        "patch_version": null,
+        "ubr": 376,
+        "release_id": 2009
+      },
+      "remote_ip": "120.200.103.06",
+      "location": null,
+      "product_image_url": "https://assets1.kolide.com/assets/inventory/devices/XPS 15 7590-5a19263ada4281af57b6f9b72b95ba5a32ed1c35.png"
+    },
+    {
+      "id": 12346,
+      "name": "Bob's Desktop",
+      "owned_by": "user",
+      "privacy": "details_visible",
+      "platform": "ubuntu",
+      "enrolled_at": "2021-01-01T16:49:32.707Z",
+      "last_seen_at": "2022-01-09T14:15:43.000Z",
+      "operating_system": "Ubuntu 21.10 (Impish Indri) ",
+      "issue_count": 0,
+      "resolved_issue_count": 2,
+      "failure_count": 0,
+      "resolved_failure_count": 2,
+      "hardware_model": "VMware Virtual Platform",
+      "hardware_vendor": "Unknown OEM",
+      "launcher_version": "0.11.23",
+      "osquery_version": "5.0.1",
+      "serial": "VMware-56 4d 33 ce 87 88 cc 79-12 df 20 fc 16 cf d3 07",
+      "assigned_owner": {
+        "id": 23457,
+        "owner_type": "Person",
+        "name": "Bob",
+        "email": "bob@example.com"
+      },
+      "kolide_mdm": "unsupported",
+      "note": null,
+      "note_html": null,
+      "operating_system_details": {
+        "device_id": 34568,
+        "platform": "ubuntu",
+        "name": "Ubuntu",
+        "codename": "impish",
+        "version": "21.10 (Impish Indri)",
+        "build": null,
+        "major_version": 21,
+        "minor_version": 10,
+        "patch_version": 0,
+        "ubr": null,
+        "release_id": null
+      },
+      "remote_ip": "66.18.70.11",
+      "location": null,
+      "product_image_url": "https://assets1.kolide.com/assets/inventory/devices/VMware Virtual Platform-9caedeb5450d0aaff20171bb23c419901aae2be6.png"
+    }
+  ]
+}

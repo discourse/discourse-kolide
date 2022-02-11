@@ -38,7 +38,7 @@ RSpec.describe ::Kolide::GroupAlert do
     described_class.new
 
     pm = group_pms.first
-    expected_row = "| [#{device.uid}](https://k2.kolide.com/x/inventory/devices/#{device.uid}) | #{device.name} | #{device.primary_user_name} | #{device.hardware_model} | #{user.ip_address} (@#{user.username} [kolide-assign user=#{user.id} device=#{device.id}]) |"
+    expected_row = "| [#{device.uid}](https://k2.kolide.com/x/inventory/devices/#{device.uid}) | #{device.name} | #{device.hardware_model} | #{user.ip_address} (@#{user.username} [kolide-assign user=#{user.id} device=#{device.id}]) |"
     expect(pm.first_post.raw).to eq(I18n.t('kolide.group_alert.body', rows: expected_row).strip)
   end
 

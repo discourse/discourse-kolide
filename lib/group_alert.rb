@@ -98,7 +98,7 @@ module ::Kolide
         url = "https://k2.kolide.com/x/inventory/devices/#{device.uid}"
         user = UserIpAddressHistory.find_by(ip_address: device.ip_address.to_s)&.user
         user_info = user.present? ? " (@#{user.username} [kolide-assign user=#{user.id} device=#{device.id}])" : ""
-        rows << "| [#{device.uid}](#{url}) | #{device.name} | #{device.primary_user_name} | #{device.hardware_model} | #{device.ip_address}#{user_info} |"
+        rows << "| [#{device.uid}](#{url}) | #{device.name} | #{device.hardware_model} | #{device.ip_address}#{user_info} |"
       end
 
       I18n.t("kolide.group_alert.body", rows: rows.join("\n"))

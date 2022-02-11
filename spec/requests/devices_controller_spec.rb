@@ -22,9 +22,16 @@ RSpec.describe ::Kolide::DevicesController do
     end
 
     it 'updates the owner of the device in both Kolide and Discourse' do
+      sign_in(kolide_admin)
+
+      put "/kolide/devices/#{device.id}/assign.json", params: {
+        user_id: user.id
+      }
+
+      expect(response.status).to eq(404)
+
       SiteSetting.kolide_admin_group_name = group.name
       group.add(kolide_admin)
-      sign_in(kolide_admin)
 
       put "/kolide/devices/#{device.id}/assign.json", params: {
         user_id: user.id

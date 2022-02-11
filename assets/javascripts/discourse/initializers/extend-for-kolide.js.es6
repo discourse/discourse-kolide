@@ -23,7 +23,7 @@ function initializeWithApi(api) {
       data: { user_id: userId },
     })
       .then(() => {
-        bootbox.alert("Success");
+        bootbox.alert(I18n.t("discourse_kolide.device_assigned"));
       })
       .catch(popupAjaxError);
 

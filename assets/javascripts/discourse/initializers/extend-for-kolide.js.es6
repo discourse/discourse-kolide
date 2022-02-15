@@ -1,8 +1,34 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import I18n from "I18n";
+import { ajax } from "discourse/lib/ajax";
+import { popupAjaxError } from "discourse/lib/ajax-error";
 
 function initializeWithApi(api) {
   const currentUser = api.getCurrentUser();
+
+  function attachAssignButton(cooked) {
+    const buttons = cooked.querySelectorAll("a.kolide-assign") || [];
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", assignUser, false);
+    });
+  }
+
+  function assignUser() {
+    const userId = this.dataset.user;
+    const deviceId = this.dataset.device;
+
+    ajax(`/kolide/devices/${deviceId}/assign.json`, {
+      type: "PUT",
+      data: { user_id: userId },
+    })
+      .then(() => {
+        bootbox.alert(I18n.t("discourse_kolide.device_assigned"));
+      })
+      .catch(popupAjaxError);
+
+    return false;
+  }
 
   if (currentUser) {
     const site = api.container.lookup("site:main");
@@ -22,6 +48,11 @@ function initializeWithApi(api) {
         }
       );
     }
+
+    api.decorateCookedElement(attachAssignButton, {
+      onlyStream: false,
+      id: "discouse-kolide-assign-button",
+    });
   }
 }
 

@@ -28,7 +28,9 @@ RSpec.describe ::Kolide::GroupAlert do
   end
 
   it "will match the corresponding user by IP address" do
-    user = Fabricate(:user, ip_address: device.ip_address)
+    SiteSetting.keep_old_ip_address_count = 10
+    user = Fabricate(:user)
+    user.update_ip_address!(device.ip_address.to_s)
 
     freeze_time
 
@@ -36,7 +38,7 @@ RSpec.describe ::Kolide::GroupAlert do
     described_class.new
 
     pm = group_pms.first
-    expected_row = "| [#{device.uid}](https://k2.kolide.com/x/inventory/devices/#{device.uid}) | #{device.name} | #{device.hardware_model} | #{user.ip_address} (#{user.username}) |"
+    expected_row = "| [#{device.uid}](https://k2.kolide.com/x/inventory/devices/#{device.uid}) | #{device.name} | #{device.hardware_model} | #{user.ip_address} (@#{user.username} [kolide-assign user=#{user.id} device=#{device.id}]) |"
     expect(pm.first_post.raw).to eq(I18n.t('kolide.group_alert.body', rows: expected_row).strip)
   end
 

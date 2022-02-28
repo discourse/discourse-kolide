@@ -17,7 +17,9 @@ module ::Kolide
       kolide_person_id = user.custom_fields["kolide_person_id"]
       kolide_device_id = device.uid
 
-      response = Kolide.api.put("devices/#{kolide_device_id}/owner", owner_id: kolide_person_id, owner_type: "Person")
+      payload = { owner_id: kolide_person_id, owner_type: "Person" }
+      Rails.logger.warn("Kolide verbose log:\n Payload = #{payload.inspect}") if SiteSetting.kolide_verbose_log
+      response = Kolide.api.put("devices/#{kolide_device_id}/owner", payload)
       return render json: failed_json, status: 422 if response[:error].present?
 
       device.update(user_id: user.id)

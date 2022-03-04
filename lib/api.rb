@@ -10,7 +10,11 @@ module ::Kolide
     def initialize
       @client = Faraday.new(
         url: Api::BASE_URL,
-        headers: { 'Authorization' => "Bearer #{SiteSetting.kolide_api_key}" }
+        headers: {
+          'Authorization' => "Bearer #{SiteSetting.kolide_api_key}",
+          'Accept' => "application/json",
+          'Content-Type' => "application/json"
+        }
       )
     end
 

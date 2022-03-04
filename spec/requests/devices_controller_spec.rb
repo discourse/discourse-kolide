@@ -18,6 +18,7 @@ RSpec.describe ::Kolide::DevicesController do
       stub_request(:put, "#{::Kolide::Api::BASE_URL}devices/#{device.uid}/owner").with do |req|
         data = JSON.parse(req.body.to_s)
         expect(data["owner_id"]).to eq("98765")
+        expect(req.headers["Content-Type"]).to eq("application/json")
       end.to_return(status: 200, body: "{}", headers: {})
     end
 

@@ -9,6 +9,12 @@ module ::Kolide
     has_many :issues, dependent: :destroy
     belongs_to :user
 
+    after_destroy :update_user_alert_pm
+
+    def update_user_alert_pm
+      UserAlert.new(self.user).remind!
+    end
+
     def self.find_or_create_by_json(data)
       device = where(uid: data["id"]).first_or_initialize(
         hardware_model: data["hardware_model"],

@@ -89,7 +89,7 @@ after_initialize do
     end
 
     add_to_serializer(:site, :include_non_onboarded_device?) do
-      scope.user.present? && !MobileDetection.mobile_device?(scope.request.user_agent)
+      scope.user.present? && scope.request && !MobileDetection.mobile_device?(scope.request.user_agent)
     end
   end
 end

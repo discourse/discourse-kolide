@@ -53,9 +53,9 @@ module ::Kolide
       end
 
       resolved_issues = where(resolved: false).where.not(id: open_issue_ids)
+      device_ids += resolved_issues.pluck(:device_id)
       resolved_issues.update_all(resolved: true, resolved_at: Time.zone.now)
 
-      device_ids += resolved_issues.pluck(:device_id)
       device_ids.uniq
     end
 

@@ -1,0 +1,9 @@
+{
+  "event": "devices.destroyed",
+  "id": "017QPB56HR54G4S2A873456",
+  "timestamp": "2021-04-28T04:18:37Z",
+  "data": {
+    "device_id": 10037,
+    "device_name": "MyDevice"
+  }
+}

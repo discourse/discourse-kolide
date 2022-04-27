@@ -24,17 +24,27 @@ describe ::Kolide::Device do
   end
 
   describe "#destroy" do
-    it "updates user alert PM" do
-      device = Fabricate(:kolide_device)
+    fab!(:device) { Fabricate(:kolide_device) }
+
+    before do
       issue = Fabricate(:kolide_issue, device: device)
       ::Kolide::UserAlert.new(device.user).remind!
+    end
 
+    it "updates user alert PM" do
       post = Topic.last.first_post
       expect(post.raw).to include("Screen Lock Disabled")
 
       device.destroy
 
       expect(post.reload.raw).to include(I18n.t("kolide.group_alert.no_issues"))
+    end
+
+    it "skips PM update if user not found" do
+      ::Kolide::UserAlert.any_instance.expects(:remind!).never
+
+      device.user.destroy
+      device.reload.destroy
     end
   end
 

@@ -34,6 +34,20 @@ RSpec.describe ::Kolide::WebhooksController do
       expect(Kolide::Device.find_by_uid(device_id).user_id).to eq(user.id)
     end
 
+    it 'removes the device and updates the user PM' do
+      body = get_kolide_response('destroyed.json')
+      data = JSON.parse(body)["data"]
+      device_id = data["device_id"]
+      user = Fabricate(:user)
+      device = Fabricate(:kolide_device, uid: device_id, user: user)
+      ::Kolide::UserAlert.any_instance.expects(:remind!).once
+
+      post_request(body)
+
+      expect(response.status).to eq(200)
+      expect(Kolide::Device.find_by_uid(device_id)).to be_nil
+    end
+
     it 'updates the user alert PM post when issue is resolved' do
       body = get_kolide_response('resolved.json')
       data = JSON.parse(body)["data"]

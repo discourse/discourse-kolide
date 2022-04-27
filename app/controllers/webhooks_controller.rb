@@ -23,6 +23,8 @@ module ::Kolide
         Issue.sync!(data["issue_id"], event)
       elsif ["devices.created", "devices.reassigned"].include?(event)
         Device.sync!(data["device_id"], event, data)
+      elsif ["devices.destroyed"].include?(event)
+        Device.find_by(uid: data["device_id"])&.destroy
       end
 
       render body: nil, status: 200

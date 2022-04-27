@@ -12,7 +12,7 @@ module ::Kolide
     after_destroy :update_user_alert_pm
 
     def update_user_alert_pm
-      UserAlert.new(self.user).remind!
+      UserAlert.new(self.user).remind! if self.user.present?
     end
 
     def self.find_or_create_by_json(data)

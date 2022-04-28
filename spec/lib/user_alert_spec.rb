@@ -23,7 +23,7 @@ RSpec.describe ::Kolide::UserAlert do
 
     pm = Topic.private_messages_for_user(user).last
     post = pm.first_post
-    expect(pm.title).to eq(alert.topic_title)
+    expect(pm.title).to eq(I18n.t('kolide.alert.title', count: 1, username: user.username))
     expect(post.raw).to include("[^#{issue.id}]: user: deviceuser")
 
     freeze_time 1.hour.from_now

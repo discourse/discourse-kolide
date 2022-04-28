@@ -48,7 +48,7 @@ module ::Kolide
     end
 
     def topic_title
-      I18n.t('kolide.alert.title', count: open_issues.count)
+      I18n.t('kolide.alert.title', count: open_issues.count, username: user.username)
     end
 
     def last_reminded_at

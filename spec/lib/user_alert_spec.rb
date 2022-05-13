@@ -56,6 +56,54 @@ RSpec.describe ::Kolide::UserAlert do
     expect { alert.remind! }.to change { user.bookmarks.count }.by(1)
   end
 
+  context "for polymorphic bookmarks" do
+    before do
+      SiteSetting.use_polymorphic_bookmarks = true
+    end
+
+    it "creates a PM with issues and a bookmark" do
+      freeze_time
+
+      issue
+      alert = nil
+      expect { alert = ::Kolide::UserAlert.new(user) }.to change { Topic.private_messages_for_user(user).count }.by(1)
+
+      pm = Topic.private_messages_for_user(user).last
+      post = pm.first_post
+      expect(pm.title).to eq(I18n.t('kolide.alert.title', count: 1, username: user.username))
+      expect(post.raw).to include("[^#{issue.id}]: user: deviceuser")
+
+      freeze_time 1.hour.from_now
+      expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+
+      freeze_time 1.day.from_now
+      expect { alert.remind! }.to change { user.bookmarks.count }.by(1)
+
+      user.bookmarks.last.destroy!
+      freeze_time 1.hour.from_now
+      expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+
+      ::Kolide::Issue.update_all(resolved: true)
+      ::Kolide::UserAlert.new(user).remind!
+      post.reload
+      expect(post.raw).to eq(I18n.t("kolide.alert.no_issues"))
+    end
+
+    it "skips bookmark reminder based on check delay" do
+      freeze_time
+
+      issue
+      check.update(delay: 3 * 24)
+      alert = ::Kolide::UserAlert.new(user)
+
+      freeze_time 1.day.from_now
+      expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+
+      freeze_time 2.days.from_now
+      expect { alert.remind! }.to change { user.bookmarks.count }.by(1)
+    end
+  end
+
   it "adds Kolide helpers group to PM" do
     issue
     group = Fabricate(:group)

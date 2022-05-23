@@ -31,6 +31,7 @@ RSpec.describe ::Kolide::GroupAlert do
     SiteSetting.keep_old_ip_address_count = 10
     user = Fabricate(:user)
     user.update_ip_address!(device.ip_address.to_s)
+    user.reload
 
     freeze_time
 

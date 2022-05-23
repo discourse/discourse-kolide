@@ -30,34 +30,21 @@ module ::Kolide
       remind_at = 5.minutes.from_now
       group.users.each do |user|
         bookmark_manager = BookmarkManager.new(user)
-        bookmark_id = \
-          if SiteSetting.use_polymorphic_bookmarks
-            Bookmark.where(user_id: user.id, bookmarkable: post, name: REMINDER_NAME).pluck(:id).first
-          else
-            Bookmark.where(user_id: user.id, post_id: post.id, name: REMINDER_NAME).pluck(:id).first
-          end
+        bookmark_id = Bookmark.where(
+          user_id: user.id, bookmarkable: post, name: REMINDER_NAME
+        ).pluck(:id).first
         return if bookmark_id.present?
 
-        if SiteSetting.use_polymorphic_bookmarks
-          bookmark_manager.create(
-            bookmarkable_id: post.id,
-            bookmarkable_type: "Post",
-            name: REMINDER_NAME,
-            reminder_at: remind_at,
-            options: {
-              auto_delete_preference: Bookmark.auto_delete_preferences[:when_reminder_sent]
-            }
-          )
-        else
-          bookmark_manager.create(
-            post_id: post.id,
-            name: REMINDER_NAME,
-            reminder_at: remind_at,
-            options: {
-              auto_delete_preference: Bookmark.auto_delete_preferences[:when_reminder_sent]
-            }
-          )
-        end
+        bookmark_manager.create_for(
+          bookmarkable_id: post.id,
+          bookmarkable_type: "Post",
+          name: REMINDER_NAME,
+          reminder_at: remind_at,
+          options: {
+            auto_delete_preference: Bookmark.auto_delete_preferences[:when_reminder_sent],
+            save_user_preferences: false
+          }
+        )
       end
       set_last_reminded_at(remind_at)
     end

@@ -57,10 +57,6 @@ RSpec.describe ::Kolide::UserAlert do
   end
 
   context "for polymorphic bookmarks" do
-    before do
-      SiteSetting.use_polymorphic_bookmarks = true
-    end
-
     it "creates a PM with issues and a bookmark" do
       freeze_time
 

@@ -3,10 +3,10 @@ plugins:
     default: false
     client: true
   kolide_api_key:
-    default: ''
+    default: ""
     secret: true
   kolide_webhook_secret:
-    default: ''
+    default: ""
     secret: true
   kolide_verbose_log:
     default: false

@@ -43,9 +43,9 @@ after_initialize do
     '../app/controllers/webhooks_controller.rb',
     '../app/controllers/devices_controller.rb',
     '../app/jobs/scheduled/sync_kolide.rb',
-    '../app/models/check.rb',
-    '../app/models/device.rb',
-    '../app/models/issue.rb',
+    '../app/models/kolide/check.rb',
+    '../app/models/kolide/device.rb',
+    '../app/models/kolide/issue.rb',
     '../lib/api.rb',
     '../lib/user_alert.rb',
     '../lib/group_alert.rb'

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Fabricator(:kolide_device, from: "::Kolide::Device") do
+Fabricator(:kolide_device, from: "Kolide::Device") do
   user
   uid { sequence(:uid) }
   name "My Mac"
@@ -8,7 +8,7 @@ Fabricator(:kolide_device, from: "::Kolide::Device") do
   ip_address "127.0.0.1"
 end
 
-Fabricator(:kolide_check, from: "::Kolide::Check") do
+Fabricator(:kolide_check, from: "Kolide::Check") do
   uid { sequence(:uid) }
   name "Ensure Supported OS Version"
   display_name "Windows Update - Ensure Supported OS Version"
@@ -17,7 +17,7 @@ Fabricator(:kolide_check, from: "::Kolide::Check") do
   delay 0
 end
 
-Fabricator(:kolide_issue, from: "::Kolide::Issue") do
+Fabricator(:kolide_issue, from: "Kolide::Issue") do
   device { Fabricate(:kolide_device) }
   check { Fabricate(:kolide_check) }
   uid { sequence(:uid) }

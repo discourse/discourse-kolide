@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-module ::Kolide
-
+module Kolide
   class Device < ::ActiveRecord::Base
     self.table_name = "kolide_devices"
     self.ignored_columns = ['primary_user_name']

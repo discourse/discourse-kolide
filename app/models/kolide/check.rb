@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-module ::Kolide
-
+module Kolide
   class Check < ::ActiveRecord::Base
     self.table_name = "kolide_checks"
 

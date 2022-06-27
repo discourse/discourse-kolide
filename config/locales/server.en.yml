@@ -1,12 +1,12 @@
 en:
   site_settings:
-    kolide_enabled: 'Enable the discourse-kolide plugin'
+    kolide_enabled: "Enable the discourse-kolide plugin"
     kolide_api_key: "API key generated from the Kolide's admin panel."
-    kolide_webhook_secret: 'The string to verify incoming Kolide webhooks'
-    kolide_verbose_log: 'Enable verbose logging for Kolide plugin'
-    kolide_onboarding_topic_id: 'Topic with Kolide onboarding instructions for users'
-    kolide_admin_group_name: 'The Kolide admins group name where user device problems will be reported'
-    kolide_helpers_group_name: 'The group name of Kolide helpers who will help users to resolve their open issues'
+    kolide_webhook_secret: "The string to verify incoming Kolide webhooks"
+    kolide_verbose_log: "Enable verbose logging for Kolide plugin"
+    kolide_onboarding_topic_id: "Topic with Kolide onboarding instructions for users"
+    kolide_admin_group_name: "The Kolide admins group name where user device problems will be reported"
+    kolide_helpers_group_name: "The group name of Kolide helpers who will help users to resolve their open issues"
   kolide:
     alert:
       title: "Found %{count} problems in your devices - @%{username}"

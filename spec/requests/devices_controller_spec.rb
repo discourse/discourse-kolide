@@ -4,14 +4,14 @@ require "rails_helper"
 require_relative '../spec_helper'
 
 RSpec.describe ::Kolide::DevicesController do
-  include_context "spec helper"
+  include_context "with kolide spec helper"
 
   fab!(:group) { Fabricate(:group) }
   fab!(:kolide_admin) { Fabricate(:user) }
   fab!(:user) { Fabricate(:user) }
   fab!(:device) { Fabricate(:kolide_device, user: nil) }
 
-  context "assign" do
+  describe "assign" do
     before do
       user.custom_fields["kolide_person_id"] = "98765"
       user.save_custom_fields

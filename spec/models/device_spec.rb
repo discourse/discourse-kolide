@@ -4,7 +4,7 @@ require 'rails_helper'
 require_relative '../spec_helper'
 
 describe ::Kolide::Device do
-  include_context "spec helper"
+  include_context "with kolide spec helper"
 
   api_url = "#{::Kolide::Api::BASE_URL}devices?per_page=500"
 

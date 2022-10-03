@@ -6,7 +6,7 @@ require 'json'
 require_relative '../spec_helper'
 
 RSpec.describe ::Kolide::WebhooksController do
-  include_context "spec helper"
+  include_context "with kolide spec helper"
 
   let(:secret) { SiteSetting.kolide_webhook_secret = "WEBHOOK SECRET" }
 
@@ -20,7 +20,7 @@ RSpec.describe ::Kolide::WebhooksController do
     }
   end
 
-  context "index" do
+  describe "index" do
     it 'updates the device to corresponding user when reassigned' do
       body = get_kolide_response('reassigned.json')
       data = JSON.parse(body)["data"]

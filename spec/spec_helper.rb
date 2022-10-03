@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.shared_context "spec helper" do
+RSpec.shared_context "with kolide spec helper" do
 
   before do
     SiteSetting.kolide_enabled = true

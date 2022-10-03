@@ -27,14 +27,14 @@ RSpec.describe ::Kolide::UserAlert do
     expect(post.raw).to include("[^#{issue.id}]: user: deviceuser")
 
     freeze_time 1.hour.from_now
-    expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+    expect { alert.remind! }.not_to change { user.bookmarks.count }
 
     freeze_time 1.day.from_now
     expect { alert.remind! }.to change { user.bookmarks.count }.by(1)
 
     user.bookmarks.last.destroy!
     freeze_time 1.hour.from_now
-    expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+    expect { alert.remind! }.not_to change { user.bookmarks.count }
 
     ::Kolide::Issue.update_all(resolved: true)
     ::Kolide::UserAlert.new(user).remind!
@@ -50,7 +50,7 @@ RSpec.describe ::Kolide::UserAlert do
     alert = ::Kolide::UserAlert.new(user)
 
     freeze_time 1.day.from_now
-    expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+    expect { alert.remind! }.not_to change { user.bookmarks.count }
 
     freeze_time 2.days.from_now
     expect { alert.remind! }.to change { user.bookmarks.count }.by(1)
@@ -70,14 +70,14 @@ RSpec.describe ::Kolide::UserAlert do
       expect(post.raw).to include("[^#{issue.id}]: user: deviceuser")
 
       freeze_time 1.hour.from_now
-      expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+      expect { alert.remind! }.not_to change { user.bookmarks.count }
 
       freeze_time 1.day.from_now
       expect { alert.remind! }.to change { user.bookmarks.count }.by(1)
 
       user.bookmarks.last.destroy!
       freeze_time 1.hour.from_now
-      expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+      expect { alert.remind! }.not_to change { user.bookmarks.count }
 
       ::Kolide::Issue.update_all(resolved: true)
       ::Kolide::UserAlert.new(user).remind!
@@ -93,7 +93,7 @@ RSpec.describe ::Kolide::UserAlert do
       alert = ::Kolide::UserAlert.new(user)
 
       freeze_time 1.day.from_now
-      expect { alert.remind! }.to change { user.bookmarks.count }.by(0)
+      expect { alert.remind! }.not_to change { user.bookmarks.count }
 
       freeze_time 2.days.from_now
       expect { alert.remind! }.to change { user.bookmarks.count }.by(1)

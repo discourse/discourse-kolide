@@ -3,8 +3,8 @@
 require 'rails_helper'
 require_relative '../spec_helper'
 
-describe 'markdown' do
-  include_context "spec helper"
+describe PrettyText do
+  include_context "with kolide spec helper"
 
   it "can properly decorate policies" do
     raw = "[kolide-assign user=123 device=456]"

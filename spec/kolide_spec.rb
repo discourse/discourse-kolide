@@ -4,7 +4,7 @@ require 'rails_helper'
 require_relative 'spec_helper'
 
 describe Kolide do
-  include_context "spec helper"
+  include_context "with kolide spec helper"
 
   let(:user) { Fabricate(:user) }
   let(:device) { Fabricate(:kolide_device, user: user, user_id: user.id, uid: 12345) }

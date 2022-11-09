@@ -24,7 +24,15 @@ module ::Kolide
 
     def remind!
       update_post_body
-      return if devices.count == 0
+
+      if devices.count == 0
+        Notification
+          .where(notification_type: Notification.types[:bookmark_reminder])
+          .where("data::json ->> 'bookmark_name' = '#{REMINDER_NAME}'")
+          .destroy_all
+        return
+      end
+
       return if last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago
 
       remind_at = 5.minutes.from_now

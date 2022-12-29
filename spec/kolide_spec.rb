@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-require_relative 'spec_helper'
+require "rails_helper"
+require_relative "spec_helper"
 
 describe Kolide do
   include_context "with kolide spec helper"
 
   let(:user) { Fabricate(:user) }
-  let(:device) { Fabricate(:kolide_device, user: user, user_id: user.id, uid: 12345) }
+  let(:device) { Fabricate(:kolide_device, user: user, user_id: user.id, uid: 12_345) }
   let(:issue) { Fabricate(:kolide_issue, device: device) }
 
   def stub_api(type)

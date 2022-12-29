@@ -1,21 +1,22 @@
 # frozen_string_literal: true
 
 module ::Kolide
-
-  class InvalidApiResponse < ::StandardError; end
+  class InvalidApiResponse < ::StandardError
+  end
 
   class Api
     attr_reader :client
 
     def initialize
-      @client = Faraday.new(
-        url: Api::BASE_URL,
-        headers: {
-          'Authorization' => "Bearer #{SiteSetting.kolide_api_key}",
-          'Accept' => "application/json",
-          'Content-Type' => "application/json"
-        }
-      )
+      @client =
+        Faraday.new(
+          url: Api::BASE_URL,
+          headers: {
+            "Authorization" => "Bearer #{SiteSetting.kolide_api_key}",
+            "Accept" => "application/json",
+            "Content-Type" => "application/json",
+          },
+        )
     end
 
     BASE_URL = "https://k2.kolide.com/api/v0/"
@@ -25,9 +26,15 @@ module ::Kolide
       when 200
         return JSON.parse response.body
       else
-        e = ::Kolide::InvalidApiResponse.new(response.body.presence || '')
+        e = ::Kolide::InvalidApiResponse.new(response.body.presence || "")
         e.set_backtrace(caller)
-        Discourse.warn_exception(e, message: I18n.t("kolide.error.invalid_response"), env: { api_uri: response.env.url.to_s })
+        Discourse.warn_exception(
+          e,
+          message: I18n.t("kolide.error.invalid_response"),
+          env: {
+            api_uri: response.env.url.to_s,
+          },
+        )
       end
 
       { error: I18n.t("kolide.error.invalid_response") }

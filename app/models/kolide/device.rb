@@ -3,7 +3,7 @@
 module Kolide
   class Device < ::ActiveRecord::Base
     self.table_name = "kolide_devices"
-    self.ignored_columns = ['primary_user_name']
+    self.ignored_columns = ["primary_user_name"]
 
     has_many :issues, dependent: :destroy
     belongs_to :user
@@ -15,9 +15,7 @@ module Kolide
     end
 
     def self.find_or_create_by_json(data)
-      device = where(uid: data["id"]).first_or_initialize(
-        hardware_model: data["hardware_model"],
-      )
+      device = where(uid: data["id"]).first_or_initialize(hardware_model: data["hardware_model"])
 
       device.ip_address = data["remote_ip"]
       device.name = data["name"]

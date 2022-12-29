@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe ::Kolide::GroupAlert do
-
   fab!(:group) { Fabricate(:group) }
   fab!(:device) { Fabricate(:kolide_device, user: nil) }
 
@@ -17,13 +16,15 @@ RSpec.describe ::Kolide::GroupAlert do
     freeze_time
 
     alert = nil
-    group_pms = Topic.joins(:topic_allowed_groups).where("topic_allowed_groups.group_id = ?", group.id)
+    group_pms =
+      Topic.joins(:topic_allowed_groups).where("topic_allowed_groups.group_id = ?", group.id)
     expect { alert = described_class.new }.to change { group_pms.count }.by(1)
 
     pm = group_pms.first
-    expect(pm.title).to eq(I18n.t('kolide.group_alert.title', count: 1))
-    expected_row = "| [#{device.uid}](https://k2.kolide.com/x/inventory/devices/#{device.uid}) | #{device.name} | #{device.hardware_model} | #{device.ip_address} |"
-    expect(pm.first_post.raw).to eq(I18n.t('kolide.group_alert.body', rows: expected_row).strip)
+    expect(pm.title).to eq(I18n.t("kolide.group_alert.title", count: 1))
+    expected_row =
+      "| [#{device.uid}](https://k2.kolide.com/x/inventory/devices/#{device.uid}) | #{device.name} | #{device.hardware_model} | #{device.ip_address} |"
+    expect(pm.first_post.raw).to eq(I18n.t("kolide.group_alert.body", rows: expected_row).strip)
   end
 
   it "removes the notification if issues are resolved in all the devices" do
@@ -38,7 +39,9 @@ RSpec.describe ::Kolide::GroupAlert do
     freeze_time (1.day.from_now)
     group_alert.remind!
     freeze_time (10.minutes.from_now)
-    expect { Jobs::BookmarkReminderNotifications.new.execute({}) }.to change { user.notifications.count }.by(1)
+    expect { Jobs::BookmarkReminderNotifications.new.execute({}) }.to change {
+      user.notifications.count
+    }.by(1)
 
     device.user = Fabricate(:user)
     device.save!
@@ -55,12 +58,13 @@ RSpec.describe ::Kolide::GroupAlert do
 
     freeze_time
 
-    group_pms = Topic.joins(:topic_allowed_groups).where("topic_allowed_groups.group_id = ?", group.id)
+    group_pms =
+      Topic.joins(:topic_allowed_groups).where("topic_allowed_groups.group_id = ?", group.id)
     described_class.new
 
     pm = group_pms.first
-    expected_row = "| [#{device.uid}](https://k2.kolide.com/x/inventory/devices/#{device.uid}) | #{device.name} | #{device.hardware_model} | #{user.ip_address} (@#{user.username} [kolide-assign user=#{user.id} device=#{device.id}]) |"
-    expect(pm.first_post.raw).to eq(I18n.t('kolide.group_alert.body', rows: expected_row).strip)
+    expected_row =
+      "| [#{device.uid}](https://k2.kolide.com/x/inventory/devices/#{device.uid}) | #{device.name} | #{device.hardware_model} | #{user.ip_address} (@#{user.username} [kolide-assign user=#{user.id} device=#{device.id}]) |"
+    expect(pm.first_post.raw).to eq(I18n.t("kolide.group_alert.body", rows: expected_row).strip)
   end
-
 end

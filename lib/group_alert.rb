@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module ::Kolide
-
   class GroupAlert
     attr_accessor :post, :devices, :group, :last_reminded_at_field
 
@@ -10,8 +9,13 @@ module ::Kolide
 
     def initialize
       @group = Group.find_by(name: SiteSetting.kolide_admin_group_name)
-      post_id_field = GroupCustomField.find_or_initialize_by(name: "kolide_alert_post_id", group_id: group.id)
-      @last_reminded_at_field = GroupCustomField.find_or_initialize_by(name: "kolide_alert_last_reminded_at", group_id: group.id)
+      post_id_field =
+        GroupCustomField.find_or_initialize_by(name: "kolide_alert_post_id", group_id: group.id)
+      @last_reminded_at_field =
+        GroupCustomField.find_or_initialize_by(
+          name: "kolide_alert_last_reminded_at",
+          group_id: group.id,
+        )
 
       @devices = Device.where(user_id: nil)
       @post = Post.find_by(id: post_id_field.value) if post_id_field.present?
@@ -38,9 +42,8 @@ module ::Kolide
       remind_at = 5.minutes.from_now
       group.users.each do |user|
         bookmark_manager = BookmarkManager.new(user)
-        bookmark_id = Bookmark.where(
-          user_id: user.id, bookmarkable: post, name: REMINDER_NAME
-        ).pluck(:id).first
+        bookmark_id =
+          Bookmark.where(user_id: user.id, bookmarkable: post, name: REMINDER_NAME).pluck(:id).first
         return if bookmark_id.present?
 
         bookmark_manager.create_for(
@@ -50,15 +53,15 @@ module ::Kolide
           reminder_at: remind_at,
           options: {
             auto_delete_preference: Bookmark.auto_delete_preferences[:when_reminder_sent],
-            save_user_preferences: false
-          }
+            save_user_preferences: false,
+          },
         )
       end
       set_last_reminded_at(remind_at)
     end
 
     def topic_title
-      I18n.t('kolide.group_alert.title', count: devices.count)
+      I18n.t("kolide.group_alert.title", count: devices.count)
     end
 
     def last_reminded_at
@@ -71,11 +74,7 @@ module ::Kolide
       body = post_body
       if post.raw != body
         revisor = PostRevisor.new(post)
-        revisor.revise!(
-          Discourse.system_user,
-          { raw:  body },
-          skip_validations: true
-        )
+        revisor.revise!(Discourse.system_user, { raw: body }, skip_validations: true)
       end
 
       title = topic_title
@@ -89,14 +88,15 @@ module ::Kolide
     def create_post!
       return unless devices.exists?
 
-      @post = PostCreator.create!(
-        Discourse.system_user,
-        title: topic_title,
-        raw: post_body,
-        archetype: Archetype.private_message,
-        target_group_names: group.name,
-        validate: false
-      )
+      @post =
+        PostCreator.create!(
+          Discourse.system_user,
+          title: topic_title,
+          raw: post_body,
+          archetype: Archetype.private_message,
+          target_group_names: group.name,
+          validate: false,
+        )
 
       set_last_reminded_at(post.created_at)
       @post
@@ -109,7 +109,14 @@ module ::Kolide
       devices.each do |device|
         url = "https://k2.kolide.com/x/inventory/devices/#{device.uid}"
         user = UserIpAddressHistory.find_by(ip_address: device.ip_address.to_s)&.user
-        user_info = user.present? ? " (@#{user.username} [kolide-assign user=#{user.id} device=#{device.id}])" : ""
+        user_info =
+          (
+            if user.present?
+              " (@#{user.username} [kolide-assign user=#{user.id} device=#{device.id}])"
+            else
+              ""
+            end
+          )
         rows << "| [#{device.uid}](#{url}) | #{device.name} | #{device.hardware_model} | #{device.ip_address}#{user_info} |"
       end
 

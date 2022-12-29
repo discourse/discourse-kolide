@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-require_relative '../spec_helper'
+require "rails_helper"
+require_relative "../spec_helper"
 
 describe ::Kolide::Device do
   include_context "with kolide spec helper"
@@ -11,7 +11,7 @@ describe ::Kolide::Device do
   before do
     content = { status: 200, headers: { "Content-Type" => "application/json" } }
 
-    devices = content.merge(body: get_kolide_response('devices.json'))
+    devices = content.merge(body: get_kolide_response("devices.json"))
     stub_request(:get, api_url).to_return(devices)
   end
 
@@ -47,5 +47,4 @@ describe ::Kolide::Device do
       device.reload.destroy
     end
   end
-
 end

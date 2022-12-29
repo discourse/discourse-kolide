@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe ::Kolide::UserAlert do
-
   let(:user) { Fabricate(:user) }
   let(:device) { Fabricate(:kolide_device, user: user) }
   let(:check) { Fabricate(:kolide_check) }
@@ -19,11 +18,13 @@ RSpec.describe ::Kolide::UserAlert do
 
     issue
     alert = nil
-    expect { alert = ::Kolide::UserAlert.new(user) }.to change { Topic.private_messages_for_user(user).count }.by(1)
+    expect { alert = ::Kolide::UserAlert.new(user) }.to change {
+      Topic.private_messages_for_user(user).count
+    }.by(1)
 
     pm = Topic.private_messages_for_user(user).last
     post = pm.first_post
-    expect(pm.title).to eq(I18n.t('kolide.alert.title', count: 1, username: user.username))
+    expect(pm.title).to eq(I18n.t("kolide.alert.title", count: 1, username: user.username))
     expect(post.raw).to include("[^#{issue.id}]: user: deviceuser")
 
     freeze_time 1.hour.from_now
@@ -62,11 +63,13 @@ RSpec.describe ::Kolide::UserAlert do
 
       issue
       alert = nil
-      expect { alert = ::Kolide::UserAlert.new(user) }.to change { Topic.private_messages_for_user(user).count }.by(1)
+      expect { alert = ::Kolide::UserAlert.new(user) }.to change {
+        Topic.private_messages_for_user(user).count
+      }.by(1)
 
       pm = Topic.private_messages_for_user(user).last
       post = pm.first_post
-      expect(pm.title).to eq(I18n.t('kolide.alert.title', count: 1, username: user.username))
+      expect(pm.title).to eq(I18n.t("kolide.alert.title", count: 1, username: user.username))
       expect(post.raw).to include("[^#{issue.id}]: user: deviceuser")
 
       freeze_time 1.hour.from_now
@@ -110,5 +113,4 @@ RSpec.describe ::Kolide::UserAlert do
     pm = Topic.private_messages_for_user(user).last
     expect(pm.topic_allowed_groups.pluck(:group_id)).to include(group.id)
   end
-
 end

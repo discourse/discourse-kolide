@@ -10,11 +10,11 @@
 
 enabled_site_setting :kolide_enabled
 
-register_asset 'stylesheets/kolide.scss'
+register_asset "stylesheets/kolide.scss"
 
 after_initialize do
   module ::Kolide
-    PLUGIN_NAME = 'discourse-kolide'
+    PLUGIN_NAME = "discourse-kolide"
 
     class Engine < ::Rails::Engine
       engine_name PLUGIN_NAME
@@ -31,42 +31,39 @@ after_initialize do
       device_ids = Issue.sync_open!
       user_ids = ::Kolide::Device.where(id: device_ids).where.not(user_id: nil).pluck(:user_id).uniq
 
-      User.where(id: user_ids).each do |user|
-        UserAlert.new(user).remind!
-      end
+      User.where(id: user_ids).each { |user| UserAlert.new(user).remind! }
 
       GroupAlert.new.remind! if SiteSetting.kolide_admin_group_name.present?
     end
   end
 
-  [
-    '../app/controllers/webhooks_controller.rb',
-    '../app/controllers/devices_controller.rb',
-    '../app/jobs/scheduled/sync_kolide.rb',
-    '../app/models/kolide/check.rb',
-    '../app/models/kolide/device.rb',
-    '../app/models/kolide/issue.rb',
-    '../lib/api.rb',
-    '../lib/user_alert.rb',
-    '../lib/group_alert.rb'
+  %w[
+    ../app/controllers/webhooks_controller.rb
+    ../app/controllers/devices_controller.rb
+    ../app/jobs/scheduled/sync_kolide.rb
+    ../app/models/kolide/check.rb
+    ../app/models/kolide/device.rb
+    ../app/models/kolide/issue.rb
+    ../lib/api.rb
+    ../lib/user_alert.rb
+    ../lib/group_alert.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   Kolide::Engine.routes.draw do
-    post '/webhooks' => 'webhooks#index'
-    put '/devices/:device_id/assign' => 'devices#assign'
+    post "/webhooks" => "webhooks#index"
+    put "/devices/:device_id/assign" => "devices#assign"
   end
 
-  Discourse::Application.routes.prepend do
-    mount ::Kolide::Engine, at: '/kolide'
-  end
+  Discourse::Application.routes.prepend { mount ::Kolide::Engine, at: "/kolide" }
 
   reloadable_patch do |plugin|
-    require_dependency 'user'
+    require_dependency "user"
     class ::User
       def self.find_by_kolide_json(data)
         return if data.blank?
 
-        custom_field = UserCustomField.find_or_initialize_by(name: "kolide_person_id", value: data["id"])
+        custom_field =
+          UserCustomField.find_or_initialize_by(name: "kolide_person_id", value: data["id"])
         return custom_field.user unless custom_field.new_record?
 
         email = data["email"]
@@ -89,7 +86,8 @@ after_initialize do
     end
 
     add_to_serializer(:site, :include_non_onboarded_device?) do
-      scope.user.present? && scope.request && !MobileDetection.mobile_device?(scope.request.user_agent)
+      scope.user.present? && scope.request &&
+        !MobileDetection.mobile_device?(scope.request.user_agent)
     end
   end
 end

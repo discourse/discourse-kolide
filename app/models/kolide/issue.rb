@@ -8,10 +8,11 @@ module Kolide
     belongs_to :check
 
     def self.find_or_create_by_json(data)
-      issue = where(uid: data["id"]).first_or_initialize(
-        title: data["title"],
-        reported_at: data["timestamp"]
-      )
+      issue =
+        where(uid: data["id"]).first_or_initialize(
+          title: data["title"],
+          reported_at: data["timestamp"],
+        )
 
       if issue.device_id.blank?
         device = Device.find_or_create_by_json(data["device"])

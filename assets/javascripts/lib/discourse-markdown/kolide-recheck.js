@@ -31,11 +31,7 @@ export function setup(helper) {
     opts.features["kolide-recheck"] = !!siteSettings.kolide_enabled;
   });
 
-  helper.allowList([
-    "a.kolide-recheck",
-    "a[href]",
-    "a[data-issue]",
-  ]);
+  helper.allowList(["a.kolide-recheck", "a[href]", "a[data-issue]"]);
 
   helper.registerPlugin((md) => {
     const rule = {

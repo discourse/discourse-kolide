@@ -42,8 +42,13 @@ module ::Kolide
 
     %i[get put post].each do |request_method|
       define_method(request_method) do |uri, params = {}|
-        params[:per_page] ||= 500 if request_method == :get
-        response = client.public_send(request_method, uri, params.to_json)
+        if request_method == :get
+          params[:per_page] ||= 500
+        else
+          params = params.to_json
+        end
+
+        response = client.public_send(request_method, uri, params)
         parse(response)
       end
     end

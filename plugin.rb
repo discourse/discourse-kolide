@@ -53,7 +53,7 @@ after_initialize do
   Kolide::Engine.routes.draw do
     post "/webhooks" => "webhooks#index"
     put "/devices/:device_id/assign" => "devices#assign"
-    put "/issues/:issue_id/assign" => "issues#recheck"
+    post "/issues/:issue_id/recheck" => "issues#recheck"
   end
 
   Discourse::Application.routes.prepend { mount ::Kolide::Engine, at: "/kolide" }

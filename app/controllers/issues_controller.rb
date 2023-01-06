@@ -4,7 +4,7 @@ module ::Kolide
   class IssuesController < ::ApplicationController
     requires_login
 
-    def assign
+    def recheck
       params.require(:issue_id)
       issue = Issue.find(params[:issue_id])
 

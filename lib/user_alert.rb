@@ -131,15 +131,13 @@ module ::Kolide
           title = issue.title
 
           if key == :open
-            identifier = "[^#{issue.id}]"
-            title = "#{title} #{identifier}"
-
+            title = issue.markdown
             description = ""
             JSON.parse(issue.data).each { |name, value| description += "#{name}: #{value}\n" }
 
             description = "#{issue.key}: #{issue.value}\n#{description}" if issue.key.present? &&
               issue.value.present?
-            footnotes << "#{identifier}: #{description}"
+            footnotes << "#{issue.identifier}: #{description}"
           end
 
           rows << "| #{device.name} | #{device.hardware_model} | #{title} | #{at} |"

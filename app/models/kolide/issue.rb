@@ -7,6 +7,14 @@ module Kolide
     belongs_to :device
     belongs_to :check
 
+    def identifier
+      "[^#{id}]"
+    end
+
+    def markdown
+      "#{title} #{identifier} [kolide-recheck issue=#{id}]"
+    end
+
     def self.find_or_create_by_json(data)
       issue =
         where(uid: data["id"]).first_or_initialize(

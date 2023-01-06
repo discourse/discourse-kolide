@@ -2,5 +2,9 @@ en:
   js:
     discourse_kolide:
       device_assigned: Device is successfully assigned to the user.
+      issue_recheck_initiated: Issue recheck is initiated.
+      button:
+        assign: assign
+        recheck: recheck
       non_onboarded_device:
         notice: Current IP address is not matching with IP addresses of your devices in Kolide. If you didn't onboard this device yet then please follow <a href="%{link}">this guide</a>.

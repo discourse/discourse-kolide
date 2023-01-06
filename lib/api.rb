@@ -40,13 +40,12 @@ module ::Kolide
       { error: I18n.t("kolide.error.invalid_response") }
     end
 
-    def get(uri, params = {})
-      params[:per_page] ||= 500
-      parse(client.get(uri, params))
-    end
-
-    def put(uri, params)
-      parse(client.put(uri, params.to_json))
+    [:get, :put, :post].each do |request_method|
+      define_method(request_method) do |uri, params = {}|
+        params[:per_page] ||= 500 if request_method == :get
+        response = client.public_send(request_method, uri, params.to_json)
+        parse(response)
+      end
     end
   end
 end

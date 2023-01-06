@@ -70,6 +70,10 @@ RSpec.describe ::Kolide::UserAlert do
       pm = Topic.private_messages_for_user(user).last
       post = pm.first_post
       expect(pm.title).to eq(I18n.t("kolide.alert.title", count: 1, username: user.username))
+      expected_row = <<~RAW
+      | #{device.name} | #{device.hardware_model} | #{issue.markdown} | [#{issue.reported_at.strftime("date=%Y-%m-%d time=%H:%M:%S")} timezone='UTC' format='L LT'] |
+      RAW
+      expect(post.raw).to include(expected_row)
       expect(post.raw).to include("[^#{issue.id}]: user: deviceuser")
 
       freeze_time 1.hour.from_now

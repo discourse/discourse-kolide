@@ -1,24 +1,23 @@
 import { parseBBCodeTag } from "pretty-text/engines/discourse-markdown/bbcode-block";
 import I18n from "I18n";
 
-function addAssignButton(buffer, matches, state) {
+function addRecheckButton(buffer, matches, state) {
   const parsed = parseBBCodeTag(matches[0], 0, matches[0].length);
 
-  if (!parsed.attrs.user || !parsed.attrs.device) {
+  if (!parsed.attrs.issue) {
     return;
   }
 
   let token = new state.Token("a_open", "a", 0);
   token.attrs = [
-    ["class", "kolide-assign"],
+    ["class", "kolide-recheck"],
     ["href", "#"],
-    ["data-user", parsed.attrs.user],
-    ["data-device", parsed.attrs.device],
+    ["data-issue", parsed.attrs.issue],
   ];
   buffer.push(token);
 
   token = new state.Token("text", "", 0);
-  token.content = I18n.t("discourse_kolide.button.assign");
+  token.content = I18n.t("discourse_kolide.button.recheck");
   buffer.push(token);
 
   token = new state.Token("a_close", "a", -1);
@@ -29,22 +28,17 @@ function addAssignButton(buffer, matches, state) {
 
 export function setup(helper) {
   helper.registerOptions((opts, siteSettings) => {
-    opts.features["kolide-assign"] = !!siteSettings.kolide_enabled;
+    opts.features["kolide-recheck"] = !!siteSettings.kolide_enabled;
   });
 
-  helper.allowList([
-    "a.kolide-assign",
-    "a[href]",
-    "a[data-user]",
-    "a[data-device]",
-  ]);
+  helper.allowList(["a.kolide-recheck", "a[href]", "a[data-issue]"]);
 
   helper.registerPlugin((md) => {
     const rule = {
-      matcher: /\[kolide-assign user\=(.+?) device\=(.+?)\]/,
-      onMatch: addAssignButton,
+      matcher: /\[kolide-recheck issue\=(.+?)\]/,
+      onMatch: addRecheckButton,
     };
 
-    md.core.textPostProcess.ruler.push("kolide-assign", rule);
+    md.core.textPostProcess.ruler.push("kolide-recheck", rule);
   });
 }

@@ -40,6 +40,7 @@ after_initialize do
   %w[
     ../app/controllers/webhooks_controller.rb
     ../app/controllers/devices_controller.rb
+    ../app/controllers/issues_controller.rb
     ../app/jobs/scheduled/sync_kolide.rb
     ../app/models/kolide/check.rb
     ../app/models/kolide/device.rb
@@ -52,6 +53,7 @@ after_initialize do
   Kolide::Engine.routes.draw do
     post "/webhooks" => "webhooks#index"
     put "/devices/:device_id/assign" => "devices#assign"
+    post "/issues/:issue_id/recheck" => "issues#recheck"
   end
 
   Discourse::Application.routes.prepend { mount ::Kolide::Engine, at: "/kolide" }

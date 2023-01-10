@@ -7,11 +7,16 @@ import bootbox from "bootbox";
 function initializeWithApi(api) {
   const currentUser = api.getCurrentUser();
 
-  function attachAssignButton(cooked) {
-    const buttons = cooked.querySelectorAll("a.kolide-assign") || [];
+  function attachButtons(cooked) {
+    const assignButtons = cooked.querySelectorAll("a.kolide-assign") || [];
+    const recheckButtons = cooked.querySelectorAll("a.kolide-recheck") || [];
 
-    buttons.forEach((button) => {
+    assignButtons.forEach((button) => {
       button.addEventListener("click", assignUser, false);
+    });
+
+    recheckButtons.forEach((button) => {
+      button.addEventListener("click", recheckIssue, false);
     });
   }
 
@@ -25,6 +30,18 @@ function initializeWithApi(api) {
     })
       .then(() => {
         bootbox.alert(I18n.t("discourse_kolide.device_assigned"));
+      })
+      .catch(popupAjaxError);
+
+    return false;
+  }
+
+  function recheckIssue() {
+    const issueId = this.dataset.issue;
+
+    ajax(`/kolide/issues/${issueId}/recheck.json`, { type: "POST" })
+      .then(() => {
+        bootbox.alert(I18n.t("discourse_kolide.issue_recheck_initiated"));
       })
       .catch(popupAjaxError);
 
@@ -50,9 +67,9 @@ function initializeWithApi(api) {
       );
     }
 
-    api.decorateCookedElement(attachAssignButton, {
+    api.decorateCookedElement(attachButtons, {
       onlyStream: false,
-      id: "discouse-kolide-assign-button",
+      id: "discouse-kolide-buttons",
     });
   }
 }

@@ -2,6 +2,7 @@
 
 module ::Kolide
   class IssuesController < ::ApplicationController
+    requires_plugin Kolide::PLUGIN_NAME
     requires_login
 
     def recheck

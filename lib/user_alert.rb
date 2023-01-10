@@ -137,7 +137,7 @@ module ::Kolide
 
             description = "#{issue.key}: #{issue.value}\n#{description}" if issue.key.present? &&
               issue.value.present?
-            footnotes << "#{issue.identifier}: #{description}"
+            footnotes << "#{issue.identifier_markdown}: #{description}"
           end
 
           rows << "| #{device.name} | #{device.hardware_model} | #{title} | #{at} |"

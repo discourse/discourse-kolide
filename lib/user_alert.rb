@@ -42,7 +42,7 @@ module ::Kolide
         return
       end
 
-      Notification.consolidate_or_create!(
+      notification = Notification.consolidate_or_create!(
         user_id: user.id,
         notification_type: Notification.types[:topic_reminder],
         topic_id: post.topic_id,
@@ -51,10 +51,10 @@ module ::Kolide
           display_username: user.username,
           topic_title: topic_title,
           reminder_name: REMINDER_NAME,
-        },
+        }.to_json,
       )
 
-      set_last_reminded_at(remind_at)
+      set_last_reminded_at(notification.created_at)
     end
 
     def topic_title
@@ -66,7 +66,7 @@ module ::Kolide
     end
 
     def self.notification_consolidation_plan
-      DeletePreviousNotifications.new(type: Notification.types[:topic_reminder])
+      ::Notifications::DeletePreviousNotifications.new(type: Notification.types[:topic_reminder])
     end
 
     private

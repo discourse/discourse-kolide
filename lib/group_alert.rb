@@ -31,8 +31,8 @@ module ::Kolide
 
       if devices.count == 0
         Notification
-          .where(notification_type: Notification.types[:bookmark_reminder])
-          .where("data::json ->> 'bookmark_name' = '#{REMINDER_NAME}'")
+          .where(notification_type: Notification.types[:topic_reminder])
+          .where("data::json ->> 'reminder_name' = '#{REMINDER_NAME}'")
           .destroy_all
         return
       end
@@ -49,10 +49,10 @@ module ::Kolide
             display_username: user.username,
             topic_title: topic_title,
             reminder_name: REMINDER_NAME,
-          },
+          }.to_json,
         )
       end
-      set_last_reminded_at(remind_at)
+      set_last_reminded_at(Time.now)
     end
 
     def topic_title
@@ -64,7 +64,7 @@ module ::Kolide
     end
 
     def self.notification_consolidation_plan
-      DeletePreviousNotifications.new(type: Notification.types[:topic_reminder])
+      ::Notifications::DeletePreviousNotifications.new(type: Notification.types[:topic_reminder])
     end
 
     private

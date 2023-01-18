@@ -41,25 +41,20 @@ module ::Kolide
         return
       end
 
-      bookmark_manager = BookmarkManager.new(user)
+      notification =
+        Notification.consolidate_or_create!(
+          user_id: user.id,
+          notification_type: Notification.types[:topic_reminder],
+          topic_id: post.topic_id,
+          post_number: post.post_number,
+          data: {
+            display_username: user.username,
+            topic_title: topic_title,
+            reminder_name: REMINDER_NAME,
+          }.to_json,
+        )
 
-      bookmark_id =
-        Bookmark.where(user_id: user.id, bookmarkable: post, name: REMINDER_NAME).pluck(:id).first
-      return if bookmark_id.present?
-
-      remind_at = 5.minutes.from_now
-      bookmark_manager.create_for(
-        bookmarkable_id: post.id,
-        bookmarkable_type: "Post",
-        name: REMINDER_NAME,
-        reminder_at: remind_at,
-        options: {
-          auto_delete_preference: Bookmark.auto_delete_preferences[:when_reminder_sent],
-          save_user_preferences: false,
-        },
-      )
-
-      set_last_reminded_at(remind_at)
+      set_last_reminded_at(notification.created_at)
     end
 
     def topic_title
@@ -68,6 +63,10 @@ module ::Kolide
 
     def last_reminded_at
       (last_reminded_at_field.value.presence || "").to_datetime
+    end
+
+    def self.notification_consolidation_plan
+      ::Notifications::DeletePreviousNotifications.new(type: Notification.types[:topic_reminder])
     end
 
     private

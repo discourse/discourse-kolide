@@ -42,17 +42,18 @@ module ::Kolide
         return
       end
 
-      notification = Notification.consolidate_or_create!(
-        user_id: user.id,
-        notification_type: Notification.types[:topic_reminder],
-        topic_id: post.topic_id,
-        post_number: post.post_number,
-        data: {
-          display_username: user.username,
-          topic_title: topic_title,
-          reminder_name: REMINDER_NAME,
-        }.to_json,
-      )
+      notification =
+        Notification.consolidate_or_create!(
+          user_id: user.id,
+          notification_type: Notification.types[:topic_reminder],
+          topic_id: post.topic_id,
+          post_number: post.post_number,
+          data: {
+            display_username: user.username,
+            topic_title: topic_title,
+            reminder_name: REMINDER_NAME,
+          }.to_json,
+        )
 
       set_last_reminded_at(notification.created_at)
     end

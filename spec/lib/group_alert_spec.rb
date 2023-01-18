@@ -37,9 +37,7 @@ RSpec.describe ::Kolide::GroupAlert do
     # group_alert.remind!
 
     freeze_time (2.days.from_now)
-    expect { group_alert.remind! }.to change {
-      user.notifications.count
-    }.by(1)
+    expect { group_alert.remind! }.to change { user.notifications.count }.by(1)
 
     device.user = Fabricate(:user)
     device.save!

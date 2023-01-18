@@ -84,7 +84,7 @@ RSpec.describe ::Kolide::UserAlert do
       expect(user.notifications.last.created_at).to eq_time(Time.zone.now)
 
       freeze_time 3.days.from_now
-      expect { alert.remind! }.to change { user.notifications.count }.by(0)
+      expect { alert.remind! }.not_to change { user.notifications.count }
       expect(user.notifications.last.created_at).to eq_time(Time.zone.now)
 
       user.notifications.last.destroy!

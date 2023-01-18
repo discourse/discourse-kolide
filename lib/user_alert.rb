@@ -29,7 +29,6 @@ module ::Kolide
 
     def remind!
       return if post.blank?
-      topic = post.topic
 
       update_post_body
       return if last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago

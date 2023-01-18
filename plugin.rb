@@ -58,6 +58,8 @@ after_initialize do
 
   Discourse::Application.routes.prepend { mount ::Kolide::Engine, at: "/kolide" }
 
+  register_notification_consolidation_plan(Kolide::UserAlert.notification_consolidation_plan)
+
   reloadable_patch do |plugin|
     require_dependency "user"
     class ::User

@@ -29,6 +29,7 @@ module ::Kolide
 
     def remind!
       return if post.blank?
+      topic = post.topic
 
       update_post_body
       return if last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago
@@ -41,21 +42,15 @@ module ::Kolide
         return
       end
 
-      bookmark_manager = BookmarkManager.new(user)
-
-      bookmark_id =
-        Bookmark.where(user_id: user.id, bookmarkable: post, name: REMINDER_NAME).pluck(:id).first
-      return if bookmark_id.present?
-
-      remind_at = 5.minutes.from_now
-      bookmark_manager.create_for(
-        bookmarkable_id: post.id,
-        bookmarkable_type: "Post",
-        name: REMINDER_NAME,
-        reminder_at: remind_at,
-        options: {
-          auto_delete_preference: Bookmark.auto_delete_preferences[:when_reminder_sent],
-          save_user_preferences: false,
+      Notification.consolidate_or_create!(
+        user_id: user.id,
+        notification_type: Notification.types[:topic_reminder],
+        topic_id: post.topic_id,
+        post_number: post.post_number,
+        data: {
+          display_username: user.username,
+          topic_title: topic_title,
+          reminder_name: REMINDER_NAME,
         },
       )
 
@@ -68,6 +63,10 @@ module ::Kolide
 
     def last_reminded_at
       (last_reminded_at_field.value.presence || "").to_datetime
+    end
+
+    def self.notification_consolidation_plan
+      DeletePreviousNotifications.new(type: Notification.types[:topic_reminder])
     end
 
     private

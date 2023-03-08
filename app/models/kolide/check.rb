@@ -22,10 +22,10 @@ module Kolide
     end
 
     def self.sync_all!
-      response = Kolide.api.get("checks")
+      response = Kolide.api.get_all("checks")
       return if response[:error].present?
 
-      response["data"].each { |data| find_or_create_by_json(data) }
+      response[:data].each { |data| find_or_create_by_json(data) }
     end
   end
 end

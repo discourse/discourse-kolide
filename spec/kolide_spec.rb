@@ -12,7 +12,7 @@ describe Kolide do
 
   def stub_api(type)
     content = { status: 200, headers: { "Content-Type" => "application/json" } }
-    url = "#{::Kolide::Api::BASE_URL}#{type == :issues ? "issues/open" : type}?per_page=500"
+    url = "#{::Kolide::Api::BASE_URL}#{type == :issues ? "issues/open" : type}?per_page=100"
     content = content.merge(body: get_kolide_response("#{type}.json"))
     stub_request(:get, url).to_return(content)
   end

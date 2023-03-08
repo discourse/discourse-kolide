@@ -6,7 +6,7 @@ require_relative "../spec_helper"
 describe ::Kolide::Device do
   include_context "with kolide spec helper"
 
-  api_url = "#{::Kolide::Api::BASE_URL}devices?per_page=500"
+  api_url = "#{::Kolide::Api::BASE_URL}devices?per_page=100"
 
   before do
     content = { status: 200, headers: { "Content-Type" => "application/json" } }

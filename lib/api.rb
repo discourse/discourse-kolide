@@ -63,6 +63,8 @@ module ::Kolide
           params[:cursor] = response["pagination"]["next_cursor"]
           break if params[:cursor].blank?
         end
+
+        result
       end
     end
   end

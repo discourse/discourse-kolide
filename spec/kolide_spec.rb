@@ -10,10 +10,12 @@ describe Kolide do
   let(:device) { Fabricate(:kolide_device, user: user, user_id: user.id, uid: 12_345) }
   let(:issue) { Fabricate(:kolide_issue, device: device) }
 
-  def stub_api(type)
+  def stub_api(api_path, fixture_file_name: nil, cursor: nil)
+    fixture_file_name ||= api_path
     content = { status: 200, headers: { "Content-Type" => "application/json" } }
-    url = "#{::Kolide::Api::BASE_URL}#{type == :issues ? "issues/open" : type}?per_page=100"
-    content = content.merge(body: get_kolide_response("#{type}.json"))
+    url = "#{::Kolide::Api::BASE_URL}#{api_path}?per_page=100"
+    url += "&cursor=#{cursor}" if cursor.present?
+    content = content.merge(body: get_kolide_response("#{fixture_file_name}.json"))
     stub_request(:get, url).to_return(content)
   end
 
@@ -21,9 +23,10 @@ describe Kolide do
     user.custom_fields["kolide_person_id"] = "23456"
     user.save_custom_fields
 
-    stub_api(:devices)
-    stub_api(:checks)
-    stub_api(:issues)
+    stub_api("devices")
+    stub_api("checks")
+    stub_api("issues/open", fixture_file_name: "issues")
+    stub_api("issues/open", fixture_file_name: "issues_2", cursor: "MjcsMjcp")
   end
 
   describe "sync!" do

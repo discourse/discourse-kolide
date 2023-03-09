@@ -440,7 +440,7 @@
     }
   ],
   "pagination": {
-    "next": "https://k2.kolide.com/api/v0/checks?cursor=",
+    "next": "",
     "next_cursor": "",
     "current_cursor": "",
     "count": 25

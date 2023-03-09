@@ -143,5 +143,11 @@
         "product_image_url": "https://assets1.kolide.com/assets/inventory/devices/MacBook Pro (16-inch, 2021)-6a6b3020116ffc65ad7a6b1b462d0cd5ac861f69.png"
       }
     }
-  ]
+  ],
+  "pagination": {
+    "next": "https://k2.kolide.com/api/v0/issues/open?cursor=MjcsMjcp",
+    "next_cursor": "MjcsMjcp",
+    "current_cursor": "",
+    "count": 25
+  }
 }

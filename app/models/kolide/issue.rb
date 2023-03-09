@@ -46,12 +46,12 @@ module Kolide
     end
 
     def self.sync_open!
-      response = Kolide.api.get("issues/open")
+      response = Kolide.api.get_all("issues/open")
       return if response[:error].present?
 
       open_issue_ids = []
       device_ids = []
-      response["data"].each do |data|
+      response[:data].each do |data|
         issue = find_or_create_by_json(data)
         next if issue.blank?
 

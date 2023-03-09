@@ -1,0 +1,85 @@
+{
+  "data": [
+    {
+      "id": 1884435,
+      "check_id": 3,
+      "issue_key": "path",
+      "issue_value": "/Users/john/.ssh/id_rsa.do",
+      "title": "Unencrypted SSH Key Detected",
+      "value": {
+        "gid": 10,
+        "md5": "6c101ad3929600ca3b26168e527a8",
+        "uid": 107,
+        "bits": 2048,
+        "path": "/Users/john/.ssh/id_rsa.do",
+        "sha256": "84f88e8c66e6ab6269f472233ea3308163b52fcf386922d5dc4d0685835",
+        "key_type": "ssh-rsa",
+        "username": "john",
+        "encrypted": false,
+        "created_at": "2023-03-01T07:40:36.451Z",
+        "group_name": "staff",
+        "updated_at": "2023-03-07T07:40:36.451Z",
+        "file_created_at": "2022-06-31T10:06:52.000Z",
+        "fingerprint_md5": null,
+        "fingerprint_sha256": null
+      },
+      "ignored": false,
+      "escalation_status": "Not Escalated",
+      "resolved_at": null,
+      "timestamp": "2023-03-07T07:40:48.482Z",
+      "first_notified_owner_at": null,
+      "grace_period_expiration": "2023-03-07T07:40:48.482Z",
+      "device": {
+        "id": 23456,
+        "name": "Joe-MacBook",
+        "owned_by": "organization",
+        "privacy": "details_hidden",
+        "platform": "darwin",
+        "enrolled_at": "2022-12-17T18:20:54.110Z",
+        "last_seen_at": "2023-04-06T16:31:42.000Z",
+        "operating_system": "macOS 12.3.2 Monterey Build: 21E258",
+        "issue_count": 1,
+        "resolved_issue_count": 15,
+        "failure_count": 1,
+        "resolved_failure_count": 15,
+        "primary_user_name": "This attribute is DEPRECATED. Primary User is no longer collected.",
+        "hardware_model": "MacBook Pro (14-inch, 2021)",
+        "hardware_vendor": "Apple Inc.",
+        "launcher_version": "0.11.24",
+        "osquery_version": "5.1.0",
+        "serial": "XQ9Q6CMX",
+        "assigned_owner": {
+          "id": 265026,
+          "owner_type": "Person",
+          "name": "Joe John",
+          "email": "joe.john@example.com"
+        },
+        "kolide_mdm": null,
+        "note": null,
+        "note_html": null,
+        "operating_system_details": {
+          "device_id": 87161,
+          "platform": "darwin",
+          "name": "macOS",
+          "codename": "Monterey",
+          "version": "12.3.2",
+          "build": "21E258",
+          "major_version": 12,
+          "minor_version": 3,
+          "patch_version": 1,
+          "ubr": null,
+          "release_id": null
+        },
+        "remote_ip": "149.06.3.65",
+        "location": null,
+        "product_image_url": "https://assets1.kolide.com/assets/inventory/devices/MacBook Pro (14-inch, 2021)-57e6d957a0520ca66e38cd68d5a54fa6c7557dcd.png"
+      }
+    }
+  ],
+  "pagination": {
+    "next": "",
+    "next_cursor": "",
+    "current_cursor": "MjcsMjcp",
+    "count": 1
+  }
+}

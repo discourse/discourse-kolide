@@ -6,7 +6,7 @@ require_relative "../spec_helper"
 describe ::Kolide::Check do
   include_context "with kolide spec helper"
 
-  api_url = "#{::Kolide::Api::BASE_URL}checks?per_page=500"
+  api_url = "#{::Kolide::Api::BASE_URL}checks?per_page=100"
 
   before do
     SiteSetting.kolide_enabled = true

@@ -88,5 +88,11 @@
       "location": null,
       "product_image_url": "https://assets1.kolide.com/assets/inventory/devices/VMware Virtual Platform-9caedeb5450d0aaff20171bb23c419901aae2be6.png"
     }
-  ]
+  ],
+  "pagination": {
+    "next": "",
+    "next_cursor": "",
+    "current_cursor": "",
+    "count": 25
+  }
 }

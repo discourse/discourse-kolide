@@ -26,11 +26,11 @@ module Kolide
     end
 
     def self.sync_all!
-      response = Kolide.api.get("devices")
+      response = Kolide.api.get_all("devices")
       return if response[:error].present?
 
       device_ids = []
-      response["data"].each do |data|
+      response[:data].each do |data|
         device_ids << data["id"]
         find_or_create_by_json(data)
       end

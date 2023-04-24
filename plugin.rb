@@ -85,13 +85,13 @@ after_initialize do
       end
     end
 
-    add_to_serializer(:site, :non_onboarded_device, false) do
-      !::Kolide::Device.where(user_id: scope.user.id, ip_address: scope.request.ip).exists?
-    end
-
-    add_to_serializer(:site, :include_non_onboarded_device?) do
-      scope.user.present? && scope.request &&
-        !MobileDetection.mobile_device?(scope.request.user_agent)
-    end
+    add_to_serializer(
+      :site,
+      :non_onboarded_device,
+      include_condition: -> do
+        scope.user.present? && scope.request &&
+          !MobileDetection.mobile_device?(scope.request.user_agent)
+      end,
+    ) { !::Kolide::Device.where(user_id: scope.user.id, ip_address: scope.request.ip).exists? }
   end
 end

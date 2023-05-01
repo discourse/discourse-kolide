@@ -2,7 +2,6 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import I18n from "I18n";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import bootbox from "bootbox";
 
 function initializeWithApi(api) {
   const currentUser = api.getCurrentUser();
@@ -29,7 +28,8 @@ function initializeWithApi(api) {
       data: { user_id: userId },
     })
       .then(() => {
-        bootbox.alert(I18n.t("discourse_kolide.device_assigned"));
+        const dialog = api.container.lookup("service:dialog");
+        dialog.alert(I18n.t("discourse_kolide.device_assigned"));
       })
       .catch(popupAjaxError);
 
@@ -41,7 +41,8 @@ function initializeWithApi(api) {
 
     ajax(`/kolide/issues/${issueId}/recheck.json`, { type: "POST" })
       .then(() => {
-        bootbox.alert(I18n.t("discourse_kolide.issue_recheck_initiated"));
+        const dialog = api.container.lookup("service:dialog");
+        dialog.alert(I18n.t("discourse_kolide.issue_recheck_initiated"));
       })
       .catch(popupAjaxError);
 

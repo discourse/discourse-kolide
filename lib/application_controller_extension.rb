@@ -2,9 +2,7 @@
 
 module Kolide::ApplicationControllerExtension
   def self.prepended(base)
-    base.class_eval do
-      base.after_action :ensure_device_onboarded
-    end
+    base.class_eval { base.after_action :ensure_device_onboarded }
 
     protected
 

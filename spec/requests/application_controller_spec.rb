@@ -11,13 +11,13 @@ RSpec.describe ApplicationController do
     end
 
     it "should not create cookie if device not found" do
-      get "/", headers: { "REMOTE_ADDR" => "1.2.3.4"}
+      get "/", headers: { "REMOTE_ADDR" => "1.2.3.4" }
       expect(response.cookies["kolide_onboarded"]).to be_nil
     end
 
     it "should create cookie if device exists" do
       device.update(ip_address: "1.2.3.4")
-      get "/", headers: { "REMOTE_ADDR" => "1.2.3.4"}
+      get "/", headers: { "REMOTE_ADDR" => "1.2.3.4" }
       expect(response.cookies["kolide_onboarded"]).to eq(true.to_s)
     end
   end

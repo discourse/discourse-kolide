@@ -46,8 +46,10 @@ after_initialize do
     ../app/models/kolide/device.rb
     ../app/models/kolide/issue.rb
     ../lib/api.rb
-    ../lib/user_alert.rb
+    ../lib/application_controller_extension.rb
     ../lib/group_alert.rb
+    ../lib/user_alert.rb
+    ../lib/user_extension.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   Kolide::Engine.routes.draw do
@@ -61,37 +63,7 @@ after_initialize do
   register_notification_consolidation_plan(Kolide::UserAlert.notification_consolidation_plan)
 
   reloadable_patch do |plugin|
-    require_dependency "user"
-    class ::User
-      def self.find_by_kolide_json(data)
-        return if data.blank?
-
-        custom_field =
-          UserCustomField.find_or_initialize_by(name: "kolide_person_id", value: data["id"])
-        return custom_field.user unless custom_field.new_record?
-
-        email = data["email"]
-        user = User.find_by_email(email)
-
-        if user.blank?
-          Rails.logger.warn("Unable find the Discourse user for email address '#{email}'")
-          return
-        end
-
-        custom_field.user_id = user.id
-        custom_field.save!
-
-        user
-      end
-    end
-
-    add_to_serializer(
-      :site,
-      :non_onboarded_device,
-      include_condition: -> do
-        scope.user.present? && scope.request &&
-          !MobileDetection.mobile_device?(scope.request.user_agent)
-      end,
-    ) { !::Kolide::Device.where(user_id: scope.user.id, ip_address: scope.request.ip).exists? }
+    User.class_eval { prepend ::Kolide::UserExtension }
+    ApplicationController.class_eval { prepend ::Kolide::ApplicationControllerExtension }
   end
 end

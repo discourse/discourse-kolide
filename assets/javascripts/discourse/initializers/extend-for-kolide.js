@@ -2,6 +2,7 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import I18n from "I18n";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
+import cookie from "discourse/lib/cookie";
 
 function initializeWithApi(api) {
   const currentUser = api.getCurrentUser();
@@ -49,12 +50,11 @@ function initializeWithApi(api) {
     return false;
   }
 
-  if (currentUser) {
-    const site = api.container.lookup("site:main");
+  if (currentUser && !cookie("kolide_onboarded")) {
     const siteSettings = api.container.lookup("site-settings:main");
     const onboarding_topic_id = siteSettings.kolide_onboarding_topic_id;
 
-    if (site.non_onboarded_device && onboarding_topic_id > 0) {
+    if (onboarding_topic_id > 0) {
       api.addGlobalNotice(
         I18n.t("discourse_kolide.non_onboarded_device.notice", {
           link: `/t/${onboarding_topic_id}`,

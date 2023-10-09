@@ -51,10 +51,11 @@ function initializeWithApi(api) {
   }
 
   if (currentUser && !cookie("kolide_onboarded")) {
+    const site = api.container.lookup("site:main");
     const siteSettings = api.container.lookup("site-settings:main");
     const onboarding_topic_id = siteSettings.kolide_onboarding_topic_id;
 
-    if (onboarding_topic_id > 0) {
+    if (onboarding_topic_id > 0 && !site.mobileView) {
       api.addGlobalNotice(
         I18n.t("discourse_kolide.non_onboarded_device.notice", {
           link: `/t/${onboarding_topic_id}`,

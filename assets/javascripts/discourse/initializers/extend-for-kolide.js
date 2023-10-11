@@ -50,29 +50,31 @@ function initializeWithApi(api) {
     return false;
   }
 
-  if (currentUser && !cookie("kolide_onboarded")) {
-    const site = api.container.lookup("site:main");
-    const siteSettings = api.container.lookup("site-settings:main");
-    const onboarding_topic_id = siteSettings.kolide_onboarding_topic_id;
-
-    if (onboarding_topic_id > 0 && !site.mobileView) {
-      api.addGlobalNotice(
-        I18n.t("discourse_kolide.non_onboarded_device.notice", {
-          link: `/t/${onboarding_topic_id}`,
-        }),
-        "non-onboarded-device",
-        {
-          dismissable: true,
-          persistentDismiss: true,
-          dismissDuration: moment.duration(1, "day"),
-        }
-      );
-    }
-
+  if (currentUser) {
     api.decorateCookedElement(attachButtons, {
       onlyStream: false,
       id: "discouse-kolide-buttons",
     });
+
+    if (!cookie("kolide_onboarded")) {
+      const site = api.container.lookup("site:main");
+      const siteSettings = api.container.lookup("site-settings:main");
+      const onboarding_topic_id = siteSettings.kolide_onboarding_topic_id;
+
+      if (onboarding_topic_id > 0 && !site.mobileView) {
+        api.addGlobalNotice(
+          I18n.t("discourse_kolide.non_onboarded_device.notice", {
+            link: `/t/${onboarding_topic_id}`,
+          }),
+          "non-onboarded-device",
+          {
+            dismissable: true,
+            persistentDismiss: true,
+            dismissDuration: moment.duration(1, "day"),
+          }
+        );
+      }
+    }
   }
 }
 

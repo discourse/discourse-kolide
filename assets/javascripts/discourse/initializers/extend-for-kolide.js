@@ -62,17 +62,6 @@ function initializeWithApi(api) {
       const onboarding_topic_id = siteSettings.kolide_onboarding_topic_id;
 
       if (onboarding_topic_id > 0 && !site.mobileView) {
-        const keyValueStore = api.container.lookup("service:key-value-store");
-        const key = "dismissed-global-notice-v2-non-onboarded-device";
-        const value = keyValueStore.get(key);
-
-        if (!value) {
-          keyValueStore.set({
-            key,
-            value: moment().subtract(5, "days").toISOString(true),
-          });
-        }
-
         api.addGlobalNotice(
           I18n.t("discourse_kolide.non_onboarded_device.notice", {
             link: `/t/${onboarding_topic_id}`,

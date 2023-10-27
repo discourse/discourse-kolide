@@ -10,7 +10,7 @@ RSpec.describe ::Kolide::WebhooksController do
 
   let(:secret) { SiteSetting.kolide_webhook_secret = "WEBHOOK SECRET" }
 
-  before { SiteSetting.queue_jobs = false }
+  before { Jobs.run_immediately! }
 
   def post_request(body)
     post "/kolide/webhooks",

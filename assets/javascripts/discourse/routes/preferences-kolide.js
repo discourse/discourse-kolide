@@ -5,8 +5,7 @@ import cookie from "discourse/lib/cookie";
 
 export default class PreferencesKolideRoute extends RestrictedUserRoute {
   model() {
-    return ajax("/kolide/devices")
-      .catch(popupAjaxError);
+    return ajax("/kolide/devices").catch(popupAjaxError);
   }
 
   setupController(controller, model) {
@@ -14,7 +13,7 @@ export default class PreferencesKolideRoute extends RestrictedUserRoute {
     const deviceId = cookie("kolide_device_id");
 
     if (deviceId) {
-      controller.set("deviceId", parseInt(deviceId));
+      controller.set("deviceId", parseInt(deviceId, 10));
     }
   }
 }

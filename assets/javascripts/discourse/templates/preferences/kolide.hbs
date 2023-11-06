@@ -9,14 +9,17 @@
     {{/if}}
 
     <div class="control-group">
-      <label class="control-label">{{i18n "discourse_kolide.onboarding.title"}}</label>
+      <label class="control-label">{{i18n
+          "discourse_kolide.onboarding.title"
+        }}</label>
 
       <div class="controls">
         <div class="inline-form">
           <KolideDevicesDropdown
             @devices={{this.model}}
             @value={{this.deviceId}}
-            @onSelect={{action (mut this.deviceId)}} />
+            @onSelect={{action (mut this.deviceId)}}
+          />
           <DButton
             @icon="sync"
             @action={{action "refreshDevices"}}
@@ -25,10 +28,13 @@
           />
         </div>
         <div class="instructions">
-          {{{i18n
-            "discourse_kolide.onboarding.instructions"
-            topicLink=this.onboardingTopicLink
-            refreshIcon=(d-icon "sync")}}}
+          {{html-safe
+            (i18n
+              "discourse_kolide.onboarding.instructions"
+              topicLink=this.onboardingTopicLink
+              refreshIcon=(d-icon "sync")
+            )
+          }}
         </div>
       </div>
     </div>

@@ -22,7 +22,9 @@ export default class extends Controller {
   @action
   async setKolideDevice() {
     if (!this.deviceId) {
-      this.dialog.alert({ message: I18n.t("discourse_kolide.onboarding.device_empty") });
+      this.dialog.alert({
+        message: I18n.t("discourse_kolide.onboarding.device_empty"),
+      });
       return;
     }
 

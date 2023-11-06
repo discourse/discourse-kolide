@@ -17,10 +17,16 @@ module Kolide::ApplicationControllerExtension
       if device_id.present? 
         if ::Kolide::Device.where(id: device_id.to_i, user_id: [nil, current_user.id]).exists?
           cookies.delete(:kolide_non_onboarded)
+          return
         else
           cookies.delete(:kolide_device_id)
         end
       end
+
+      cookies[:kolide_non_onboarded] = {
+        value: Time.now.to_i,
+        expires: 1.year.from_now
+      }
     end
   end
 end

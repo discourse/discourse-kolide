@@ -14,7 +14,7 @@ module Kolide::ApplicationControllerExtension
       return if user_auth_token.blank?
 
       device_id = cookies[:kolide_device_id]
-      if device_id.present? 
+      if device_id.present?
         if ::Kolide::Device.where(id: device_id.to_i, user_id: [nil, current_user.id]).exists?
           cookies.delete(:kolide_non_onboarded)
           return
@@ -23,10 +23,7 @@ module Kolide::ApplicationControllerExtension
         end
       end
 
-      cookies[:kolide_non_onboarded] = {
-        value: Time.now.to_i,
-        expires: 1.year.from_now
-      }
+      cookies[:kolide_non_onboarded] = { value: Time.now.to_i, expires: 1.year.from_now }
     end
   end
 end

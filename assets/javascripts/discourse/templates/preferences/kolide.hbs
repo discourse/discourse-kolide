@@ -2,12 +2,6 @@
 
 <section class="user-content user-preferences solo-preference kolide">
   <ConditionalLoadingSpinner @condition={{this.loading}}>
-    {{#if this.showEnforcedNotice}}
-      <div class="alert alert-error">{{i18n
-          "discourse_kolide.onboarding.enforced_notice"
-        }}</div>
-    {{/if}}
-
     <div class="control-group">
       <label class="control-label">{{i18n
           "discourse_kolide.onboarding.title"
@@ -49,12 +43,9 @@
           class="btn-primary"
         />
 
-        {{#unless this.showEnforcedNotice}}
-          <CancelLink
-            @route="preferences.security"
-            @args={{this.currentUser.username}}
-          />
-        {{/unless}}
+        <LinkTo @route="preferences.security" @model={{this.currentUser.username}} class="cancel">
+          {{i18n "cancel"}}
+        </LinkTo>
       </div>
     </div>
   </ConditionalLoadingSpinner>

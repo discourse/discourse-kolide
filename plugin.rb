@@ -45,6 +45,7 @@ after_initialize do
     ../app/models/kolide/check.rb
     ../app/models/kolide/device.rb
     ../app/models/kolide/issue.rb
+    ../app/serializers/kolide/device_serializer.rb
     ../lib/api.rb
     ../lib/application_controller_extension.rb
     ../lib/group_alert.rb
@@ -55,6 +56,8 @@ after_initialize do
   Kolide::Engine.routes.draw do
     post "/webhooks" => "webhooks#index"
     get "/devices" => "devices#index"
+    put "/devices/refresh" => "devices#refresh"
+    post "/devices/current" => "devices#current"
     put "/devices/:device_id/assign" => "devices#assign"
     post "/issues/:issue_id/recheck" => "issues#recheck"
   end

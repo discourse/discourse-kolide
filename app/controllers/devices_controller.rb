@@ -6,7 +6,22 @@ module ::Kolide
     requires_login
 
     def index
-      render_serialized(current_user.kolide_devices, KolideDeviceSerializer)
+      render_devices
+    end
+
+    def current
+      params.require(:device_id)
+      device = Device.find_by(id: params[:device_id])
+      return render json: failed_json, status: 422 if device.blank?
+
+      cookies.permanent[:kolide_device_id] = device.id
+      cookies.delete(:kolide_non_onboarded)
+      render json: success_json, status: 200
+    end
+
+    def refresh
+      Device.sync_all!
+      render_devices
     end
 
     def assign
@@ -33,6 +48,13 @@ module ::Kolide
 
       device.update(user_id: user.id)
       render json: success_json, status: 200
+    end
+
+    private
+
+    def render_devices
+      devices = Device.where(user_id: [nil, current_user.id]).order("user_id DESC NULLS LAST, name")
+      render_serialized(devices, DeviceSerializer)
     end
   end
 end

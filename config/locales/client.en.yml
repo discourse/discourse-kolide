@@ -7,4 +7,15 @@ en:
         assign: assign
         recheck: recheck
       non_onboarded_device:
-        notice: Current IP address is not matching with IP addresses of your devices in Kolide. If you didn't onboard this device yet then please follow <a href="%{link}">this guide</a>.
+        notice: <a href='%{page_link}'>Click here</a> to select the current device's name from the list of onboarded devices on Kolide. If you didn't onboard this device yet then follow <a href="%{topic_link}">this guide</a>.
+      onboarding:
+        title: Kolide Onboarding
+        select_device: Select the current device
+        instructions: |
+          Please select the current device's name from the list of onboarded devices on Kolide.
+          If you didn't onboard this device yet then follow <a href='%{topicLink}'>this guide</a>.
+          If you don't see an already onboarded device's name then click the %{refreshIcon} button.
+        save_device: Save device
+        refresh_devices: Refresh devices
+        device_saved: Selected device name is successfully saved as current device.
+        device_empty: You must select a device name to save.

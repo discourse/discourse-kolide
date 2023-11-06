@@ -4,8 +4,6 @@ module Kolide::ApplicationControllerExtension
   def self.prepended(base)
     base.class_eval { base.before_action :ensure_device_onboarded }
 
-    protected
-
     def ensure_device_onboarded
       return unless SiteSetting.kolide_enabled?
       return if current_user.blank? || current_user.kolide_id.blank?
@@ -17,7 +15,7 @@ module Kolide::ApplicationControllerExtension
 
       device_id = cookies[:kolide_device_id]
       if device_id.present? 
-        if current_user.kolide_devices.exists?(device_id.to_i)
+        if ::Kolide::Device.where(id: device_id.to_i, user_id: [nil, current_user.id]).exists?
           cookies.delete(:kolide_non_onboarded)
           return
         else

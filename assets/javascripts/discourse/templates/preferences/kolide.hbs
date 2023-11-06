@@ -2,44 +2,54 @@
 
 <section class="user-content user-preferences solo-preference kolide">
   <ConditionalLoadingSpinner @condition={{this.loading}}>
-    <form class="form-vertical">
-      {{#if this.showEnforcedNotice}}
-        <div class="alert alert-error">{{i18n
-            "kolide.onboarding.enforced_notice"
-          }}</div>
-      {{/if}}
+    {{#if this.showEnforcedNotice}}
+      <div class="alert alert-error">{{i18n
+          "discourse_kolide.onboarding.enforced_notice"
+        }}</div>
+    {{/if}}
 
-      <div class="control-group">
-        <label class="control-label">{{i18n "kolide.device.title"}}</label>
+    <div class="control-group">
+      <label class="control-label">{{i18n "discourse_kolide.onboarding.title"}}</label>
 
-        <div class="controls">
-          <div>
-            
-          </div>
-          <div class="instructions">
-            {{i18n "kolide.onboarding.instructions"}}
-          </div>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <div class="controls actions">
+      <div class="controls">
+        <div class="inline-form">
+          <KolideDevicesDropdown
+            @devices={{this.model}}
+            @value={{this.deviceId}}
+            @onSelect={{action (mut this.deviceId)}} />
           <DButton
-            @action={{action "setKolideDevice"}}
+            @icon="sync"
+            @action={{action "refreshDevices"}}
             @disabled={{this.loading}}
-            @label="continue"
-            type="submit"
-            class="btn-primary"
+            @title="discourse_kolide.onboarding.refresh_devices"
           />
-
-          {{#unless this.showEnforcedNotice}}
-            <CancelLink
-              @route="preferences.security"
-              @args={{this.model.username}}
-            />
-          {{/unless}}
+        </div>
+        <div class="instructions">
+          {{{i18n
+            "discourse_kolide.onboarding.instructions"
+            topicLink=this.onboardingTopicLink
+            refreshIcon=(d-icon "sync")}}}
         </div>
       </div>
-    </form>
+    </div>
+
+    <div class="control-group">
+      <div class="controls inline-form">
+        <DButton
+          @action={{action "setKolideDevice"}}
+          @disabled={{this.loading}}
+          @label="discourse_kolide.onboarding.save_device"
+          type="submit"
+          class="btn-primary"
+        />
+
+        {{#unless this.showEnforcedNotice}}
+          <CancelLink
+            @route="preferences.security"
+            @args={{this.currentUser.username}}
+          />
+        {{/unless}}
+      </div>
+    </div>
   </ConditionalLoadingSpinner>
 </section>

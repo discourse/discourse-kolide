@@ -64,7 +64,8 @@ function initializeWithApi(api) {
       if (onboarding_topic_id > 0 && !site.mobileView) {
         api.addGlobalNotice(
           I18n.t("discourse_kolide.non_onboarded_device.notice", {
-            link: `/t/${onboarding_topic_id}`,
+            page_link: `/u/${currentUser.username}/preferences/kolide`,
+            topic_link: `/t/${onboarding_topic_id}`,
           }),
           "non-onboarded-device",
           {

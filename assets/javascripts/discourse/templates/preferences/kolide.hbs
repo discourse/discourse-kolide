@@ -43,7 +43,11 @@
           class="btn-primary"
         />
 
-        <LinkTo @route="preferences.security" @model={{this.currentUser.username}} class="cancel">
+        <LinkTo
+          @route="preferences.security"
+          @model={{this.currentUser.username}}
+          class="cancel"
+        >
           {{i18n "cancel"}}
         </LinkTo>
       </div>

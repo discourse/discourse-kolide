@@ -1,0 +1,45 @@
+{{body-class "user-preferences-page"}}
+
+<section class="user-content user-preferences solo-preference kolide">
+  <ConditionalLoadingSpinner @condition={{this.loading}}>
+    <form class="form-vertical">
+      {{#if this.showEnforcedNotice}}
+        <div class="alert alert-error">{{i18n
+            "kolide.onboarding.enforced_notice"
+          }}</div>
+      {{/if}}
+
+      <div class="control-group">
+        <label class="control-label">{{i18n "kolide.device.title"}}</label>
+
+        <div class="controls">
+          <div>
+            
+          </div>
+          <div class="instructions">
+            {{i18n "kolide.onboarding.instructions"}}
+          </div>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <div class="controls actions">
+          <DButton
+            @action={{action "setKolideDevice"}}
+            @disabled={{this.loading}}
+            @label="continue"
+            type="submit"
+            class="btn-primary"
+          />
+
+          {{#unless this.showEnforcedNotice}}
+            <CancelLink
+              @route="preferences.security"
+              @args={{this.model.username}}
+            />
+          {{/unless}}
+        </div>
+      </div>
+    </form>
+  </ConditionalLoadingSpinner>
+</section>

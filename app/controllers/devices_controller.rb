@@ -2,7 +2,12 @@
 
 module ::Kolide
   class DevicesController < ::ApplicationController
+    requires_plugin Kolide::PLUGIN_NAME
     requires_login
+
+    def index
+      render_serialized(current_user.kolide_devices, KolideDeviceSerializer)
+    end
 
     def assign
       params.require(:user_id)

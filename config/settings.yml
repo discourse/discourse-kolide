@@ -13,6 +13,8 @@ plugins:
   kolide_onboarding_topic_id:
     default: 0
     client: true
+  kolide_onboarding_grace_period_days:
+    default: 3
   kolide_admin_group_name:
     default: ""
     type: group

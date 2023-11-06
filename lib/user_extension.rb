@@ -25,6 +25,10 @@ module Kolide::UserExtension
 
         user
       end
+
+      def kolide_id
+        custom_fields["kolide_person_id"]
+      end
     end
   end
 end

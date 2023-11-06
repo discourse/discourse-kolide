@@ -56,7 +56,7 @@ function initializeWithApi(api) {
       id: "discouse-kolide-buttons",
     });
 
-    if (!cookie("kolide_onboarded")) {
+    if (cookie("kolide_non_onboarded")) {
       const site = api.container.lookup("site:main");
       const siteSettings = api.container.lookup("site-settings:main");
       const onboarding_topic_id = siteSettings.kolide_onboarding_topic_id;

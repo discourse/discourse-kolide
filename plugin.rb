@@ -54,11 +54,19 @@ after_initialize do
 
   Kolide::Engine.routes.draw do
     post "/webhooks" => "webhooks#index"
+    get "/devices" => "devices#index"
     put "/devices/:device_id/assign" => "devices#assign"
     post "/issues/:issue_id/recheck" => "issues#recheck"
   end
 
-  Discourse::Application.routes.prepend { mount ::Kolide::Engine, at: "/kolide" }
+  Discourse::Application.routes.append do
+    mount ::Kolide::Engine, at: "/kolide"
+
+    get "u/:username/preferences/kolide" => "users#preferences",
+        :constraints => {
+          username: RouteFormat.username,
+        }
+  end
 
   register_notification_consolidation_plan(Kolide::UserAlert.notification_consolidation_plan)
 

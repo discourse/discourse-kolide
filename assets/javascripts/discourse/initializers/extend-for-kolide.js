@@ -56,7 +56,7 @@ function initializeWithApi(api) {
       id: "discouse-kolide-buttons",
     });
 
-    if (!cookie("kolide_onboarded")) {
+    if (cookie("kolide_non_onboarded")) {
       const site = api.container.lookup("site:main");
       const siteSettings = api.container.lookup("site-settings:main");
       const onboarding_topic_id = siteSettings.kolide_onboarding_topic_id;
@@ -64,7 +64,8 @@ function initializeWithApi(api) {
       if (onboarding_topic_id > 0 && !site.mobileView) {
         api.addGlobalNotice(
           I18n.t("discourse_kolide.non_onboarded_device.notice", {
-            link: `/t/${onboarding_topic_id}`,
+            page_link: `/u/${currentUser.username}/preferences/kolide`,
+            topic_link: `/t/${onboarding_topic_id}`,
           }),
           "non-onboarded-device",
           {

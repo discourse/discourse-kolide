@@ -8,17 +8,20 @@ RSpec.describe ApplicationController do
     before do
       SiteSetting.kolide_enabled = true
       sign_in(user)
+      user.custom_fields["kolide_person_id"] = "123"
+      user.save_custom_fields
     end
 
-    it "should not create cookie if device not found" do
-      get "/", headers: { "REMOTE_ADDR" => "1.2.3.4" }
-      expect(response.cookies["kolide_onboarded"]).to be_nil
+    it "should create cookie if device not found" do
+      freeze_time
+      get "/"
+      expect(response.cookies["kolide_non_onboarded"]).to eq(Time.now.to_i.to_s)
     end
 
     it "should create cookie if device exists" do
-      device.update(ip_address: "1.2.3.4")
-      get "/", headers: { "REMOTE_ADDR" => "1.2.3.4" }
-      expect(response.cookies["kolide_onboarded"]).to eq(true.to_s)
+      cookies[:kolide_device_id] = device.id
+      get "/"
+      expect(response.cookies["kolide_non_onboarded"]).to be_nil
     end
   end
 end

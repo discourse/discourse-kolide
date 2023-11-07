@@ -1,0 +1,56 @@
+{{body-class "user-preferences-page"}}
+
+<section class="user-content user-preferences solo-preference kolide">
+  <ConditionalLoadingSpinner @condition={{this.loading}}>
+    <div class="control-group">
+      <label class="control-label">{{i18n
+          "discourse_kolide.onboarding.title"
+        }}</label>
+
+      <div class="controls">
+        <div class="inline-form">
+          <KolideDevicesDropdown
+            @devices={{this.model}}
+            @value={{this.deviceId}}
+            @onSelect={{action (mut this.deviceId)}}
+          />
+          <DButton
+            @icon="sync"
+            @action={{action "refreshDevices"}}
+            @disabled={{this.loading}}
+            @title="discourse_kolide.onboarding.refresh_devices"
+          />
+        </div>
+        <div class="instructions">
+          {{html-safe
+            (i18n
+              "discourse_kolide.onboarding.instructions"
+              topicLink=this.onboardingTopicLink
+              refreshIcon=(d-icon "sync")
+            )
+          }}
+        </div>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="controls inline-form">
+        <DButton
+          @action={{action "setKolideDevice"}}
+          @disabled={{this.loading}}
+          @label="discourse_kolide.onboarding.save_device"
+          type="submit"
+          class="btn-primary"
+        />
+
+        <LinkTo
+          @route="preferences.security"
+          @model={{this.currentUser.username}}
+          class="cancel"
+        >
+          {{i18n "cancel"}}
+        </LinkTo>
+      </div>
+    </div>
+  </ConditionalLoadingSpinner>
+</section>

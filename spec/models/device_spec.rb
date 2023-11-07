@@ -37,7 +37,7 @@ describe ::Kolide::Device do
 
       device.destroy
 
-      expect(post.reload.raw).to include(I18n.t("kolide.group_alert.no_issues"))
+      expect(post.reload.raw).to include(I18n.t("kolide.user_alert.no_issues"))
     end
 
     it "skips PM update if user not found" do

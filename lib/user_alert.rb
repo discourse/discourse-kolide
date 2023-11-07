@@ -32,9 +32,8 @@ module ::Kolide
 
       update_post_body
 
-      issues_to_remind = open_issues
-        .joins(:check)
-        .where(
+      issues_to_remind =
+        open_issues.joins(:check).where(
           "(#{Time.now.to_i} - EXTRACT(EPOCH FROM kolide_issues.reported_at))/3600 > kolide_checks.delay",
         )
       if issues_to_remind.blank?

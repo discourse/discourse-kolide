@@ -31,15 +31,26 @@ module ::Kolide
       return if post.blank?
 
       update_post_body
-      return if last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago
-      unless open_issues
-               .joins(:check)
-               .where(
-                 "(#{Time.now.to_i} - EXTRACT(EPOCH FROM kolide_issues.reported_at))/3600 > kolide_checks.delay",
-               )
-               .exists?
+
+      issues_to_remind = open_issues
+        .joins(:check)
+        .where(
+          "(#{Time.now.to_i} - EXTRACT(EPOCH FROM kolide_issues.reported_at))/3600 > kolide_checks.delay",
+        )
+      if issues_to_remind.blank?
+        Notification
+          .where(
+            user_id: user.id,
+            notification_type: Notification.types[:topic_reminder],
+            topic_id: post.topic_id,
+            post_number: post.post_number,
+          )
+          .where("data::json ->> 'reminder_name' = '#{REMINDER_NAME}'")
+          .destroy_all
         return
       end
+
+      return if last_reminded_at.present? && last_reminded_at > REMINDER_INTERVAL.ago
 
       notification =
         Notification.consolidate_or_create!(

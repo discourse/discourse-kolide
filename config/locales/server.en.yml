@@ -26,7 +26,7 @@ en:
         | Device | Hardware | Issue | Resolved At |
         | - | - | - | - |
         %{rows}
-      no_issues: "Issues not found."
+      no_issues: "Your devices are in good shape! :green_circle:"
     group_alert:
       title:
         one: "%{count} Kolide device has open issues"

@@ -57,6 +57,33 @@ RSpec.describe ::Kolide::UserAlert do
     expect { alert.remind! }.to change { user.notifications.count }.by(1)
   end
 
+  it "removes the notification if all the issues are resolved" do
+    freeze_time
+
+    issue
+    user2 = Fabricate(:user)
+    device2 = Fabricate(:kolide_device, user: user2)
+    issue2 = Fabricate(:kolide_issue, device: device2, check: check)
+
+    alert = ::Kolide::UserAlert.new(user)
+    alert2 = ::Kolide::UserAlert.new(user2)
+
+    freeze_time 1.day.from_now
+    alert.remind!
+    alert2.remind!
+
+    expect(user.notifications.count).to eq(1)
+    expect(user2.notifications.count).to eq(1)
+
+    issue.update(resolved: true)
+
+    alert.remind!
+    alert2.remind!
+
+    expect(user.notifications.count).to eq(0)
+    expect(user2.notifications.count).to eq(1)
+  end
+
   context "for polymorphic bookmarks" do
     it "creates a PM with issues and a notification" do
       freeze_time

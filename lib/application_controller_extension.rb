@@ -6,7 +6,7 @@ module Kolide::ApplicationControllerExtension
 
     def ensure_device_onboarded
       return unless SiteSetting.kolide_enabled?
-      return if current_user.blank? || current_user.kolide_id.blank?
+      return if current_user.blank?
       return if (request.format && request.format.json?) || request.xhr? || !request.get?
       return if MobileDetection.mobile_device?(request.user_agent)
 

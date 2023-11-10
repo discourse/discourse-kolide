@@ -71,7 +71,7 @@ function initializeWithApi(api) {
           {
             dismissable: true,
             persistentDismiss: true,
-            dismissDuration: moment.duration(1, "week"),
+            dismissDuration: moment.duration(1, "day"),
           }
         );
       }

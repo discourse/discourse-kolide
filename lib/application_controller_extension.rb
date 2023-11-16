@@ -8,7 +8,9 @@ module Kolide::ApplicationControllerExtension
       return unless SiteSetting.kolide_enabled?
       return if current_user.blank?
       return if (request.format && request.format.json?) || request.xhr? || !request.get?
-      return if MobileDetection.mobile_device?(request.user_agent)
+
+      user_agent = request.user_agent
+      return if MobileDetection.mobile_device?(user_agent) || user_agent !~ /iPad|CrOS/
 
       user_auth_token = current_user.user_auth_tokens.find_by(auth_token: guardian.auth_token)
       return if user_auth_token.blank?

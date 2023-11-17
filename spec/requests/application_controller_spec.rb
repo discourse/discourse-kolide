@@ -18,6 +18,16 @@ RSpec.describe ApplicationController do
       expect(response.cookies["kolide_non_onboarded"]).to eq(Time.now.to_i.to_s)
     end
 
+    it "deletes cookie if onboarding is not required" do
+      cookies[:kolide_non_onboarded] = Time.now.to_i
+      get "/",
+          headers: {
+            "HTTP_USER_AGENT" =>
+              "Mozilla/5.0 (X11; CrOS x86_64 11895.95.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.125 Safari/537.36",
+          }
+      expect(response.cookies["kolide_non_onboarded"]).to be_nil
+    end
+
     it "should create cookie if device exists" do
       cookies[:kolide_device_id] = device.id
       get "/"

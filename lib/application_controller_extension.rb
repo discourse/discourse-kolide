@@ -5,12 +5,12 @@ module Kolide::ApplicationControllerExtension
     base.class_eval { base.before_action :ensure_device_onboarded }
 
     def ensure_device_onboarded
-      return unless SiteSetting.kolide_enabled?
-      return if current_user.blank?
-      return if (request.format && request.format.json?) || request.xhr? || !request.get?
+      unless requires_kolide_onboarding?
+        cookies.delete(:kolide_non_onboarded)
+        return
+      end
 
-      user_agent = request.user_agent
-      return if MobileDetection.mobile_device?(user_agent) || user_agent =~ /iPad|CrOS/
+      return if (request.format && request.format.json?) || request.xhr? || !request.get?
 
       user_auth_token = current_user.user_auth_tokens.find_by(auth_token: guardian.auth_token)
       return if user_auth_token.blank?
@@ -26,6 +26,17 @@ module Kolide::ApplicationControllerExtension
       end
 
       cookies[:kolide_non_onboarded] = { value: Time.now.to_i, expires: 1.year.from_now }
+    end
+
+    def requires_kolide_onboarding?
+      return false unless SiteSetting.kolide_enabled?
+      return false if current_user.blank?
+
+      user_agent = request.user_agent
+      return false if MobileDetection.mobile_device?(user_agent)
+      return false if %i[ipad chromebook].include?(BrowserDetection.device(user_agent))
+
+      true
     end
   end
 end

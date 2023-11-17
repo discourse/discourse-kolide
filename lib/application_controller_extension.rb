@@ -10,7 +10,7 @@ module Kolide::ApplicationControllerExtension
         return
       end
 
-      return if (request.format && request.format.json?) || request.xhr? || !request.get?
+      return if request.format&.json? || request.xhr? || !request.get?
 
       user_auth_token = current_user.user_auth_tokens.find_by(auth_token: guardian.auth_token)
       return if user_auth_token.blank?

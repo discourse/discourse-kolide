@@ -13,6 +13,9 @@ plugins:
   kolide_onboarding_topic_id:
     default: 0
     client: true
+  kolide_onboarding_group_name:
+    default: ""
+    type: group
   kolide_admin_group_name:
     default: ""
     type: group

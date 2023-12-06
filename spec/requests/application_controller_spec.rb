@@ -33,5 +33,17 @@ RSpec.describe ApplicationController do
       get "/"
       expect(response.cookies["kolide_non_onboarded"]).to be_nil
     end
+
+    it "should create cookie only if member of onboarding group" do
+      group = Fabricate(:group, name: "onboarding")
+      SiteSetting.kolide_onboarding_group_name = "onboarding"
+
+      get "/"
+      expect(response.cookies["kolide_non_onboarded"]).to be_nil
+
+      group.add(user)
+      get "/"
+      expect(response.cookies["kolide_non_onboarded"]).to eq(Time.now.to_i.to_s)
+    end
   end
 end

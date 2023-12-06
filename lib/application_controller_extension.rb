@@ -36,7 +36,8 @@ module Kolide::ApplicationControllerExtension
       return false if MobileDetection.mobile_device?(user_agent)
       return false if %i[ipad chromebook].include?(BrowserDetection.device(user_agent))
 
-      true
+      onboarding_group = SiteSetting.kolide_onboarding_group_name
+      onboarding_group.blank? || current_user.groups.exists?(name: onboarding_group)
     end
   end
 end

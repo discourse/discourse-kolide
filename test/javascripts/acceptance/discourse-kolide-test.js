@@ -1,13 +1,13 @@
+import { click, visit } from "@ember/test-helpers";
+import { test } from "qunit";
+import topicFixtures from "discourse/tests/fixtures/topic";
+import pretender, { response } from "discourse/tests/helpers/create-pretender";
 import {
   acceptance,
   exists,
   query,
 } from "discourse/tests/helpers/qunit-helpers";
-import { test } from "qunit";
-import { click, visit } from "@ember/test-helpers";
 import { cloneJSON } from "discourse-common/lib/object";
-import topicFixtures from "discourse/tests/fixtures/topic";
-import pretender, { response } from "discourse/tests/helpers/create-pretender";
 
 function topicWithKolideButton(topicId) {
   const topic = cloneJSON(topicFixtures[`/t/${topicId}.json`]);

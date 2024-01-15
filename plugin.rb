@@ -6,7 +6,6 @@
 # author: Vinoth Kannan <svkn.87@gmail.com>
 # url: https://github.com/discourse/discourse-kolide
 # required_version: 2.7.0
-# transpile_js: true
 
 enabled_site_setting :kolide_enabled
 

@@ -1,8 +1,8 @@
-import { withPluginApi } from "discourse/lib/plugin-api";
-import I18n from "I18n";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import cookie from "discourse/lib/cookie";
+import { withPluginApi } from "discourse/lib/plugin-api";
+import I18n from "I18n";
 
 function initializeWithApi(api) {
   const currentUser = api.getCurrentUser();
@@ -53,12 +53,12 @@ function initializeWithApi(api) {
   if (currentUser) {
     api.decorateCookedElement(attachButtons, {
       onlyStream: false,
-      id: "discouse-kolide-buttons",
+      id: "discourse-kolide-buttons",
     });
 
     if (cookie("kolide_non_onboarded")) {
-      const site = api.container.lookup("site:main");
-      const siteSettings = api.container.lookup("site-settings:main");
+      const site = api.container.lookup("service:site");
+      const siteSettings = api.container.lookup("service:site-settings");
       const onboarding_topic_id = siteSettings.kolide_onboarding_topic_id;
 
       if (onboarding_topic_id > 0 && !site.mobileView) {

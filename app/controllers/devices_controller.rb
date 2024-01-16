@@ -29,8 +29,8 @@ module ::Kolide
       params.require(:device_id)
 
       admin_group = SiteSetting.kolide_admin_group_name
-      unless current_user.admin? ||
-               (admin_group.present? && current_user.groups.where(name: admin_group).exists?)
+      if !current_user.admin? &&
+           (admin_group.blank? || !current_user.groups.where(name: admin_group).exists?)
         raise Discourse::NotFound
       end
 

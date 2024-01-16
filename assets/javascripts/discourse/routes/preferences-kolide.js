@@ -1,7 +1,7 @@
-import RestrictedUserRoute from "discourse/routes/restricted-user";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import cookie from "discourse/lib/cookie";
+import RestrictedUserRoute from "discourse/routes/restricted-user";
 
 export default class PreferencesKolideRoute extends RestrictedUserRoute {
   model() {

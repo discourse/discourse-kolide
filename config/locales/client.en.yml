@@ -15,6 +15,7 @@ en:
           Please select the current device's name from the list of onboarded devices on Kolide.
           If you didn't onboard this device yet then follow <a href='%{topicLink}'>this guide</a>.
           If you don't see an already onboarded device's name then click the %{refreshIcon} button.
+        is_mobile_device: This is a mobile device
         save_device: Save device
         refresh_devices: Refresh devices
         device_saved: Selected device name is successfully saved as current device.

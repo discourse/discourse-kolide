@@ -39,6 +39,15 @@ RSpec.describe ::Kolide::DevicesController do
       expect(response.status).to eq(200)
       expect(response.cookies["kolide_device_id"]).to eq(device.id.to_s)
     end
+
+    it "sets the current device id in a cookie for mobile" do
+      sign_in(user)
+
+      post "/kolide/devices/current.json", params: { is_mobile: true }
+
+      expect(response.status).to eq(200)
+      expect(response.cookies["kolide_device_id"]).to eq("mobile")
+    end
   end
 
   describe "refresh" do

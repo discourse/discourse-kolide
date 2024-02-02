@@ -11,6 +11,7 @@ export default class extends Controller {
   @service siteSettings;
 
   @tracked deviceId = null;
+  @tracked mobileDevice = false;
   @tracked loading = false;
   @tracked refreshing = false;
 
@@ -21,7 +22,7 @@ export default class extends Controller {
 
   @action
   async setKolideDevice() {
-    if (!this.deviceId) {
+    if (!this.mobileDevice && !this.deviceId) {
       this.dialog.alert({
         message: I18n.t("discourse_kolide.onboarding.device_empty"),
       });
@@ -37,7 +38,11 @@ export default class extends Controller {
       data: new FormData(),
     };
 
-    options.data.append("device_id", this.deviceId);
+    if (this.mobileDevice) {
+      options.data.append("is_mobile", true);
+    } else {
+      options.data.append("device_id", this.deviceId);
+    }
 
     ajax("/kolide/devices/current", options)
       .then(() => {

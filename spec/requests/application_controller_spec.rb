@@ -28,8 +28,14 @@ RSpec.describe ApplicationController do
       expect(response.cookies["kolide_non_onboarded"]).to be_nil
     end
 
-    it "should create cookie if device exists" do
+    it "should not create cookie if device exists" do
       cookies[:kolide_device_id] = device.id
+      get "/"
+      expect(response.cookies["kolide_non_onboarded"]).to be_nil
+    end
+
+    it "should not create cookie if device is mobile" do
+      cookies[:kolide_device_id] = "mobile"
       get "/"
       expect(response.cookies["kolide_non_onboarded"]).to be_nil
     end

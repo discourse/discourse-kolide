@@ -10,11 +10,20 @@ module ::Kolide
     end
 
     def current
-      params.require(:device_id)
-      device = Device.find_by(id: params[:device_id])
-      return render json: failed_json, status: 422 if device.blank?
+      device_id = params[:device_id]
+      is_mobile = params[:is_mobile]
 
-      cookies.permanent[:kolide_device_id] = device.id
+      raise Discourse::NotFound if device_id.blank? && is_mobile.blank?
+
+      if is_mobile.present?
+        cookies.permanent[:kolide_device_id] = "mobile"
+      else
+        device = Device.find_by(id: device_id)
+        return render json: failed_json, status: 422 if device.blank?
+
+        cookies.permanent[:kolide_device_id] = device.id
+      end
+
       cookies.delete(:kolide_non_onboarded)
       render json: success_json, status: 200
     end

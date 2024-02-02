@@ -17,7 +17,8 @@ module Kolide::ApplicationControllerExtension
 
       device_id = cookies[:kolide_device_id]
       if device_id.present?
-        if ::Kolide::Device.where(id: device_id.to_i, user_id: [nil, current_user.id]).exists?
+        if device_id == "mobile" ||
+             ::Kolide::Device.exists?(id: device_id.to_i, user_id: [nil, current_user.id])
           cookies.delete(:kolide_non_onboarded)
           return
         else

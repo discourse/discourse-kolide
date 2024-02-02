@@ -13,7 +13,11 @@ export default class PreferencesKolideRoute extends RestrictedUserRoute {
     const deviceId = cookie("kolide_device_id");
 
     if (deviceId) {
-      controller.set("deviceId", parseInt(deviceId, 10));
+      if (deviceId === "mobile") {
+        controller.set("mobileDevice", true);
+      } else {
+        controller.set("deviceId", parseInt(deviceId, 10));
+      }
     }
   }
 }

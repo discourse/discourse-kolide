@@ -36,21 +36,19 @@ after_initialize do
     end
   end
 
-  %w[
-    ../app/controllers/webhooks_controller.rb
-    ../app/controllers/devices_controller.rb
-    ../app/controllers/issues_controller.rb
-    ../app/jobs/scheduled/sync_kolide.rb
-    ../app/models/kolide/check.rb
-    ../app/models/kolide/device.rb
-    ../app/models/kolide/issue.rb
-    ../app/serializers/kolide/device_serializer.rb
-    ../lib/api.rb
-    ../lib/application_controller_extension.rb
-    ../lib/group_alert.rb
-    ../lib/user_alert.rb
-    ../lib/user_extension.rb
-  ].each { |path| load File.expand_path(path, __FILE__) }
+  require_relative "app/controllers/webhooks_controller"
+  require_relative "app/controllers/devices_controller"
+  require_relative "app/controllers/issues_controller"
+  require_relative "app/jobs/scheduled/sync_kolide"
+  require_relative "app/models/kolide/check"
+  require_relative "app/models/kolide/device"
+  require_relative "app/models/kolide/issue"
+  require_relative "app/serializers/kolide/device_serializer"
+  require_relative "lib/api"
+  require_relative "lib/application_controller_extension"
+  require_relative "lib/group_alert"
+  require_relative "lib/user_alert"
+  require_relative "lib/user_extension"
 
   Kolide::Engine.routes.draw do
     post "/webhooks" => "webhooks#index"
@@ -73,7 +71,7 @@ after_initialize do
   register_notification_consolidation_plan(Kolide::UserAlert.notification_consolidation_plan)
 
   reloadable_patch do |plugin|
-    User.class_eval { prepend ::Kolide::UserExtension }
-    ApplicationController.class_eval { prepend ::Kolide::ApplicationControllerExtension }
+    User.prepend(::Kolide::UserExtension)
+    ApplicationController.prepend(::Kolide::ApplicationControllerExtension)
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe ApplicationController do
-  fab!(:user) { Fabricate(:user) }
+  fab!(:user)
   fab!(:device) { Fabricate(:kolide_device, user: user, ip_address: "10.7.8.9") }
 
   describe "#ensure_device_onboarded" do

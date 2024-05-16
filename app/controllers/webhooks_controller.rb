@@ -5,6 +5,8 @@ require "json"
 
 module ::Kolide
   class WebhooksController < ::ApplicationController
+    requires_plugin Kolide::PLUGIN_NAME
+
     skip_before_action :redirect_to_login_if_required,
                        :preload_json,
                        :check_xhr,

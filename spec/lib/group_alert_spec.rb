@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe ::Kolide::GroupAlert do
-  fab!(:group) { Fabricate(:group) }
+  fab!(:group)
   fab!(:device) { Fabricate(:kolide_device, user: nil) }
 
   before do

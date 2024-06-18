@@ -1,14 +1,13 @@
-import { parseBBCodeTag } from "pretty-text/engines/discourse-markdown/bbcode-block";
 import I18n from "I18n";
 
-function addRecheckButton(buffer, matches, state) {
+function addRecheckButton(buffer, matches, state, { parseBBCodeTag }) {
   const parsed = parseBBCodeTag(matches[0], 0, matches[0].length);
 
   if (!parsed.attrs.issue) {
     return;
   }
 
-  let token = new state.Token("a_open", "a", 0);
+  let token = new state.Token("a_open", "a", 1);
   token.attrs = [
     ["class", "kolide-recheck"],
     ["href", "#"],
@@ -22,8 +21,6 @@ function addRecheckButton(buffer, matches, state) {
 
   token = new state.Token("a_close", "a", -1);
   buffer.push(token);
-
-  return;
 }
 
 export function setup(helper) {
@@ -35,7 +32,7 @@ export function setup(helper) {
 
   helper.registerPlugin((md) => {
     const rule = {
-      matcher: /\[kolide-recheck issue\=(.+?)\]/,
+      matcher: /\[kolide-recheck issue=.+?\]/,
       onMatch: addRecheckButton,
     };
 

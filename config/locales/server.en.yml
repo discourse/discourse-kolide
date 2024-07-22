@@ -25,7 +25,7 @@ en:
 
         %{footnotes}
       upcoming_issues: |
-        ## Open Issues
+        ## Upcoming Issues
         | Device | Hardware | Issue | Reported At |
         | - | - | - | - |
         %{rows}

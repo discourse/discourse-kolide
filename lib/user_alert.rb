@@ -114,7 +114,12 @@ module ::Kolide
       upcoming_issues_list = build_list_for(:upcoming)
       resolved_issues_list = build_list_for(:resolved)
 
-      I18n.t("kolide.alert.body", open_issues: open_issues_list, upcoming_issues: upcoming_issues_list, resolved_issues: resolved_issues_list)
+      I18n.t(
+        "kolide.alert.body",
+        open_issues: open_issues_list,
+        upcoming_issues: upcoming_issues_list,
+        resolved_issues: resolved_issues_list,
+      )
     end
 
     def build_list_for(key)
@@ -136,14 +141,15 @@ module ::Kolide
           break if key == :resolved && index >= 20
 
           device = issue.device
-          at = case key
-          when :open
-            issue.reported_at
-          when :upcoming
-            issue.reported_at
-          else
-            issue.resolved_at
-          end
+          at =
+            case key
+            when :open
+              issue.reported_at
+            when :upcoming
+              issue.reported_at
+            else
+              issue.resolved_at
+            end
           at =
             "[#{at.strftime("date=%Y-%m-%d time=%H:%M:%S")} timezone='UTC' format='L LT']" if at.present?
           title = issue.title
@@ -169,15 +175,21 @@ module ::Kolide
     end
 
     def open_issues
-      issues.where(resolved: false, ignored: false).joins(:check).where(
+      issues
+        .where(resolved: false, ignored: false)
+        .joins(:check)
+        .where(
           "(#{Time.now.to_i} - EXTRACT(EPOCH FROM kolide_issues.reported_at))/3600 > kolide_checks.delay",
         )
     end
 
     def upcoming_issues
-      issues.where(resolved: false, ignored: false).joins(:check).where(
-        "(#{Time.now.to_i} - EXTRACT(EPOCH FROM kolide_issues.reported_at))/3600 <= kolide_checks.delay"
-      )
+      issues
+        .where(resolved: false, ignored: false)
+        .joins(:check)
+        .where(
+          "(#{Time.now.to_i} - EXTRACT(EPOCH FROM kolide_issues.reported_at))/3600 <= kolide_checks.delay",
+        )
     end
 
     def set_last_reminded_at(value)

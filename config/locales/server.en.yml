@@ -14,8 +14,17 @@ en:
       body: |
         %{open_issues}
 
+        %{upcoming_issues}
+
         %{resolved_issues}
       open_issues: |
+        ## Open Issues
+        | Device | Hardware | Issue | Reported At |
+        | - | - | - | - |
+        %{rows}
+
+        %{footnotes}
+      upcoming_issues: |
         ## Open Issues
         | Device | Hardware | Issue | Reported At |
         | - | - | - | - |

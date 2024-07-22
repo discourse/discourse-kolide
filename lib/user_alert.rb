@@ -32,10 +32,7 @@ module ::Kolide
 
       update_post_body
 
-      issues_to_remind =
-        open_issues.joins(:check).where(
-          "(#{Time.now.to_i} - EXTRACT(EPOCH FROM kolide_issues.reported_at))/3600 > kolide_checks.delay",
-        )
+      issues_to_remind = open_issues
       if issues_to_remind.blank?
         Notification
           .where(
@@ -113,17 +110,20 @@ module ::Kolide
     def post_body
       return I18n.t("kolide.alert.no_issues") unless open_issues.exists?
 
-      open_issues = build_list_for(:open)
-      resolved_issues = build_list_for(:resolved)
+      open_issues_list = build_list_for(:open)
+      upcoming_issues_list = build_list_for(:upcoming)
+      resolved_issues_list = build_list_for(:resolved)
 
-      I18n.t("kolide.alert.body", open_issues: open_issues, resolved_issues: resolved_issues)
+      I18n.t("kolide.alert.body", open_issues: open_issues_list, upcoming_issues: upcoming_issues_list, resolved_issues: resolved_issues_list)
     end
 
     def build_list_for(key)
       if key == :open
         list = open_issues
+      elsif key == :upcoming
+        list = upcoming_issues
       else
-        list = issues.where.not(resolved: false, ignored: false)
+        list = resolved_issues
       end
 
       return "" unless list.exists?
@@ -132,14 +132,23 @@ module ::Kolide
       footnotes = []
       list
         .includes(:device)
-        .each do |issue|
+        .each_with_index do |issue, index|
+          break if key == :resolved && index >= 20
+
           device = issue.device
-          at = (key == :open) ? issue.reported_at : issue.resolved_at
+          at = case key
+          when :open
+            issue.reported_at
+          when :upcoming
+            issue.reported_at
+          else
+            issue.resolved_at
+          end
           at =
             "[#{at.strftime("date=%Y-%m-%d time=%H:%M:%S")} timezone='UTC' format='L LT']" if at.present?
           title = issue.title
 
-          if key == :open
+          if key == :open || key == :upcoming
             title = issue.markdown
             description = ""
             JSON.parse(issue.data).each { |name, value| description += "#{name}: #{value}\n" }
@@ -155,8 +164,20 @@ module ::Kolide
       I18n.t("kolide.alert.#{key}_issues", rows: rows.join("\n"), footnotes: footnotes.join("\n"))
     end
 
+    def resolved_issues
+      issues.where(resolved: true, ignored: true)
+    end
+
     def open_issues
-      issues.where(resolved: false, ignored: false)
+      issues.where(resolved: false, ignored: false).joins(:check).where(
+          "(#{Time.now.to_i} - EXTRACT(EPOCH FROM kolide_issues.reported_at))/3600 > kolide_checks.delay",
+        )
+    end
+
+    def upcoming_issues
+      issues.where(resolved: false, ignored: false).joins(:check).where(
+        "(#{Time.now.to_i} - EXTRACT(EPOCH FROM kolide_issues.reported_at))/3600 <= kolide_checks.delay"
+      )
     end
 
     def set_last_reminded_at(value)

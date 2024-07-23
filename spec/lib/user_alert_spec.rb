@@ -57,6 +57,52 @@ RSpec.describe ::Kolide::UserAlert do
     expect { alert.remind! }.to change { user.notifications.count }.by(1)
   end
 
+  it "includes 1 open issue, 1 upcoming issue, and 1 resolved issue in the post body" do
+    freeze_time
+
+    open_issue =
+      Fabricate(
+        :kolide_issue,
+        device: device,
+        resolved: false,
+        ignored: false,
+        reported_at: 2.days.ago,
+      )
+    upcoming_issue =
+      Fabricate(
+        :kolide_issue,
+        device: device,
+        resolved: false,
+        ignored: false,
+        reported_at: Time.now,
+        check: check,
+      )
+    check.update(delay: 3 * 24) # Upcoming issue delay
+    resolved_issue =
+      Fabricate(
+        :kolide_issue,
+        device: device,
+        resolved: true,
+        ignored: true,
+        resolved_at: 1.day.ago,
+      )
+
+    alert = ::Kolide::UserAlert.new(user)
+
+    pm = Topic.private_messages_for_user(user).last
+    post = pm.first_post
+
+    expect(post.raw).to include(
+      "| #{device.name} | #{device.hardware_model} | #{open_issue.markdown} | [#{open_issue.reported_at.strftime("date=%Y-%m-%d time=%H:%M:%S")} timezone='UTC' format='L LT'] |",
+    )
+    expect(post.raw).to include(
+      "| #{device.name} | #{device.hardware_model} | #{upcoming_issue.markdown} | [#{upcoming_issue.reported_at.strftime("date=%Y-%m-%d time=%H:%M:%S")} timezone='UTC' format='L LT'] |",
+    )
+    expect(post.raw).to include(
+      "| #{device.name} | #{device.hardware_model} | #{resolved_issue.title} | [#{resolved_issue.resolved_at.strftime("date=%Y-%m-%d time=%H:%M:%S")} timezone='UTC' format='L LT'] |",
+    )
+  end
+
   it "removes the notification if all the issues are resolved" do
     freeze_time
 

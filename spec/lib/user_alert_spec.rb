@@ -57,6 +57,30 @@ RSpec.describe ::Kolide::UserAlert do
     expect { alert.remind! }.to change { user.notifications.count }.by(1)
   end
 
+  it "shows upcoming issues when there are no open issues" do
+    freeze_time
+
+    upcoming_issue =
+      Fabricate(
+        :kolide_issue,
+        device: device,
+        resolved: false,
+        ignored: false,
+        reported_at: Time.now,
+        check: check,
+      )
+    check.update(delay: 3 * 24) # Upcoming issue delay
+
+    alert = ::Kolide::UserAlert.new(user)
+
+    pm = Topic.private_messages_for_user(user).last
+    post = pm.first_post
+
+    expect(post.raw).to include(
+      "| #{device.name} | #{device.hardware_model} | #{upcoming_issue.markdown} | [#{upcoming_issue.reported_at.strftime("date=%Y-%m-%d time=%H:%M:%S")} timezone='UTC' format='L LT'] |",
+    )
+  end
+
   it "includes 1 open issue, 1 upcoming issue, and 1 resolved issue in the post body" do
     freeze_time
 

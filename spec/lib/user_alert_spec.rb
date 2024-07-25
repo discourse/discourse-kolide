@@ -107,7 +107,7 @@ RSpec.describe ::Kolide::UserAlert do
         :kolide_issue,
         device: device,
         resolved: true,
-        ignored: true,
+        ignored: false,
         resolved_at: 1.day.ago,
       )
 

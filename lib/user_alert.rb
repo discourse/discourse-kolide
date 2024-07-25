@@ -171,7 +171,7 @@ module ::Kolide
     end
 
     def resolved_issues
-      issues.where(resolved: true, ignored: true)
+      issues.where.not(resolved: false, ignored: false)
     end
 
     def open_issues

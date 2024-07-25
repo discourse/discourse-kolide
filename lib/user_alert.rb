@@ -169,9 +169,7 @@ module ::Kolide
     end
 
     def resolved_issues
-      issues.where.not(resolved: false, ignored: false)
-        .order(updated_at: :desc)
-        .limit(20)
+      issues.where.not(resolved: false, ignored: false).order(updated_at: :desc).limit(20)
     end
 
     def open_issues

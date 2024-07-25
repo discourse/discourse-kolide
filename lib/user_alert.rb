@@ -138,8 +138,6 @@ module ::Kolide
       list
         .includes(:device)
         .each_with_index do |issue, index|
-          break if key == :resolved && index >= 20
-
           device = issue.device
           at =
             case key
@@ -172,6 +170,8 @@ module ::Kolide
 
     def resolved_issues
       issues.where.not(resolved: false, ignored: false)
+        .order(updated_at: :desc)
+        .limit(20)
     end
 
     def open_issues

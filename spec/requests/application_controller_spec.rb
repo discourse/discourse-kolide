@@ -41,6 +41,8 @@ RSpec.describe ApplicationController do
     end
 
     it "should create cookie only if member of onboarding group" do
+      freeze_time
+
       group = Fabricate(:group, name: "onboarding")
       SiteSetting.kolide_onboarding_group_name = "onboarding"
 

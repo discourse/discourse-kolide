@@ -29,3 +29,22 @@ module Kolide
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: kolide_checks
+#
+#  id                   :bigint           not null, primary key
+#  uid                  :integer          not null
+#  name                 :string
+#  display_name         :string
+#  description          :string
+#  delay                :integer          default(0)
+#  failing_device_count :integer          default(0)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#
+# Indexes
+#
+#  index_kolide_checks_on_uid  (uid)
+#

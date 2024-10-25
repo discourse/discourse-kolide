@@ -60,3 +60,21 @@ module Kolide
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: kolide_devices
+#
+#  id             :bigint           not null, primary key
+#  uid            :integer          not null
+#  user_id        :integer
+#  name           :string
+#  hardware_model :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  ip_address     :inet
+#
+# Indexes
+#
+#  index_kolide_devices_on_uid  (uid)
+#

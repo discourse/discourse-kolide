@@ -84,3 +84,27 @@ module Kolide
     end
   end
 end
+
+# == Schema Information
+#
+# Table name: kolide_issues
+#
+#  id          :bigint           not null, primary key
+#  uid         :integer          not null
+#  device_id   :bigint           not null
+#  title       :string           not null
+#  ignored     :boolean          default(FALSE), not null
+#  resolved    :boolean          default(FALSE), not null
+#  reported_at :datetime
+#  resolved_at :datetime
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  key         :string
+#  value       :string
+#  data        :text
+#  check_id    :bigint
+#
+# Indexes
+#
+#  index_kolide_issues_on_uid  (uid)
+#

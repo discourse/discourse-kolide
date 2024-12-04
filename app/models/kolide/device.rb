@@ -6,6 +6,7 @@ module Kolide
     self.ignored_columns = ["primary_user_name"]
 
     has_many :issues, dependent: :destroy
+    has_many :device_auth_tokens, dependent: :destroy, class_name: "Kolide::DeviceAuthToken"
     belongs_to :user
 
     after_destroy :update_user_alert_pm

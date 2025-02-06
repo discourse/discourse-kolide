@@ -1,4 +1,4 @@
-import I18n from "I18n";
+import { i18n } from "discourse-i18n";
 
 function addRecheckButton(buffer, matches, state, { parseBBCodeTag }) {
   const parsed = parseBBCodeTag(matches[0], 0, matches[0].length);
@@ -16,7 +16,7 @@ function addRecheckButton(buffer, matches, state, { parseBBCodeTag }) {
   buffer.push(token);
 
   token = new state.Token("text", "", 0);
-  token.content = I18n.t("discourse_kolide.button.recheck");
+  token.content = i18n("discourse_kolide.button.recheck");
   buffer.push(token);
 
   token = new state.Token("a_close", "a", -1);

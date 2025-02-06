@@ -2,7 +2,7 @@ import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import cookie from "discourse/lib/cookie";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import I18n from "I18n";
+import { i18n } from "discourse-i18n";
 
 function initializeWithApi(api) {
   const currentUser = api.getCurrentUser();
@@ -30,7 +30,7 @@ function initializeWithApi(api) {
     })
       .then(() => {
         const dialog = api.container.lookup("service:dialog");
-        dialog.alert(I18n.t("discourse_kolide.device_assigned"));
+        dialog.alert(i18n("discourse_kolide.device_assigned"));
       })
       .catch(popupAjaxError);
 
@@ -43,7 +43,7 @@ function initializeWithApi(api) {
     ajax(`/kolide/issues/${issueId}/recheck.json`, { type: "POST" })
       .then(() => {
         const dialog = api.container.lookup("service:dialog");
-        dialog.alert(I18n.t("discourse_kolide.issue_recheck_initiated"));
+        dialog.alert(i18n("discourse_kolide.issue_recheck_initiated"));
       })
       .catch(popupAjaxError);
 
@@ -63,7 +63,7 @@ function initializeWithApi(api) {
 
       if (onboarding_topic_id > 0 && !site.mobileView) {
         api.addGlobalNotice(
-          I18n.t("discourse_kolide.non_onboarded_device.notice", {
+          i18n("discourse_kolide.non_onboarded_device.notice", {
             page_link: `/u/${currentUser.username}/preferences/kolide`,
             topic_link: `/t/${onboarding_topic_id}`,
           }),

@@ -9,8 +9,6 @@
 
 enabled_site_setting :kolide_enabled
 
-register_asset "stylesheets/kolide.scss"
-
 after_initialize do
   module ::Kolide
     PLUGIN_NAME = "discourse-kolide"

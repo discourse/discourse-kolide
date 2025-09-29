@@ -10,7 +10,9 @@ en:
     kolide_helpers_group_name: "The group name of Kolide helpers who will help users to resolve their open issues"
   kolide:
     alert:
-      title: "Found %{count} problems in your devices - @%{username}"
+      title:
+        one: "Found %{count} problem with your devices - @%{username}"
+        other: "Found %{count} problems with your devices - @%{username}"
       body: |
         %{open_issues}
 

@@ -12,9 +12,9 @@ module ::Kolide
       response = Kolide.api.post("issues/#{issue.uid}/rechecks")
 
       if response[:error].present?
-        render json: failed_json, status: 422
+        render json: failed_json, status: :unprocessable_content
       else
-        render json: success_json, status: 200
+        render json: success_json, status: :ok
       end
     end
   end

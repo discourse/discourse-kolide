@@ -23,6 +23,6 @@ Fabricator(:kolide_issue, from: "Kolide::Issue") do
   uid { sequence(:uid) }
   title "Screen Lock Disabled"
   data '{ "user": "deviceuser" }'
-  reported_at 1.days.ago
+  reported_at 1.day.ago
   resolved_at nil
 end

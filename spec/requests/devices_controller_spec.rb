@@ -7,11 +7,11 @@ RSpec.describe ::Kolide::DevicesController do
   include_context "with kolide spec helper"
 
   fab!(:group)
-  fab!(:kolide_admin) { Fabricate(:user) }
+  fab!(:kolide_admin, :user)
   fab!(:user)
   fab!(:device) { Fabricate(:kolide_device, user: nil) }
   fab!(:user_device) { Fabricate(:kolide_device, user: user) }
-  fab!(:device2) { Fabricate(:kolide_device) }
+  fab!(:device2, :kolide_device)
 
   describe "index" do
     it "returns a list of devices for a user" do

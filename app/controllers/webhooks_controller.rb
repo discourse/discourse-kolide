@@ -32,7 +32,7 @@ module ::Kolide
         Device.find_by(uid: data["device_id"])&.destroy
       end
 
-      render body: nil, status: 200
+      render body: nil, status: :ok
     end
 
     private

@@ -5,7 +5,7 @@ module ::Kolide
     attr_accessor :post, :issues, :user, :last_reminded_at_field, :group
 
     REMINDER_NAME = "Kolide Device Issues"
-    REMINDER_INTERVAL = 1.days
+    REMINDER_INTERVAL = 1.day
 
     def initialize(user)
       @user = user

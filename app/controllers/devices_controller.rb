@@ -19,13 +19,13 @@ module ::Kolide
         cookies.permanent[:kolide_device_id] = "mobile"
       else
         device = Device.find_by(id: device_id)
-        return render json: failed_json, status: 422 if device.blank?
+        return render json: failed_json, status: :unprocessable_content if device.blank?
 
         cookies.permanent[:kolide_device_id] = device.id
       end
 
       cookies.delete(:kolide_non_onboarded)
-      render json: success_json, status: 200
+      render json: success_json, status: :ok
     end
 
     def refresh
@@ -53,10 +53,10 @@ module ::Kolide
         Rails.logger.warn("Kolide verbose log:\n Payload = #{payload.inspect}")
       end
       response = Kolide.api.put("devices/#{kolide_device_id}/owner", payload)
-      return render json: failed_json, status: 422 if response[:error].present?
+      return render json: failed_json, status: :unprocessable_content if response[:error].present?
 
       device.update(user_id: user.id)
-      render json: success_json, status: 200
+      render json: success_json, status: :ok
     end
 
     private

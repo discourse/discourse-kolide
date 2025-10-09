@@ -82,6 +82,6 @@ function initializeWithApi(api) {
 export default {
   name: "extend-for-kolide",
   initialize() {
-    withPluginApi("0.1", initializeWithApi);
+    withPluginApi(initializeWithApi);
   },
 };

@@ -24,7 +24,7 @@ describe ::Kolide::Device do
   end
 
   describe "#destroy" do
-    fab!(:device) { Fabricate(:kolide_device) }
+    fab!(:device, :kolide_device)
 
     before do
       issue = Fabricate(:kolide_issue, device: device)

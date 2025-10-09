@@ -5,7 +5,7 @@ module ::Kolide
     attr_accessor :post, :devices, :group, :last_reminded_at_field
 
     REMINDER_NAME = "Kolide Alert"
-    REMINDER_INTERVAL = 1.days
+    REMINDER_INTERVAL = 1.day
 
     def initialize
       @group = Group.find_by(name: SiteSetting.kolide_admin_group_name)

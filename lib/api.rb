@@ -7,19 +7,21 @@ module ::Kolide
   class Api
     attr_reader :client
 
+    BASE_URL = "https://api.kolide.com/"
+    API_VERSION = "2023-05-26"
+
     def initialize
       @client =
         Faraday.new(
           url: Api::BASE_URL,
           headers: {
             "Authorization" => "Bearer #{SiteSetting.kolide_api_key}",
+            "X-Kolide-Api-Version" => API_VERSION,
             "Accept" => "application/json",
             "Content-Type" => "application/json",
           },
         )
     end
-
-    BASE_URL = "https://k2.kolide.com/api/v0/"
 
     def parse(response)
       case response.status

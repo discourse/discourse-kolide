@@ -145,7 +145,7 @@
     }
   ],
   "pagination": {
-    "next": "https://k2.kolide.com/api/v0/issues/open?cursor=MjcsMjcp",
+    "next": "https://api.kolide.com/issues/open?cursor=MjcsMjcp",
     "next_cursor": "MjcsMjcp",
     "current_cursor": "",
     "count": 25
